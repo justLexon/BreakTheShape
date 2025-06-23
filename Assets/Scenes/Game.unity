@@ -11610,13 +11610,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shapes:
-  - sprite: {fileID: 21300000, guid: 1ba367576c842df4088a0d33b2353b1b, type: 3}
+  - sprite: {fileID: 21300000, guid: e9478fba533091f4db47958764e5068e, type: 3}
     maxHealth: 1000
     tapDamage: 20
     coinsPerBreak: 16
     idleDamagePerSecond: 0.5
     crackSpeed: 0.5
-  - sprite: {fileID: 21300000, guid: 6741c5efc572c5640863934b62a60639, type: 3}
+  - sprite: {fileID: 21300000, guid: e9478fba533091f4db47958764e5068e, type: 3}
     maxHealth: 100
     tapDamage: 11
     coinsPerBreak: 11
