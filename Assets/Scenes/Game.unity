@@ -4765,7 +4765,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 400}
+  m_SizeDelta: {x: 650, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &683256948
 MonoBehaviour:
@@ -10665,7 +10665,7 @@ RectTransform:
   m_GameObject: {fileID: 1461649286}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 612.4, y: 612.4, z: 6.124}
+  m_LocalScale: {x: 344.99997, y: 344.99997, z: 3.4499998}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -10717,7 +10717,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.9622642, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -11610,20 +11610,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shapes:
-  - sprite: {fileID: 21300000, guid: e9478fba533091f4db47958764e5068e, type: 3}
-    maxHealth: 1000
+  - sprite: {fileID: 21300000, guid: c202bd277b4ec6b4cb1919c6fc91f78c, type: 3}
+    maxHealth: 100
     tapDamage: 20
     coinsPerBreak: 16
     idleDamagePerSecond: 0.5
     crackSpeed: 0.5
-  - sprite: {fileID: 21300000, guid: e9478fba533091f4db47958764e5068e, type: 3}
+  - sprite: {fileID: 21300000, guid: e0bd49d9e66c91a4ebb1fcfe5caf4da2, type: 3}
     maxHealth: 100
     tapDamage: 11
     coinsPerBreak: 11
     idleDamagePerSecond: 0.5
     crackSpeed: 0.5
-  - sprite: {fileID: 21300000, guid: 217a31123dfb1bb459344cb3c92d2ad4, type: 3}
-    maxHealth: 55
+  - sprite: {fileID: 21300000, guid: 0818b895e4a8ee54db8da651f4c33aed, type: 3}
+    maxHealth: 100
     tapDamage: 11
     coinsPerBreak: 11
     idleDamagePerSecond: 0.5
