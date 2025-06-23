@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - CrackTex:
-        m_Texture: {fileID: 2800000, guid: f7666fc2509c63548971f634698a6f1b, type: 3}
+        m_Texture: {fileID: 2800000, guid: d26db9fb46ab84c428d16349215dfe5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
