@@ -123,7 +123,7 @@ public class ShapeManager : MonoBehaviour
 
     void UpdateCoinUI()
     {
-        coinText.text = "Coins: " + coinCount;
+        coinText.text = coinCount.ToString();
     }
 
     public int GetCoinCount()
