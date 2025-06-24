@@ -19,6 +19,7 @@ public class ShapeManager : MonoBehaviour
     [Header("Universal")]
     //Universal Damage for Every Shape
     public int maxHealth = 10;
+    public float currentHealth;
     public int tapDamage = 1;
     public float idleDamagePerSecond = 0.5f;
     public int coinsPerBreak = 5;
@@ -35,7 +36,6 @@ public class ShapeManager : MonoBehaviour
 
 
     private int currentShapeIndex = 0;
-    private int currentHealth;
     public int coinCount = 0;
 
     private float idleTimer = 0f;
@@ -71,13 +71,29 @@ public class ShapeManager : MonoBehaviour
     {
         if (currentHealth <= 0) return;
 
-        currentHealth -= Mathf.RoundToInt(damageAmount);
-        currentHealth = Mathf.Max(currentHealth, 0);
+        int damageInt = Mathf.RoundToInt(damageAmount);
+
+        if (currentHealth - damageInt <= 0)
+        {
+            // Prevent breaking on first tap
+            if (currentHealth > 1)
+            {
+                currentHealth = 0.1f;
+            }
+            else
+            {
+                currentHealth = 0;
+            }
+        }
+        else
+        {
+            currentHealth -= damageInt;
+        }
 
         float healthRatio = (float)currentHealth / maxHealth;
         float inverse = 1f - healthRatio;
 
-        float eased = Mathf.Pow(inverse, shapes[currentShapeIndex].crackSpeed); // Lower = faster crack reveal at start
+        float eased = Mathf.Pow(inverse, 0.6f); // Lower = faster crack reveal at start
         float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
 
 
@@ -96,6 +112,7 @@ public class ShapeManager : MonoBehaviour
             BreakShape();
         }
     }
+
 
     void BreakShape()
     {
