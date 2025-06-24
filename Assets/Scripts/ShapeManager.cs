@@ -1,19 +1,27 @@
 ﻿using UnityEngine;
 using TMPro;
+using JetBrains.Annotations;
 
 [System.Serializable]
 public class ShapeData
 {
     public Sprite sprite;
-    public int maxHealth = 10;
-    public int tapDamage = 1;
-    public int coinsPerBreak = 5;
-    public float idleDamagePerSecond = 0.5f;  // New field for idle damage
+    //public int maxHealth = 10;
+    //public int tapDamage = 1;
+    //public int coinsPerBreak = 5;
+    //public float idleDamagePerSecond = 0.5f;  // New field for idle damage
     public float crackSpeed = 0.0f;
 }
 
 public class ShapeManager : MonoBehaviour
 {
+    [Header("Universal")]
+    //Universal Damage for Every Shape
+    public int maxHealth = 10;
+    public int tapDamage = 1;
+    public float idleDamagePerSecond = 0.5f;
+    public int coinsPerBreak = 5;
+
     [Header("Shape Setup")]
     public ShapeData[] shapes;
 
@@ -23,6 +31,7 @@ public class ShapeManager : MonoBehaviour
 
     [Header("UI")]
     public TMP_Text coinText;
+
 
     private int currentShapeIndex = 0;
     private int currentHealth;
@@ -45,7 +54,7 @@ public class ShapeManager : MonoBehaviour
             idleTimer += Time.deltaTime;
             if (idleTimer >= 1f)
             {
-                float idleDamage = shapes[currentShapeIndex].idleDamagePerSecond;
+                float idleDamage = idleDamagePerSecond;
                 ApplyDamage(idleDamage);
                 idleTimer = 0f;
             }
@@ -54,7 +63,7 @@ public class ShapeManager : MonoBehaviour
 
     public void OnTap()
     {
-        ApplyDamage(shapes[currentShapeIndex].tapDamage);
+        ApplyDamage(tapDamage);
     }
 
     void ApplyDamage(float damageAmount)
@@ -64,7 +73,7 @@ public class ShapeManager : MonoBehaviour
         currentHealth -= Mathf.RoundToInt(damageAmount);
         currentHealth = Mathf.Max(currentHealth, 0);
 
-        float healthRatio = (float)currentHealth / shapes[currentShapeIndex].maxHealth;
+        float healthRatio = (float)currentHealth / maxHealth;
         float inverse = 1f - healthRatio;
 
         float eased = Mathf.Pow(inverse, shapes[currentShapeIndex].crackSpeed); // Lower = faster crack reveal at start
@@ -89,7 +98,7 @@ public class ShapeManager : MonoBehaviour
 
     void BreakShape()
     {
-        coinCount += shapes[currentShapeIndex].coinsPerBreak;
+        coinCount += coinsPerBreak;
         UpdateCoinUI();
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
@@ -99,7 +108,7 @@ public class ShapeManager : MonoBehaviour
     void LoadShape(int index)
     {
         ShapeData shape = shapes[index];
-        currentHealth = shape.maxHealth;
+        currentHealth = maxHealth;
 
         shapeRenderer.sprite = shape.sprite;
 
