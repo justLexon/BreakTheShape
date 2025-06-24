@@ -3,6 +3,7 @@ using TMPro;
 using JetBrains.Annotations;
 
 [System.Serializable]
+
 public class ShapeData
 {
     public Sprite sprite;
@@ -35,7 +36,7 @@ public class ShapeManager : MonoBehaviour
 
     private int currentShapeIndex = 0;
     private int currentHealth;
-    private int coinCount = 0;
+    public int coinCount = 0;
 
     private float idleTimer = 0f;
 
@@ -124,4 +125,22 @@ public class ShapeManager : MonoBehaviour
     {
         coinText.text = "Coins: " + coinCount;
     }
+
+    public int GetCoinCount()
+    {
+        return coinCount;
+    }
+
+    public void SpendCoins(int amount)
+    {
+        coinCount -= amount;
+        UpdateCoinUI();
+    }
+
+    // Optional: expose current shape index
+    public int GetCurrentShapeIndex()
+    {
+        return currentShapeIndex;
+    }
+
 }
