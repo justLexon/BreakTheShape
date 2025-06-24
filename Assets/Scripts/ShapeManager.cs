@@ -23,6 +23,7 @@ public class ShapeManager : MonoBehaviour
     public int tapDamage = 1;
     public float idleDamagePerSecond = 0.5f;
     public int coinsPerBreak = 5;
+    public int shapesBrokenCounter = 0;
 
     [Header("Shape Setup")]
     public ShapeData[] shapes;
@@ -33,6 +34,7 @@ public class ShapeManager : MonoBehaviour
 
     [Header("UI")]
     public TMP_Text coinText;
+    public TMP_Text shapesBrokenText;
 
 
     private int currentShapeIndex = 0;
@@ -46,6 +48,7 @@ public class ShapeManager : MonoBehaviour
     {
         LoadShape(currentShapeIndex);
         UpdateCoinUI();
+        UpdateShapesBrokenCounter();
     }
 
     void Update()
@@ -121,6 +124,9 @@ public class ShapeManager : MonoBehaviour
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
         LoadShape(currentShapeIndex);
+
+        shapesBrokenCounter += 1;
+        UpdateShapesBrokenCounter();
     }
 
     void LoadShape(int index)
@@ -141,6 +147,11 @@ public class ShapeManager : MonoBehaviour
     void UpdateCoinUI()
     {
         coinText.text = coinCount.ToString();
+    }
+
+    void UpdateShapesBrokenCounter()
+    {
+        shapesBrokenText.text = shapesBrokenCounter.ToString(); 
     }
 
     public int GetCoinCount()
