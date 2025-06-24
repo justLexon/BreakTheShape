@@ -20,24 +20,64 @@ public class UIManager : MonoBehaviour
         shapeManager = gameManager.GetComponent<ShapeManager>();
     }
 
-   public void FistUpgrade()
-{
-    if (shapeManager.GetCoinCount() >= 500)
+       public void FistUpgrade()
     {
-        // Spend 500 coins
-        shapeManager.SpendCoins(500);
+        if (shapeManager.GetCoinCount() >= 50)
+        {
+            // Spend 50 coins
+            shapeManager.SpendCoins(50);
 
-        // Upgrade tap damage
-        int index = shapeManager.GetCurrentShapeIndex();
-        shapeManager.tapDamage += 1;
+            // Upgrade tap damage
+            int index = shapeManager.GetCurrentShapeIndex();
+            shapeManager.tapDamage += 1;
 
-        Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
+            Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
+        }
+        else
+        {
+            Debug.Log("Not enough coins for upgrade.");
+        }
     }
-    else
+
+
+    public void RockUpgrade()
     {
-        Debug.Log("Not enough coins for upgrade.");
+        if (shapeManager.GetCoinCount() >= 100)
+        {
+            // Spend 100 coins
+            shapeManager.SpendCoins(100);
+
+            // Upgrade tap damage
+            int index = shapeManager.GetCurrentShapeIndex();
+            shapeManager.tapDamage += 3;
+
+            Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
+        }
+        else
+        {
+            Debug.Log("Not enough coins for upgrade.");
+        }
     }
-}
+
+
+    public void BatUpgrade()
+    {
+        if (shapeManager.GetCoinCount() >= 300)
+        {
+            // Spend 300 coins
+            shapeManager.SpendCoins(300);
+
+            // Upgrade tap damage
+            int index = shapeManager.GetCurrentShapeIndex();
+            shapeManager.tapDamage += 5;
+
+            Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
+        }
+        else
+        {
+            Debug.Log("Not enough coins for upgrade.");
+        }
+    }
 
 
 }
