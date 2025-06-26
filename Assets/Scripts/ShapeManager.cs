@@ -1,23 +1,16 @@
 ﻿using UnityEngine;
 using TMPro;
-using JetBrains.Annotations;
 
 [System.Serializable]
-
 public class ShapeData
 {
     public Sprite sprite;
-    //public int maxHealth = 10;
-    //public int tapDamage = 1;
-    //public int coinsPerBreak = 5;
-    //public float idleDamagePerSecond = 0.5f;  // New field for idle damage
-    public float crackSpeed = 0.0f;
+    public float crackSpeed = 0.0f; // Currently unused but you can apply it for unique easing later
 }
 
 public class ShapeManager : MonoBehaviour
 {
-    [Header("Universal")]
-    //Universal Damage for Every Shape
+    [Header("Universal Stats")]
     public int maxHealth = 10;
     public float currentHealth;
     public int tapDamage = 1;
@@ -36,19 +29,29 @@ public class ShapeManager : MonoBehaviour
     public TMP_Text coinText;
     public TMP_Text shapesBrokenText;
 
-
     private int currentShapeIndex = 0;
     public int coinCount = 0;
-
     private float idleTimer = 0f;
 
     private Material currentMaterialInstance;
 
+    public static ShapeManager Instance { get; private set; }
+
+    // -------------------- LIFECYCLE --------------------
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
     void Start()
     {
-        LoadShape(currentShapeIndex);
-        UpdateCoinUI();
-        UpdateShapesBrokenCounter();
+        SaveSystem.Instance.LoadProgress(); // ✅ Load saved values
     }
 
     void Update()
@@ -58,16 +61,18 @@ public class ShapeManager : MonoBehaviour
             idleTimer += Time.deltaTime;
             if (idleTimer >= 1f)
             {
-                float idleDamage = idleDamagePerSecond;
-                ApplyDamage(idleDamage);
+                ApplyDamage(idleDamagePerSecond);
                 idleTimer = 0f;
             }
         }
     }
 
+    // -------------------- MAIN ACTIONS --------------------
+
     public void OnTap()
     {
         ApplyDamage(tapDamage);
+        SaveSystem.Instance.SaveProgress();
     }
 
     void ApplyDamage(float damageAmount)
@@ -76,39 +81,17 @@ public class ShapeManager : MonoBehaviour
 
         int damageInt = Mathf.RoundToInt(damageAmount);
 
+        // Clamp damage so shape always ends at 0 or 0.1f
         if (currentHealth - damageInt <= 0)
         {
-            // Prevent breaking on first tap
-            if (currentHealth > 1)
-            {
-                currentHealth = 0.1f;
-            }
-            else
-            {
-                currentHealth = 0;
-            }
+            currentHealth = currentHealth > 1 ? 0.1f : 0f;
         }
         else
         {
             currentHealth -= damageInt;
         }
 
-        float healthRatio = (float)currentHealth / maxHealth;
-        float inverse = 1f - healthRatio;
-
-        float eased = Mathf.Pow(inverse, 0.6f); // Lower = faster crack reveal at start
-        float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
-
-
-        //appear smooth underneath this comment
-        //float eased = Mathf.SmoothStep(0f, 1f, inverse);
-        //float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
-        // crackAmount = Mathf.Round(crackAmount * 20f) / 20f; // Optional rounding
-
-        if (currentMaterialInstance != null)
-        {
-            currentMaterialInstance.SetFloat("_CrackAmount", crackAmount);
-        }
+        UpdateCrackVisual();
 
         if (currentHealth <= 0)
         {
@@ -116,16 +99,25 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
-
     void BreakShape()
     {
         coinCount += coinsPerBreak;
+        shapesBrokenCounter++;
+
         UpdateCoinUI();
+        UpdateShapesBrokenCounter();
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
         LoadShape(currentShapeIndex);
 
-        shapesBrokenCounter += 1;
+        SaveSystem.Instance.SaveProgress();
+    }
+
+    public void LoadShapeFromSave(int index)
+    {
+        currentShapeIndex = index % shapes.Length;
+        LoadShape(currentShapeIndex);
+        UpdateCoinUI();
         UpdateShapesBrokenCounter();
     }
 
@@ -133,15 +125,29 @@ public class ShapeManager : MonoBehaviour
     {
         ShapeData shape = shapes[index];
         currentHealth = maxHealth;
+        idleTimer = 0f;
 
         shapeRenderer.sprite = shape.sprite;
 
+        // Clone material to isolate cracks
         currentMaterialInstance = new Material(sharedCrackMaterial);
         shapeRenderer.material = currentMaterialInstance;
+        currentMaterialInstance.SetFloat("_CrackAmount", 0.7f); // No cracks at start
+    }
 
-        currentMaterialInstance.SetFloat("_CrackAmount", 0.7f); // Start with no cracks
+    // -------------------- UI --------------------
 
-        idleTimer = 0f; // Reset timer on new shape
+    void UpdateCrackVisual()
+    {
+        float healthRatio = currentHealth / maxHealth;
+        float inverse = 1f - healthRatio;
+        float eased = Mathf.Pow(inverse, 0.6f); // Adjust crack intensity curve
+        float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
+
+        if (currentMaterialInstance != null)
+        {
+            currentMaterialInstance.SetFloat("_CrackAmount", crackAmount);
+        }
     }
 
     void UpdateCoinUI()
@@ -151,24 +157,19 @@ public class ShapeManager : MonoBehaviour
 
     void UpdateShapesBrokenCounter()
     {
-        shapesBrokenText.text = shapesBrokenCounter.ToString(); 
+        shapesBrokenText.text = shapesBrokenCounter.ToString();
     }
 
-    public int GetCoinCount()
-    {
-        return coinCount;
-    }
+    // -------------------- Public Access --------------------
+
+    public int GetCoinCount() => coinCount;
 
     public void SpendCoins(int amount)
     {
         coinCount -= amount;
         UpdateCoinUI();
+        SaveSystem.Instance.SaveProgress();
     }
 
-    // Optional: expose current shape index
-    public int GetCurrentShapeIndex()
-    {
-        return currentShapeIndex;
-    }
-
+    public int GetCurrentShapeIndex() => currentShapeIndex;
 }
