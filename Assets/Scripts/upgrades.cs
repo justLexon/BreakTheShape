@@ -2,82 +2,122 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Overlay Pages")]
     public GameObject upgrades;
+    public GameObject DPSupgrades;
+    public GameObject materials;
+
+    [Header("Game Manager")]
     public GameObject gameManager; // Drag the GameManager GameObject here in the Inspector
 
     private ShapeManager shapeManager;
 
-    public void ToggleUpgradeOverlay()
-    {
-        bool isActive = upgrades.activeSelf;
-        upgrades.SetActive(!isActive);
-    }
-
+    private GameObject[] upgradePages;
+    private int currentPage = 0;
 
     void Start()
     {
-        // Get the Shape script component from the GameObject GameManager
         shapeManager = gameManager.GetComponent<ShapeManager>();
+
+        // Set up all pages
+        upgradePages = new GameObject[] { upgrades, DPSupgrades, materials };
+
+        // Hide all at start
+        foreach (GameObject page in upgradePages)
+        {
+            page.SetActive(false);
+        }
     }
 
-       public void FistUpgrade()
+    // Toggle overlay visibility
+    public void ToggleUpgradesOverlay()
     {
-        if (shapeManager.GetCoinCount() >= 50)
+        bool anyActive = false;
+        foreach (GameObject page in upgradePages)
         {
-            // Spend 50 coins
-            shapeManager.SpendCoins(50);
+            if (page.activeSelf)
+            {
+                anyActive = true;
+                break;
+            }
+        }
 
-            // Upgrade tap damage
-            int index = shapeManager.GetCurrentShapeIndex();
-            shapeManager.tapDamage += 1;
-
-            Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
+        if (anyActive)
+        {
+            // Hide all if any are active
+            foreach (GameObject page in upgradePages)
+            {
+                page.SetActive(false);
+            }
         }
         else
         {
-            Debug.Log("Not enough coins for upgrade.");
+            // Show the current page only
+            ShowPage(currentPage);
         }
     }
 
+    void ShowPage(int pageIndex)
+    {
+        for (int i = 0; i < upgradePages.Length; i++)
+        {
+            upgradePages[i].SetActive(i == pageIndex);
+        }
+    }
 
-    public void RockUpgrade()
+    public void NextPage()
+    {
+        currentPage = (currentPage + 1) % upgradePages.Length;
+        ShowPage(currentPage);
+    }
+
+    public void PreviousPage()
+    {
+        currentPage = (currentPage - 1 + upgradePages.Length) % upgradePages.Length;
+        ShowPage(currentPage);
+    }
+
+    // === Upgrade Buttons ===
+
+    public void FistUpgrade()
     {
         if (shapeManager.GetCoinCount() >= 100)
         {
-            // Spend 100 coins
-            shapeManager.SpendCoins(100);
-
-            // Upgrade tap damage
-            int index = shapeManager.GetCurrentShapeIndex();
-            shapeManager.tapDamage += 3;
-
+            shapeManager.SpendCoins(50);
+            shapeManager.tapDamage += 1;
             Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
         }
         else
         {
-            Debug.Log("Not enough coins for upgrade.");
+            Debug.Log("Not enough coins for Fist upgrade.");
         }
     }
 
+    public void RockUpgrade()
+    {
+        if (shapeManager.GetCoinCount() >= 500)
+        {
+            shapeManager.SpendCoins(100);
+            shapeManager.tapDamage += 5;
+            Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
+        }
+        else
+        {
+            Debug.Log("Not enough coins for Rock upgrade.");
+        }
+    }
 
     public void BatUpgrade()
     {
-        if (shapeManager.GetCoinCount() >= 300)
+        if (shapeManager.GetCoinCount() >= 1000)
         {
-            // Spend 300 coins
             shapeManager.SpendCoins(300);
-
-            // Upgrade tap damage
-            int index = shapeManager.GetCurrentShapeIndex();
-            shapeManager.tapDamage += 5;
-
+            shapeManager.tapDamage += 15;
             Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
         }
         else
         {
-            Debug.Log("Not enough coins for upgrade.");
+            Debug.Log("Not enough coins for Bat upgrade.");
         }
     }
-
-
 }
