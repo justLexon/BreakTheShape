@@ -83,7 +83,7 @@ public class UIManager : MonoBehaviour
     {
         if (shapeManager.GetCoinCount() >= 100)
         {
-            shapeManager.SpendCoins(50);
+            shapeManager.SpendCoins(100);
             shapeManager.tapDamage += 1;
             Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
         }
@@ -97,7 +97,7 @@ public class UIManager : MonoBehaviour
     {
         if (shapeManager.GetCoinCount() >= 500)
         {
-            shapeManager.SpendCoins(100);
+            shapeManager.SpendCoins(500);
             shapeManager.tapDamage += 5;
             Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
         }
@@ -111,7 +111,7 @@ public class UIManager : MonoBehaviour
     {
         if (shapeManager.GetCoinCount() >= 1000)
         {
-            shapeManager.SpendCoins(300);
+            shapeManager.SpendCoins(1000);
             shapeManager.tapDamage += 15;
             Debug.Log("Tap Damage upgraded! Now: " + shapeManager.tapDamage);
         }

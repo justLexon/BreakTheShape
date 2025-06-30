@@ -47,6 +47,14 @@ public class ShapeManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        // 🔄 Reset save if this is the first time launching the game
+        if (!PlayerPrefs.HasKey("HasLaunchedBefore"))
+        {
+            PlayerPrefs.DeleteAll(); // Clear any old test data
+            PlayerPrefs.SetInt("HasLaunchedBefore", 1);
+            PlayerPrefs.Save();
+        }
     }
 
     void Start()
