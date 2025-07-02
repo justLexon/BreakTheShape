@@ -3437,7 +3437,7 @@ MonoBehaviour:
   baseCost: 150
   costMultiplier: 1.2
   maxLevel: 999
-  upgradePower: 1
+  upgradePower: 5
 --- !u!1 &135199238
 GameObject:
   m_ObjectHideFlags: 0
@@ -15576,9 +15576,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 676886767}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: RockUpgrade
+      - m_Target: {fileID: 135072092}
+        m_TargetAssemblyTypeName: UpgradeButton, Assembly-CSharp
+        m_MethodName: OnUpgradeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
