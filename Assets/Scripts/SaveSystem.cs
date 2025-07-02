@@ -18,6 +18,7 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveProgress()
     {
+        PlayerPrefs.SetInt("TapDamage", ShapeManager.Instance.tapDamage);
         PlayerPrefs.SetInt("Coins", ShapeManager.Instance.coinCount);
         PlayerPrefs.SetInt("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter);
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
@@ -30,6 +31,7 @@ public class SaveSystem : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Coins"))
         {
+            ShapeManager.Instance.tapDamage = PlayerPrefs.GetInt("TapDamage");
             ShapeManager.Instance.coinCount = PlayerPrefs.GetInt("Coins");
             ShapeManager.Instance.shapesBrokenCounter = PlayerPrefs.GetInt("ShapesBroken");
             int index = PlayerPrefs.GetInt("CurrentShapeIndex");

@@ -13,13 +13,13 @@ public class UpgradeButton : MonoBehaviour
     public int maxLevel = 999;              // Max upgrade level
     public int upgradePower = 1;            // Tap damage increase per upgrade
 
-    private int level = 1;
+    private int level = 0;
     private int currentCost;
 
     void Start()
     {
-        // Load saved level
-        level = PlayerPrefs.GetInt(upgradeKey + "_Level", 1);
+        // Load saved level (default 0)
+        level = PlayerPrefs.GetInt(upgradeKey + "_Level", 0);
         UpdateUI();
     }
 
@@ -27,7 +27,7 @@ public class UpgradeButton : MonoBehaviour
     {
         if (level >= maxLevel) return;
 
-        currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level - 1));
+        currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level));
 
         if (ShapeManager.Instance.GetCoinCount() >= currentCost)
         {
@@ -69,7 +69,7 @@ public class UpgradeButton : MonoBehaviour
 
     void UpdateUI()
     {
-        currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level - 1));
+        currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level));
         CostText.text = FormatNumberWithSuffix(currentCost);
         LevelCountText.text = level.ToString();
     }
