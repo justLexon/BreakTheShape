@@ -19,8 +19,8 @@ public class SaveSystem : MonoBehaviour
     public void SaveProgress()
     {
         PlayerPrefs.SetInt("TapDamage", ShapeManager.Instance.tapDamage);
-        PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R")); // Save double as string
-        PlayerPrefs.SetInt("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter);
+        PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R")); // Save double
+        PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R")); // Save double
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
         PlayerPrefs.Save();
 
@@ -33,16 +33,21 @@ public class SaveSystem : MonoBehaviour
         {
             ShapeManager.Instance.tapDamage = PlayerPrefs.GetInt("TapDamage");
 
-            // Safely parse saved string back into double
+            // Load coins
             string savedCoinString = PlayerPrefs.GetString("Coins");
             if (double.TryParse(savedCoinString, out double loadedCoins))
                 ShapeManager.Instance.coinCount = loadedCoins;
             else
                 ShapeManager.Instance.coinCount = 0;
 
-            ShapeManager.Instance.shapesBrokenCounter = PlayerPrefs.GetInt("ShapesBroken");
-            int index = PlayerPrefs.GetInt("CurrentShapeIndex");
+            // Load shapes broken
+            string savedShapesString = PlayerPrefs.GetString("ShapesBroken");
+            if (double.TryParse(savedShapesString, out double loadedShapes))
+                ShapeManager.Instance.shapesBrokenCounter = loadedShapes;
+            else
+                ShapeManager.Instance.shapesBrokenCounter = 0;
 
+            int index = PlayerPrefs.GetInt("CurrentShapeIndex");
             ShapeManager.Instance.LoadShapeFromSave(index);
 
             Debug.Log("✅ Game Loaded");

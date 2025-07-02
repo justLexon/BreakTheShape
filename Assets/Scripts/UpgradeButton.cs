@@ -8,7 +8,7 @@ public class UpgradeButton : MonoBehaviour
 
     public string upgradeKey = "Fist";      // Unique key to identify this upgrade (e.g. "Fist", "Bat")
 
-    public int baseCost = 50;               // Base cost of the upgrade
+    public double baseCost = 50;               // Base cost of the upgrade
     public float costMultiplier = 1.15f;    // Exponential cost growth
     public int maxLevel = 999;              // Max upgrade level
     public int upgradePower = 1;            // Tap damage increase per upgrade

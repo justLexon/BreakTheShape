@@ -16,7 +16,7 @@ public class ShapeManager : MonoBehaviour
     public int tapDamage = 1;
     public float idleDamagePerSecond = 0.5f;
     public int coinsPerBreak = 5;
-    public int shapesBrokenCounter = 0;
+    public double shapesBrokenCounter = 0;
 
     [Header("Shape Setup")]
     public ShapeData[] shapes;
@@ -166,7 +166,7 @@ public class ShapeManager : MonoBehaviour
 
     void UpdateShapesBrokenCounter()
     {
-        shapesBrokenText.text = shapesBrokenCounter.ToString();
+        shapesBrokenText.text = FormatNumberWithSuffix((double)shapesBrokenCounter);
     }
 
     // -------------------- Number Formatting --------------------
