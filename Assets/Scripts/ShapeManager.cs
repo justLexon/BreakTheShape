@@ -160,12 +160,32 @@ public class ShapeManager : MonoBehaviour
 
     void UpdateCoinUI()
     {
-        coinText.text = coinCount.ToString();
+        coinText.text = FormatNumberWithSuffix(coinCount);
     }
 
     void UpdateShapesBrokenCounter()
     {
         shapesBrokenText.text = shapesBrokenCounter.ToString();
+    }
+
+    // -------------------- Number Formatting --------------------
+
+    string FormatNumberWithSuffix(int number)
+    {
+        if (number < 1000)
+            return number.ToString();
+
+        string[] suffixes = { "k", "M", "B", "T" };
+        int suffixIndex = -1;
+        double reducedNumber = number;
+
+        while (reducedNumber >= 1000 && suffixIndex < suffixes.Length - 1)
+        {
+            reducedNumber /= 1000;
+            suffixIndex++;
+        }
+
+        return reducedNumber.ToString("0.#") + suffixes[suffixIndex];
     }
 
     // -------------------- Public Access --------------------
@@ -174,9 +194,16 @@ public class ShapeManager : MonoBehaviour
 
     public void SpendCoins(int amount)
     {
-        coinCount -= amount;
-        UpdateCoinUI();
-        SaveSystem.Instance.SaveProgress();
+        if (amount <= coinCount)
+        {
+            coinCount -= amount;
+            UpdateCoinUI();
+            SaveSystem.Instance.SaveProgress();
+        }
+        else
+        {
+            Debug.LogWarning("Not enough coins to spend!");
+        }
     }
 
     public int GetCurrentShapeIndex() => currentShapeIndex;

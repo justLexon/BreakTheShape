@@ -49,10 +49,28 @@ public class UpgradeButton : MonoBehaviour
         }
     }
 
+    string FormatNumberWithSuffix(int number)
+    {
+        if (number < 1000)
+            return number.ToString();
+
+        string[] suffixes = { "k", "M", "B", "T" };
+        int suffixIndex = -1;
+        double reducedNumber = number;
+
+        while (reducedNumber >= 1000 && suffixIndex < suffixes.Length - 1)
+        {
+            reducedNumber /= 1000;
+            suffixIndex++;
+        }
+
+        return reducedNumber.ToString("0.#") + suffixes[suffixIndex];
+    }
+
     void UpdateUI()
     {
         currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level - 1));
-        CostText.text = currentCost.ToString();
+        CostText.text = FormatNumberWithSuffix(currentCost);
         LevelCountText.text = level.ToString();
     }
 }
