@@ -14,7 +14,7 @@ public class UpgradeButton : MonoBehaviour
     public int upgradePower = 1;            // Tap damage increase per upgrade
 
     private int level = 0;
-    private int currentCost;
+    private double currentCost;
 
     void Start()
     {
@@ -27,7 +27,7 @@ public class UpgradeButton : MonoBehaviour
     {
         if (level >= maxLevel) return;
 
-        currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level));
+        currentCost = System.Math.Round(baseCost * System.Math.Pow(costMultiplier, level));
 
         if (ShapeManager.Instance.GetCoinCount() >= currentCost)
         {
@@ -49,28 +49,29 @@ public class UpgradeButton : MonoBehaviour
         }
     }
 
-    string FormatNumberWithSuffix(int number)
+    string FormatNumberWithSuffix(double number)
     {
         if (number < 1000)
-            return number.ToString();
+            return number.ToString("0");
 
-        string[] suffixes = { "k", "M", "B", "T" };
+        string[] suffixes = {
+        "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
+    };
+
         int suffixIndex = -1;
-        double reducedNumber = number;
-
-        while (reducedNumber >= 1000 && suffixIndex < suffixes.Length - 1)
+        while (number >= 1000 && suffixIndex < suffixes.Length - 1)
         {
-            reducedNumber /= 1000;
+            number /= 1000;
             suffixIndex++;
         }
 
-        return reducedNumber.ToString("0.#") + suffixes[suffixIndex];
+        return number.ToString("0.#") + suffixes[suffixIndex];
     }
 
     void UpdateUI()
     {
-        currentCost = Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level));
-        CostText.text = FormatNumberWithSuffix(currentCost);
+        currentCost = System.Math.Round(baseCost * System.Math.Pow(costMultiplier, level));
+        CostText.text = FormatNumberWithSuffix((double)currentCost);
         LevelCountText.text = level.ToString();
     }
 }

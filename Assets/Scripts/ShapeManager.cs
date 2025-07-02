@@ -30,7 +30,7 @@ public class ShapeManager : MonoBehaviour
     public TMP_Text shapesBrokenText;
 
     private int currentShapeIndex = 0;
-    public int coinCount = 0;
+    public double coinCount = 0;
     private float idleTimer = 0f;
 
     private Material currentMaterialInstance;
@@ -160,8 +160,9 @@ public class ShapeManager : MonoBehaviour
 
     void UpdateCoinUI()
     {
-        coinText.text = FormatNumberWithSuffix(coinCount);
+        coinText.text = FormatNumberWithSuffix((double)coinCount);
     }
+
 
     void UpdateShapesBrokenCounter()
     {
@@ -170,29 +171,31 @@ public class ShapeManager : MonoBehaviour
 
     // -------------------- Number Formatting --------------------
 
-    string FormatNumberWithSuffix(int number)
+    string FormatNumberWithSuffix(double number)
     {
         if (number < 1000)
             return number.ToString();
 
-        string[] suffixes = { "k", "M", "B", "T" };
-        int suffixIndex = -1;
-        double reducedNumber = number;
+        string[] suffixes = {
+        "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
+    };
 
-        while (reducedNumber >= 1000 && suffixIndex < suffixes.Length - 1)
+        int suffixIndex = -1;
+        while (number >= 1000 && suffixIndex < suffixes.Length - 1)
         {
-            reducedNumber /= 1000;
+            number /= 1000;
             suffixIndex++;
         }
 
-        return reducedNumber.ToString("0.#") + suffixes[suffixIndex];
+        return number.ToString("0.#") + suffixes[suffixIndex];
     }
+
 
     // -------------------- Public Access --------------------
 
-    public int GetCoinCount() => coinCount;
+    public double GetCoinCount() => coinCount;
 
-    public void SpendCoins(int amount)
+    public void SpendCoins(double amount)
     {
         if (amount <= coinCount)
         {
