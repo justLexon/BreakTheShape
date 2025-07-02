@@ -23,6 +23,7 @@ public class ShapeManager : MonoBehaviour
 
     [Header("Rendering")]
     public SpriteRenderer shapeRenderer;
+    public SpriteRenderer shadowRenderer; // Added shadow renderer field
     public Material sharedCrackMaterial;
 
     [Header("UI")]
@@ -135,7 +136,16 @@ public class ShapeManager : MonoBehaviour
         currentHealth = maxHealth;
         idleTimer = 0f;
 
+        // Set the main shape sprite
         shapeRenderer.sprite = shape.sprite;
+
+        // Set the shadow sprite if shadowRenderer is assigned
+        if (shadowRenderer != null)
+        {
+            shadowRenderer.sprite = shape.sprite;
+            shadowRenderer.color = new Color(0f, 0f, 0f, 1f); // 30% opacity black
+            shadowRenderer.transform.localPosition = new Vector3(0f, -0.1f, 0.1f); // Slight downward offset
+        }
 
         // Clone material to isolate cracks
         currentMaterialInstance = new Material(sharedCrackMaterial);
@@ -163,7 +173,6 @@ public class ShapeManager : MonoBehaviour
         coinText.text = FormatNumberWithSuffix((double)coinCount);
     }
 
-
     void UpdateShapesBrokenCounter()
     {
         shapesBrokenText.text = FormatNumberWithSuffix((double)shapesBrokenCounter);
@@ -177,8 +186,8 @@ public class ShapeManager : MonoBehaviour
             return number.ToString();
 
         string[] suffixes = {
-        "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
-    };
+            "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
+        };
 
         int suffixIndex = -1;
         while (number >= 1000 && suffixIndex < suffixes.Length - 1)
@@ -189,7 +198,6 @@ public class ShapeManager : MonoBehaviour
 
         return number.ToString("0.#") + suffixes[suffixIndex];
     }
-
 
     // -------------------- Public Access --------------------
 
