@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UpgradeButton : MonoBehaviour
 {
@@ -16,8 +17,46 @@ public class UpgradeButton : MonoBehaviour
     private int level = 0;
     private double currentCost;
 
+
+
+
     void Start()
     {
+        
+            switch (upgradeKey)
+            {
+                case "Fist":
+                    baseCost = 50;
+                    upgradePower = 1;
+                    break;
+                case "Rock":
+                    baseCost = 250;
+                    upgradePower = 5;
+                    break;
+                case "Bat":
+                    baseCost = 500;
+                    upgradePower = 15;
+                    break;
+                case "Pickaxe":
+                    baseCost = 1000;
+                    upgradePower = 50;
+                    break;
+                case "Hammer":
+                    baseCost = 5000;
+                    upgradePower = 150;
+                    break;
+                case "Crowbar":
+                    baseCost = 50000;
+                    upgradePower = 250;
+                    break;
+                // Add more cases as needed
+                default:
+                    baseCost = 100; // Default fallback cost
+                    break;
+            }
+        
+
+
         // Load saved level (default 0)
         level = PlayerPrefs.GetInt(upgradeKey + "_Level", 0);
         UpdateUI();
