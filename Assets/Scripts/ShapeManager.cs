@@ -21,9 +21,12 @@ public class ShapeManager : MonoBehaviour
     [Header("Shape Setup")]
     public ShapeData[] shapes;
 
+    [Header("Material Sprites")]
+    public Sprite[] materialSprites;  // Sprites sliced from your atlas for materials (dirt, wood, etc.)
+
     [Header("Rendering")]
     public SpriteRenderer shapeRenderer;
-    public SpriteRenderer shadowRenderer; // Added shadow renderer field
+    public SpriteRenderer shadowRenderer; // Shadow renderer
     public Material sharedCrackMaterial;
 
     [Header("UI")]
@@ -31,6 +34,8 @@ public class ShapeManager : MonoBehaviour
     public TMP_Text shapesBrokenText;
 
     private int currentShapeIndex = 0;
+    private int currentMaterialIndex = 0;  // Tracks current material sprite index
+
     public double coinCount = 0;
     private float idleTimer = 0f;
 
@@ -49,10 +54,10 @@ public class ShapeManager : MonoBehaviour
         }
         Instance = this;
 
-        // 🔄 Reset save if this is the first time launching the game
+        // Reset save if first launch
         if (!PlayerPrefs.HasKey("HasLaunchedBefore"))
         {
-            PlayerPrefs.DeleteAll(); // Clear any old test data
+            PlayerPrefs.DeleteAll();
             PlayerPrefs.SetInt("HasLaunchedBefore", 1);
             PlayerPrefs.Save();
         }
@@ -60,7 +65,7 @@ public class ShapeManager : MonoBehaviour
 
     void Start()
     {
-        SaveSystem.Instance.LoadProgress(); // ✅ Load saved values
+        SaveSystem.Instance.LoadProgress();
     }
 
     void Update()
@@ -90,7 +95,6 @@ public class ShapeManager : MonoBehaviour
 
         int damageInt = Mathf.RoundToInt(damageAmount);
 
-        // Clamp damage so shape always ends at 0 or 0.1f
         if (currentHealth - damageInt <= 0)
         {
             currentHealth = currentHealth > 1 ? 0.1f : 0f;
@@ -117,6 +121,8 @@ public class ShapeManager : MonoBehaviour
         UpdateShapesBrokenCounter();
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
+        currentMaterialIndex = (currentMaterialIndex + 1) % materialSprites.Length;
+
         LoadShape(currentShapeIndex);
 
         SaveSystem.Instance.SaveProgress();
@@ -139,19 +145,40 @@ public class ShapeManager : MonoBehaviour
         // Set the main shape sprite
         shapeRenderer.sprite = shape.sprite;
 
-        // Set the shadow sprite if shadowRenderer is assigned
+        // Shadow
         if (shadowRenderer != null)
         {
             shadowRenderer.sprite = shape.sprite;
-            shadowRenderer.color = new Color(0f, 0f, 0f, 1f); // 30% opacity black
-            shadowRenderer.transform.localPosition = new Vector3(0f, -0.1f, 0.1f); // Slight downward offset
+            shadowRenderer.color = new Color(0f, 0f, 0f, 0.3f);
+            shadowRenderer.transform.localPosition = new Vector3(0f, -0.1f, 0.1f);
         }
 
         // Clone material to isolate cracks
         currentMaterialInstance = new Material(sharedCrackMaterial);
+
+        // Set the main texture from the shape sprite texture
+        currentMaterialInstance.SetTexture("_MainTex", shape.sprite.texture);
+
+        // Set the overlay texture from the materialSprites array at current index
+        Sprite currentMatSprite = materialSprites[currentMaterialIndex];
+        currentMaterialInstance.SetTexture("_OverlayTex", currentMatSprite.texture);
+
+        // Calculate UV rect for overlay sprite within atlas
+        Vector4 uvRect = new Vector4(
+            currentMatSprite.textureRect.x / currentMatSprite.texture.width,
+            currentMatSprite.textureRect.y / currentMatSprite.texture.height,
+            currentMatSprite.textureRect.width / currentMatSprite.texture.width,
+            currentMatSprite.textureRect.height / currentMatSprite.texture.height
+        );
+
+        // Pass UV rect to shader (make sure your shader uses this)
+        currentMaterialInstance.SetVector("_OverlayTex_UVRect", uvRect);
+
         shapeRenderer.material = currentMaterialInstance;
-        currentMaterialInstance.SetFloat("_CrackAmount", 0.7f); // No cracks at start
+
+        currentMaterialInstance.SetFloat("_CrackAmount", 0.7f); // Start with no cracks
     }
+
 
     // -------------------- UI --------------------
 
@@ -159,7 +186,7 @@ public class ShapeManager : MonoBehaviour
     {
         float healthRatio = currentHealth / maxHealth;
         float inverse = 1f - healthRatio;
-        float eased = Mathf.Pow(inverse, 0.6f); // Adjust crack intensity curve
+        float eased = Mathf.Pow(inverse, 0.6f);
         float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
 
         if (currentMaterialInstance != null)
@@ -185,9 +212,7 @@ public class ShapeManager : MonoBehaviour
         if (number < 1000)
             return number.ToString();
 
-        string[] suffixes = {
-            "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
-        };
+        string[] suffixes = { "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc" };
 
         int suffixIndex = -1;
         while (number >= 1000 && suffixIndex < suffixes.Length - 1)

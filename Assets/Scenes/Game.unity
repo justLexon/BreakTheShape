@@ -34706,7 +34706,7 @@ MonoBehaviour:
     crackSpeed: 0.5
   shapeRenderer: {fileID: 1461649288}
   shadowRenderer: {fileID: 883058590}
-  sharedCrackMaterial: {fileID: 2100000, guid: 97882cdae3b97a44e933fc73894d5a2c, type: 2}
+  sharedCrackMaterial: {fileID: 2100000, guid: 1b4a51e3d5c311b459478dc95379b8ba, type: 2}
   coinText: {fileID: 2028471958}
   shapesBrokenText: {fileID: 199822746}
   coinCount: 0
