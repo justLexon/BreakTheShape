@@ -1,15 +1,10 @@
-﻿using UnityEngine;
-using TMPro;
-
-[System.Serializable]
-public class ShapeData
-{
-    public Sprite sprite;
-    public float crackSpeed = 0.0f; // Currently unused but you can apply it for unique easing later
-}
+// ShapeManager.cs
+using UnityEngine;
 
 public class ShapeManager : MonoBehaviour
 {
+    public static ShapeManager Instance { get; private set; }
+
     [Header("Universal Stats")]
     public int maxHealth = 10;
     public float currentHealth;
@@ -21,29 +16,19 @@ public class ShapeManager : MonoBehaviour
     [Header("Shape Setup")]
     public ShapeData[] shapes;
 
-    [Header("Material Sprites")]
-    public Sprite[] materialSprites;  // Sprites sliced from your atlas for materials (dirt, wood, etc.)
-
     [Header("Rendering")]
     public SpriteRenderer shapeRenderer;
-    public SpriteRenderer shadowRenderer; // Shadow renderer
+    public SpriteRenderer shadowRenderer;
     public Material sharedCrackMaterial;
 
-    [Header("UI")]
-    public TMP_Text coinText;
-    public TMP_Text shapesBrokenText;
+    [Header("References")]
+    public MaterialManager materialManager;
+    public UIManager uiManager;
 
     private int currentShapeIndex = 0;
-    private int currentMaterialIndex = 0;  // Tracks current material sprite index
-
-    public double coinCount = 0;
+    private double coinCount = 0;
     private float idleTimer = 0f;
-
     private Material currentMaterialInstance;
-
-    public static ShapeManager Instance { get; private set; }
-
-    // -------------------- LIFECYCLE --------------------
 
     void Awake()
     {
@@ -54,7 +39,6 @@ public class ShapeManager : MonoBehaviour
         }
         Instance = this;
 
-        // Reset save if first launch
         if (!PlayerPrefs.HasKey("HasLaunchedBefore"))
         {
             PlayerPrefs.DeleteAll();
@@ -81,8 +65,6 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
-    // -------------------- MAIN ACTIONS --------------------
-
     public void OnTap()
     {
         ApplyDamage(tapDamage);
@@ -92,7 +74,6 @@ public class ShapeManager : MonoBehaviour
     void ApplyDamage(float damageAmount)
     {
         if (currentHealth <= 0) return;
-
         int damageInt = Mathf.RoundToInt(damageAmount);
 
         if (currentHealth - damageInt <= 0)
@@ -117,14 +98,11 @@ public class ShapeManager : MonoBehaviour
         coinCount += coinsPerBreak;
         shapesBrokenCounter++;
 
-        UpdateCoinUI();
-        UpdateShapesBrokenCounter();
+        uiManager.UpdateCoinText(coinCount);
+        uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
-        currentMaterialIndex = (currentMaterialIndex + 1) % materialSprites.Length;
-
         LoadShape(currentShapeIndex);
-
         SaveSystem.Instance.SaveProgress();
     }
 
@@ -132,8 +110,8 @@ public class ShapeManager : MonoBehaviour
     {
         currentShapeIndex = index % shapes.Length;
         LoadShape(currentShapeIndex);
-        UpdateCoinUI();
-        UpdateShapesBrokenCounter();
+        uiManager.UpdateCoinText(coinCount);
+        uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
     }
 
     void LoadShape(int index)
@@ -142,10 +120,8 @@ public class ShapeManager : MonoBehaviour
         currentHealth = maxHealth;
         idleTimer = 0f;
 
-        // Set the main shape sprite
         shapeRenderer.sprite = shape.sprite;
 
-        // Shadow
         if (shadowRenderer != null)
         {
             shadowRenderer.sprite = shape.sprite;
@@ -153,34 +129,26 @@ public class ShapeManager : MonoBehaviour
             shadowRenderer.transform.localPosition = new Vector3(0f, -0.1f, 0.1f);
         }
 
-        // Clone material to isolate cracks
         currentMaterialInstance = new Material(sharedCrackMaterial);
-
-        // Set the main texture from the shape sprite texture
         currentMaterialInstance.SetTexture("_MainTex", shape.sprite.texture);
 
-        // Set the overlay texture from the materialSprites array at current index
-        Sprite currentMatSprite = materialSprites[currentMaterialIndex];
-        currentMaterialInstance.SetTexture("_OverlayTex", currentMatSprite.texture);
+        Sprite currentMatSprite = materialManager.GetNextMaterial();
+        if (currentMatSprite != null)
+        {
+            currentMaterialInstance.SetTexture("_OverlayTex", currentMatSprite.texture);
 
-        // Calculate UV rect for overlay sprite within atlas
-        Vector4 uvRect = new Vector4(
-            currentMatSprite.textureRect.x / currentMatSprite.texture.width,
-            currentMatSprite.textureRect.y / currentMatSprite.texture.height,
-            currentMatSprite.textureRect.width / currentMatSprite.texture.width,
-            currentMatSprite.textureRect.height / currentMatSprite.texture.height
-        );
-
-        // Pass UV rect to shader (make sure your shader uses this)
-        currentMaterialInstance.SetVector("_OverlayTex_UVRect", uvRect);
+            Vector4 uvRect = new Vector4(
+                currentMatSprite.textureRect.x / currentMatSprite.texture.width,
+                currentMatSprite.textureRect.y / currentMatSprite.texture.height,
+                currentMatSprite.textureRect.width / currentMatSprite.texture.width,
+                currentMatSprite.textureRect.height / currentMatSprite.texture.height
+            );
+            currentMaterialInstance.SetVector("_OverlayTex_UVRect", uvRect);
+        }
 
         shapeRenderer.material = currentMaterialInstance;
-
-        currentMaterialInstance.SetFloat("_CrackAmount", 0.7f); // Start with no cracks
+        currentMaterialInstance.SetFloat("_CrackAmount", 0.7f);
     }
-
-
-    // -------------------- UI --------------------
 
     void UpdateCrackVisual()
     {
@@ -195,37 +163,6 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
-    void UpdateCoinUI()
-    {
-        coinText.text = FormatNumberWithSuffix((double)coinCount);
-    }
-
-    void UpdateShapesBrokenCounter()
-    {
-        shapesBrokenText.text = FormatNumberWithSuffix((double)shapesBrokenCounter);
-    }
-
-    // -------------------- Number Formatting --------------------
-
-    string FormatNumberWithSuffix(double number)
-    {
-        if (number < 1000)
-            return number.ToString();
-
-        string[] suffixes = { "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc" };
-
-        int suffixIndex = -1;
-        while (number >= 1000 && suffixIndex < suffixes.Length - 1)
-        {
-            number /= 1000;
-            suffixIndex++;
-        }
-
-        return number.ToString("0.#") + suffixes[suffixIndex];
-    }
-
-    // -------------------- Public Access --------------------
-
     public double GetCoinCount() => coinCount;
 
     public void SpendCoins(double amount)
@@ -233,7 +170,7 @@ public class ShapeManager : MonoBehaviour
         if (amount <= coinCount)
         {
             coinCount -= amount;
-            UpdateCoinUI();
+            uiManager.UpdateCoinText(coinCount);
             SaveSystem.Instance.SaveProgress();
         }
         else

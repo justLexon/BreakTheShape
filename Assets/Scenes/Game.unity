@@ -31208,7 +31208,7 @@ SpriteRenderer:
   m_Size: {x: 2.23, y: 2.23}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1463646625
@@ -34698,12 +34698,19 @@ MonoBehaviour:
   coinsPerBreak: 5
   shapesBrokenCounter: 0
   shapes:
-  - sprite: {fileID: 21300000, guid: f17729a99137e854cbaaac407eebba5d, type: 3}
+  - sprite: {fileID: 21300000, guid: 98d56bfe2021e8b4b8b6eaf90b6f1437, type: 3}
     crackSpeed: 0.5
-  - sprite: {fileID: 21300000, guid: b36eb0276459db54d99e57bd7759ffed, type: 3}
+  - sprite: {fileID: 21300000, guid: a14ae92149b250f4b9d4c95520e48cbe, type: 3}
     crackSpeed: 0.5
-  - sprite: {fileID: 21300000, guid: d78735bf82cf766428eef2df55d829f0, type: 3}
-    crackSpeed: 0.5
+  materialSprites:
+  - {fileID: -405674673, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: -652947895, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: -1665925386, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: 1174182643, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: 214213815, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: -1607983537, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: 924365669, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+  - {fileID: -613496545, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
   shapeRenderer: {fileID: 1461649288}
   shadowRenderer: {fileID: 883058590}
   sharedCrackMaterial: {fileID: 2100000, guid: 1b4a51e3d5c311b459478dc95379b8ba, type: 2}
