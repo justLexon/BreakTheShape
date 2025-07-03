@@ -1,4 +1,3 @@
-// UIManager.cs
 using TMPro;
 using UnityEngine;
 
@@ -7,17 +6,26 @@ public class UIManagerS : MonoBehaviour
     public TMP_Text coinText;
     public TMP_Text shapesBrokenText;
 
-    public void UpdateCoinText(double coinCount)
+    private ShapeManager shapeManager;
+
+    void Start()
     {
-        coinText.text = FormatNumberWithSuffix(coinCount);
+        shapeManager = ShapeManager.Instance;
+        UpdateCoinText(shapeManager.GetCoinCount());
+        UpdateShapesBrokenText(shapeManager.shapesBrokenCounter);
     }
 
-    public void UpdateShapesBrokenText(double shapesBrokenCount)
+    public void UpdateCoinText(double coins)
     {
-        shapesBrokenText.text = FormatNumberWithSuffix(shapesBrokenCount);
+        coinText.text = FormatNumberWithSuffix(coins);
     }
 
-    private string FormatNumberWithSuffix(double number)
+    public void UpdateShapesBrokenText(double shapesBroken)
+    {
+        shapesBrokenText.text = FormatNumberWithSuffix(shapesBroken);
+    }
+
+    string FormatNumberWithSuffix(double number)
     {
         if (number < 1000)
             return number.ToString();
@@ -29,6 +37,7 @@ public class UIManagerS : MonoBehaviour
             number /= 1000;
             suffixIndex++;
         }
+
         return number.ToString("0.#") + suffixes[suffixIndex];
     }
 }

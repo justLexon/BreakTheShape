@@ -1,12 +1,12 @@
-// ShapeManager.cs
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShapeManager : MonoBehaviour
 {
     public static ShapeManager Instance { get; private set; }
 
     [Header("Universal Stats")]
-    public int maxHealth = 10;
+    public int baseMaxHealth = 10;
+    private int currentMaxHealth;
     public float currentHealth;
     public int tapDamage = 1;
     public float idleDamagePerSecond = 0.5f;
@@ -26,11 +26,13 @@ public class ShapeManager : MonoBehaviour
     public UIManagerS uiManager;
 
     private int currentShapeIndex = 0;
-    public double coinCount = 0;
     private float idleTimer = 0f;
     private Material currentMaterialInstance;
 
-    void Awake()
+    // ✅ Player coin count stored as double for precision
+    public double coinCount = 0;
+
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -47,12 +49,12 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         SaveSystem.Instance.LoadProgress();
     }
 
-    void Update()
+    private void Update()
     {
         if (currentHealth > 0)
         {
@@ -71,9 +73,10 @@ public class ShapeManager : MonoBehaviour
         SaveSystem.Instance.SaveProgress();
     }
 
-    void ApplyDamage(float damageAmount)
+    private void ApplyDamage(float damageAmount)
     {
         if (currentHealth <= 0) return;
+
         int damageInt = Mathf.RoundToInt(damageAmount);
 
         if (currentHealth - damageInt <= 0)
@@ -93,16 +96,19 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
-    void BreakShape()
+    private void BreakShape()
     {
-        coinCount += coinsPerBreak;
+        float coinMult = materialManager.GetCoinMultiplier();
+        coinCount += Mathf.RoundToInt(coinsPerBreak * coinMult);
         shapesBrokenCounter++;
 
         uiManager.UpdateCoinText(coinCount);
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
+        materialManager.AdvanceVisualSprite();
         LoadShape(currentShapeIndex);
+
         SaveSystem.Instance.SaveProgress();
     }
 
@@ -114,12 +120,15 @@ public class ShapeManager : MonoBehaviour
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
     }
 
-    void LoadShape(int index)
+    private void LoadShape(int index)
     {
         ShapeData shape = shapes[index];
-        currentHealth = maxHealth;
-        idleTimer = 0f;
 
+        float healthMult = materialManager.GetHealthMultiplier();
+        currentMaxHealth = Mathf.RoundToInt(baseMaxHealth * healthMult);
+        currentHealth = currentMaxHealth;
+
+        idleTimer = 0f;
         shapeRenderer.sprite = shape.sprite;
 
         if (shadowRenderer != null)
@@ -132,16 +141,17 @@ public class ShapeManager : MonoBehaviour
         currentMaterialInstance = new Material(sharedCrackMaterial);
         currentMaterialInstance.SetTexture("_MainTex", shape.sprite.texture);
 
-        Sprite currentMatSprite = materialManager.GetNextMaterial();
-        if (currentMatSprite != null)
+        Sprite matSprite = materialManager.GetDisplayMaterialSprite();
+        if (matSprite != null)
         {
-            currentMaterialInstance.SetTexture("_OverlayTex", currentMatSprite.texture);
+            currentMaterialInstance.SetTexture("_OverlayTex", matSprite.texture);
 
+            Rect texRect = matSprite.textureRect;
             Vector4 uvRect = new Vector4(
-                currentMatSprite.textureRect.x / currentMatSprite.texture.width,
-                currentMatSprite.textureRect.y / currentMatSprite.texture.height,
-                currentMatSprite.textureRect.width / currentMatSprite.texture.width,
-                currentMatSprite.textureRect.height / currentMatSprite.texture.height
+                texRect.x / matSprite.texture.width,
+                texRect.y / matSprite.texture.height,
+                texRect.width / matSprite.texture.width,
+                texRect.height / matSprite.texture.height
             );
             currentMaterialInstance.SetVector("_OverlayTex_UVRect", uvRect);
         }
@@ -150,9 +160,9 @@ public class ShapeManager : MonoBehaviour
         currentMaterialInstance.SetFloat("_CrackAmount", 0.7f);
     }
 
-    void UpdateCrackVisual()
+    private void UpdateCrackVisual()
     {
-        float healthRatio = currentHealth / maxHealth;
+        float healthRatio = currentHealth / Mathf.Max(1f, currentMaxHealth);
         float inverse = 1f - healthRatio;
         float eased = Mathf.Pow(inverse, 0.6f);
         float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
@@ -163,7 +173,10 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
-    public double GetCoinCount() => coinCount;
+    public double GetCoinCount()
+    {
+        return coinCount;
+    }
 
     public void SpendCoins(double amount)
     {
@@ -172,10 +185,31 @@ public class ShapeManager : MonoBehaviour
             coinCount -= amount;
             uiManager.UpdateCoinText(coinCount);
             SaveSystem.Instance.SaveProgress();
+            Debug.Log($"✅ Spent {amount} coins. Remaining: {coinCount}");
         }
         else
         {
-            Debug.LogWarning("Not enough coins to spend!");
+            Debug.LogWarning("❌ Not enough coins to spend!");
+        }
+    }
+
+    public bool TryUpgradeMaterial()
+    {
+        double cost = materialManager.GetCurrentMaterialUpgradeCost();
+        if (coinCount >= cost)
+        {
+            bool upgraded = materialManager.UpgradeCurrentMaterial();
+            if (upgraded)
+            {
+                SpendCoins(cost); // ✅ properly subtract coins
+                LoadShape(currentShapeIndex); // Apply new stats
+            }
+            return upgraded;
+        }
+        else
+        {
+            Debug.LogWarning("❌ Not enough coins to upgrade material!");
+            return false;
         }
     }
 
