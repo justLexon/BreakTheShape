@@ -115,6 +115,12 @@ public class MaterialsManager : MonoBehaviour
         currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length - 1);
     }
 
+    public int GetMaterialIndex(string key)
+    {
+        return System.Array.FindIndex(materials, m => m.materialName == key);
+    }
+
+
 
     public double GetUpgradeCost(string key)
     {

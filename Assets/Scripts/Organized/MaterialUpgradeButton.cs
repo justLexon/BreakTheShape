@@ -32,6 +32,14 @@ public class MaterialUpgradeButton : MonoBehaviour
             MaterialsManager.Instance.UpgradeMaterial(materialKey);
             level++;
 
+            // Automatically set the newly unlocked material as active display
+            int unlockedIndex = MaterialsManager.Instance.GetMaterialIndex(materialKey);
+            if (unlockedIndex > MaterialsManager.Instance.GetCurrentMaterialIndex())
+            {
+                MaterialsManager.Instance.SetCurrentMaterial(unlockedIndex);
+            }
+
+
             // Apply upgrade power to gameplay stat, e.g. tapDamage
             int power = MaterialsManager.Instance.GetUpgradePower(materialKey);
             ShapeManager.Instance.tapDamage += power;

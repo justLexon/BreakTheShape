@@ -2520,8 +2520,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 90091401}
+  - component: {fileID: 90091402}
   m_Layer: 5
-  m_Name: Right
+  m_Name: WoodRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2549,6 +2550,22 @@ RectTransform:
   m_AnchoredPosition: {x: 746.1, y: -184.2}
   m_SizeDelta: {x: 269.8, y: 278.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &90091402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90091400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b66976a8931fc243b5f3938010e6197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CostText: {fileID: 1494613777}
+  LevelCountText: {fileID: 73256211}
+  materialKey: Wood
+  maxLevel: 10
 --- !u!1 &91671063
 GameObject:
   m_ObjectHideFlags: 0
@@ -13504,7 +13521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &668447590
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17688,7 +17705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868762504}
   m_Layer: 5
-  m_Name: Fist
+  m_Name: DirtMaterial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17710,9 +17727,9 @@ RectTransform:
   - {fileID: 1392368664}
   m_Father: {fileID: 1896490610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 449.49573, y: -148.15}
   m_SizeDelta: {x: 1408.5, y: 296.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &873084133
@@ -20938,9 +20955,9 @@ RectTransform:
   - {fileID: 126338487}
   m_Father: {fileID: 1896490610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 449.49573, y: -1629.65}
   m_SizeDelta: {x: 1408.5, y: 296.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1006016485
@@ -23442,7 +23459,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1138869310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 90091402}
+        m_TargetAssemblyTypeName: MaterialUpgradeButton, Assembly-CSharp
+        m_MethodName: OnUpgradeClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1138869310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25627,9 +25656,9 @@ RectTransform:
   - {fileID: 410746167}
   m_Father: {fileID: 1896490610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 449.49573, y: -740.75}
   m_SizeDelta: {x: 1408.5, y: 296.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1217350032
@@ -35349,7 +35378,7 @@ RectTransform:
   m_Father: {fileID: 32356174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.7061022}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -37804,7 +37833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1785431263}
   m_Layer: 5
-  m_Name: Rock
+  m_Name: WoodMaterial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37826,9 +37855,9 @@ RectTransform:
   - {fileID: 135199239}
   m_Father: {fileID: 1896490610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 449.49573, y: -444.44998}
   m_SizeDelta: {x: 1408.5, y: 296.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1787240687
@@ -40351,7 +40380,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.00012207031}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 522.4916}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1896490611
 MonoBehaviour:
@@ -40575,9 +40604,9 @@ RectTransform:
   - {fileID: 7883308}
   m_Father: {fileID: 1896490610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 449.49573, y: -1333.35}
   m_SizeDelta: {x: 1408.5, y: 296.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1914161854
@@ -45530,9 +45559,9 @@ RectTransform:
   - {fileID: 1881457150}
   m_Father: {fileID: 1896490610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 449.49573, y: -1037.0499}
   m_SizeDelta: {x: 1408.5, y: 296.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2122346697
