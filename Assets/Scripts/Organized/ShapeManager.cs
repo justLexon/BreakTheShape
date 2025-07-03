@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
+public class ShapeSData
+{
+    public Sprite sprite;
+}
+
 public class ShapeManager : MonoBehaviour
 {
     public static ShapeManager Instance { get; private set; }
@@ -22,14 +28,13 @@ public class ShapeManager : MonoBehaviour
     public Material sharedCrackMaterial;
 
     [Header("References")]
-    public MaterialManager materialManager;
+    public MaterialsManager materialsManager;
     public UIManagerS uiManager;
 
     private int currentShapeIndex = 0;
     private float idleTimer = 0f;
     private Material currentMaterialInstance;
 
-    // ✅ Player coin count stored as double for precision
     public double coinCount = 0;
 
     private void Awake()
@@ -98,15 +103,13 @@ public class ShapeManager : MonoBehaviour
 
     private void BreakShape()
     {
-        float coinMult = materialManager.GetCoinMultiplier();
-        coinCount += Mathf.RoundToInt(coinsPerBreak * coinMult);
+        coinCount += coinsPerBreak;
         shapesBrokenCounter++;
 
         uiManager.UpdateCoinText(coinCount);
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
 
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
-        materialManager.AdvanceVisualSprite();
         LoadShape(currentShapeIndex);
 
         SaveSystem.Instance.SaveProgress();
@@ -124,8 +127,7 @@ public class ShapeManager : MonoBehaviour
     {
         ShapeData shape = shapes[index];
 
-        float healthMult = materialManager.GetHealthMultiplier();
-        currentMaxHealth = Mathf.RoundToInt(baseMaxHealth * healthMult);
+        currentMaxHealth = baseMaxHealth;
         currentHealth = currentMaxHealth;
 
         idleTimer = 0f;
@@ -141,24 +143,30 @@ public class ShapeManager : MonoBehaviour
         currentMaterialInstance = new Material(sharedCrackMaterial);
         currentMaterialInstance.SetTexture("_MainTex", shape.sprite.texture);
 
-        Sprite matSprite = materialManager.GetDisplayMaterialSprite();
+        // ✅ Get current material sprite
+        Sprite matSprite = materialsManager.GetDisplayMaterialSprite();
         if (matSprite != null)
         {
             currentMaterialInstance.SetTexture("_OverlayTex", matSprite.texture);
 
             Rect texRect = matSprite.textureRect;
+            Texture2D atlasTex = matSprite.texture;
+
+            // ✅ Calculate UV rect correctly
             Vector4 uvRect = new Vector4(
-                texRect.x / matSprite.texture.width,
-                texRect.y / matSprite.texture.height,
-                texRect.width / matSprite.texture.width,
-                texRect.height / matSprite.texture.height
+                texRect.x / atlasTex.width,
+                texRect.y / atlasTex.height,
+                texRect.width / atlasTex.width,
+                texRect.height / atlasTex.height
             );
+
             currentMaterialInstance.SetVector("_OverlayTex_UVRect", uvRect);
         }
 
         shapeRenderer.material = currentMaterialInstance;
         currentMaterialInstance.SetFloat("_CrackAmount", 0.7f);
     }
+
 
     private void UpdateCrackVisual()
     {
@@ -190,26 +198,6 @@ public class ShapeManager : MonoBehaviour
         else
         {
             Debug.LogWarning("❌ Not enough coins to spend!");
-        }
-    }
-
-    public bool TryUpgradeMaterial()
-    {
-        double cost = materialManager.GetCurrentMaterialUpgradeCost();
-        if (coinCount >= cost)
-        {
-            bool upgraded = materialManager.UpgradeCurrentMaterial();
-            if (upgraded)
-            {
-                SpendCoins(cost); // ✅ properly subtract coins
-                LoadShape(currentShapeIndex); // Apply new stats
-            }
-            return upgraded;
-        }
-        else
-        {
-            Debug.LogWarning("❌ Not enough coins to upgrade material!");
-            return false;
         }
     }
 

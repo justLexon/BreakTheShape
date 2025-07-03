@@ -13,25 +13,23 @@ public class SaveSystem : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Optional: Keep SaveSystem alive between scenes
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SaveProgress()
     {
         PlayerPrefs.SetInt("TapDamage", ShapeManager.Instance.tapDamage);
-        PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R")); // Save double
-        PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R")); // Save double
+        PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R"));
+        PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R"));
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
 
-        // Save current material index from MaterialManager
-        if (MaterialManager.Instance != null)
+        if (MaterialsManager.Instance != null)
         {
-            PlayerPrefs.SetInt("CurrentMaterialIndex", MaterialManager.Instance.GetCurrentMaterialIndex());
-
-            // Save levels of all materials
-            for (int i = 0; i < MaterialManager.Instance.allMaterials.Length; i++)
+            // Save levels of all materials by material name
+            foreach (var mat in MaterialsManager.Instance.materials)
             {
-                PlayerPrefs.SetInt($"MaterialLevel_{i}", MaterialManager.Instance.allMaterials[i].currentLevel);
+                string key = $"{mat.materialName}_Level";
+                PlayerPrefs.SetInt(key, mat.currentLevel);
             }
         }
 
@@ -43,34 +41,23 @@ public class SaveSystem : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Coins"))
         {
-            ShapeManager.Instance.tapDamage = PlayerPrefs.GetInt("TapDamage");
+            ShapeManager.Instance.tapDamage = PlayerPrefs.GetInt("TapDamage", 1);
 
             string savedCoinString = PlayerPrefs.GetString("Coins");
-            if (double.TryParse(savedCoinString, out double loadedCoins))
-                ShapeManager.Instance.coinCount = loadedCoins;
-            else
-                ShapeManager.Instance.coinCount = 0;
+            ShapeManager.Instance.coinCount = double.TryParse(savedCoinString, out double coins) ? coins : 0;
 
             string savedShapesString = PlayerPrefs.GetString("ShapesBroken");
-            if (double.TryParse(savedShapesString, out double loadedShapes))
-                ShapeManager.Instance.shapesBrokenCounter = loadedShapes;
-            else
-                ShapeManager.Instance.shapesBrokenCounter = 0;
+            ShapeManager.Instance.shapesBrokenCounter = double.TryParse(savedShapesString, out double broken) ? broken : 0;
 
-            int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex");
+            int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
             ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
 
-            // Load current material index and apply it
-            if (MaterialManager.Instance != null)
+            if (MaterialsManager.Instance != null)
             {
-                int savedMaterialIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
-                MaterialManager.Instance.SetCurrentMaterial(savedMaterialIndex);
-
-                // Load levels for all materials
-                for (int i = 0; i < MaterialManager.Instance.allMaterials.Length; i++)
+                foreach (var mat in MaterialsManager.Instance.materials)
                 {
-                    int level = PlayerPrefs.GetInt($"MaterialLevel_{i}", 0);
-                    MaterialManager.Instance.allMaterials[i].currentLevel = level;
+                    string key = $"{mat.materialName}_Level";
+                    mat.currentLevel = PlayerPrefs.GetInt(key, 0);
                 }
             }
 
@@ -80,11 +67,8 @@ public class SaveSystem : MonoBehaviour
         {
             Debug.Log("📦 No saved data found, loading default.");
             ShapeManager.Instance.LoadShapeFromSave(0);
-            if (MaterialManager.Instance != null)
-                MaterialManager.Instance.SetCurrentMaterial(0);
         }
     }
-
 
     public void ResetSave()
     {

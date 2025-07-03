@@ -8547,8 +8547,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47
-  m_fontSizeBase: 47
+  m_fontSize: 44
+  m_fontSizeBase: 44
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8583,7 +8583,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -1.1666718, y: 0, z: -38.501526, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -13653,7 +13653,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinText: {fileID: 2028471958}
   shapesBrokenText: {fileID: 199822746}
-  upgradeMaterialButton: {fileID: 0}
 --- !u!1 &683256946
 GameObject:
   m_ObjectHideFlags: 0
@@ -14988,7 +14987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 55.6, y: -0.61}
+  m_AnchoredPosition: {x: 63, y: -1.75}
   m_SizeDelta: {x: 101.5, y: 57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &732820446
@@ -15011,7 +15010,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5292ee5a42c59ab4db43f80ba32b5ba2, type: 2}
   m_sharedMaterial: {fileID: -525270243589231896, guid: 5292ee5a42c59ab4db43f80ba32b5ba2, type: 2}
@@ -15045,7 +15044,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -15074,7 +15073,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -5.833538, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -24849,8 +24848,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1187276708}
+  - component: {fileID: 1187276709}
   m_Layer: 5
-  m_Name: Right
+  m_Name: DirtRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24878,6 +24878,22 @@ RectTransform:
   m_AnchoredPosition: {x: 746.1, y: -184.2}
   m_SizeDelta: {x: 269.8, y: 278.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1187276709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187276707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b66976a8931fc243b5f3938010e6197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CostText: {fileID: 415804323}
+  LevelCountText: {fileID: 732820446}
+  materialKey: Dirt
+  maxLevel: 10
 --- !u!1 &1188188948
 GameObject:
   m_ObjectHideFlags: 0
@@ -32152,8 +32168,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47
-  m_fontSizeBase: 47
+  m_fontSize: 44
+  m_fontSizeBase: 44
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -32188,7 +32204,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -36.16819, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -35049,7 +35065,7 @@ MonoBehaviour:
   shapeRenderer: {fileID: 1461649288}
   shadowRenderer: {fileID: 883058590}
   sharedCrackMaterial: {fileID: 2100000, guid: 1b4a51e3d5c311b459478dc95379b8ba, type: 2}
-  materialManager: {fileID: 1922212194}
+  materialsManager: {fileID: 1922212194}
   uiManager: {fileID: 676886771}
   coinCount: 0
 --- !u!1 &1661585611
@@ -40861,32 +40877,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db798b1016968e74880992040a6c901f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allMaterials:
+  materials:
   - materialName: Dirt
     levelSprites:
     - {fileID: -405674673, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
     - {fileID: -652947895, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
-    - {fileID: -1665925386, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
-    - {fileID: 1174182643, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
-    - {fileID: 214213815, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
-    - {fileID: -1607983537, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
-    - {fileID: 924365669, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
     - {fileID: -613496545, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
     currentLevel: 0
     baseCost: 0
+    upgradePower: 0
   - materialName: Wood
     levelSprites:
     - {fileID: -714654973, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
-    - {fileID: -1654272568, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
-    - {fileID: 1791507556, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
-    - {fileID: -1247136523, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
-    - {fileID: 1224352068, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
     - {fileID: -485860572, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
     - {fileID: -674954320, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
-    - {fileID: -1382391694, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
     currentLevel: 0
     baseCost: 0
-  playerCoins: 1000
+    upgradePower: 0
 --- !u!4 &1922212195
 Transform:
   m_ObjectHideFlags: 0
@@ -44605,9 +44612,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1922212194}
-        m_TargetAssemblyTypeName: MaterialManager, Assembly-CSharp
-        m_MethodName: OnUpgradeMaterialButtonClicked
+      - m_Target: {fileID: 1187276709}
+        m_TargetAssemblyTypeName: MaterialUpgradeButton, Assembly-CSharp
+        m_MethodName: OnUpgradeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
