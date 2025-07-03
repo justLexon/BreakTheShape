@@ -23,10 +23,10 @@ public class ShapeManager : MonoBehaviour
 
     [Header("References")]
     public MaterialManager materialManager;
-    public UIManager uiManager;
+    public UIManagerS uiManager;
 
     private int currentShapeIndex = 0;
-    private double coinCount = 0;
+    public double coinCount = 0;
     private float idleTimer = 0f;
     private Material currentMaterialInstance;
 

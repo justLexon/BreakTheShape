@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManagerS : MonoBehaviour
 {
     public TMP_Text coinText;
     public TMP_Text shapesBrokenText;
