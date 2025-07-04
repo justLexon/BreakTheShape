@@ -109,11 +109,15 @@ public class ShapeManager : MonoBehaviour
         uiManager.UpdateCoinText(coinCount);
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
 
+        // Advance to the next shape and next material texture
         currentShapeIndex = (currentShapeIndex + 1) % shapes.Length;
+        materialsManager.AdvanceTextureCycle(); // ✅ Advance material texture index
+
         LoadShape(currentShapeIndex);
 
         SaveSystem.Instance.SaveProgress();
     }
+
 
     public void LoadShapeFromSave(int index)
     {

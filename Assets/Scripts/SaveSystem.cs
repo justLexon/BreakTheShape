@@ -26,6 +26,7 @@ public class SaveSystem : MonoBehaviour
         if (MaterialsManager.Instance != null)
         {
             PlayerPrefs.SetInt("CurrentMaterialIndex", MaterialsManager.Instance.GetCurrentMaterialIndex());
+            PlayerPrefs.SetInt("TextureCycleIndex", MaterialsManager.Instance.GetTextureCycleIndex()); // ✅ save texture index
 
             foreach (var mat in MaterialsManager.Instance.materials)
             {
@@ -58,7 +59,7 @@ public class SaveSystem : MonoBehaviour
                     mat.currentLevel = PlayerPrefs.GetInt(key, 0);
                 }
 
-                // Try to load saved current material index
+                // Material index
                 if (PlayerPrefs.HasKey("CurrentMaterialIndex"))
                 {
                     int savedIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
@@ -66,12 +67,14 @@ public class SaveSystem : MonoBehaviour
                 }
                 else
                 {
-                    // Fallback: auto-pick highest unlocked material
                     MaterialsManager.Instance.AutoSelectHighestUnlockedMaterial();
                 }
+
+                // Texture cycle index
+                int textureIndex = PlayerPrefs.GetInt("TextureCycleIndex", 0);
+                MaterialsManager.Instance.SetTextureCycleIndex(textureIndex); // ✅ restore texture cycle
             }
 
-            // 🟢 Load shape *after* material visuals are properly restored
             int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
             ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
 
@@ -88,6 +91,7 @@ public class SaveSystem : MonoBehaviour
             ShapeManager.Instance.LoadShapeFromSave(0);
         }
     }
+
 
 
     public void ResetSave()

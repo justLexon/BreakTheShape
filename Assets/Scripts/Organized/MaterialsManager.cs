@@ -18,6 +18,9 @@ public class MaterialsManager : MonoBehaviour
     [Header("Materials List")]
     public MaterialData[] materials;
 
+    private int textureCycleIndex = 0;
+
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -43,11 +46,11 @@ public class MaterialsManager : MonoBehaviour
                     mat.baseCost = 50;
                     mat.upgradePower = 1;
                     break;
-                case "Stone":
+                case "Wood":
                     mat.baseCost = 250;
                     mat.upgradePower = 5;
                     break;
-                case "Wood":
+                case "Stone":
                     mat.baseCost = 500;
                     mat.upgradePower = 15;
                     break;
@@ -93,18 +96,28 @@ public class MaterialsManager : MonoBehaviour
         }
     }
 
+    public void AdvanceTextureCycle()
+    {
+        textureCycleIndex++;
+    }
+
+    public int GetTextureCycleIndex() => textureCycleIndex;
+    public void SetTextureCycleIndex(int value) => textureCycleIndex = value;
+
     public Sprite GetDisplayMaterialSprite()
     {
         var mat = materials[currentMaterialIndex];
 
         if (mat.levelSprites != null && mat.levelSprites.Length > 0)
         {
-            int index = Random.Range(0, mat.levelSprites.Length);
-            return mat.levelSprites[index];
+            textureCycleIndex %= mat.levelSprites.Length;
+            Sprite result = mat.levelSprites[textureCycleIndex];
+            return result;
         }
 
         return null;
     }
+
 
     private int currentMaterialIndex = 0;
 
