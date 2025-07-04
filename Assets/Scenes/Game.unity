@@ -77654,11 +77654,24 @@ MonoBehaviour:
     levelSprites:
     - {fileID: -405674673, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
     - {fileID: -652947895, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+    - {fileID: -1665925386, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+    - {fileID: 1174182643, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+    - {fileID: 214213815, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+    - {fileID: -1607983537, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
+    - {fileID: 924365669, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
     - {fileID: -613496545, guid: 500d02706b3088545b44598a2dde1d60, type: 3}
     currentLevel: 0
     baseCost: 0
     upgradePower: 0
   - materialName: Wood
+    levelSprites:
+    - {fileID: -714654973, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
+    - {fileID: -485860572, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
+    - {fileID: -674954320, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
+    currentLevel: 0
+    baseCost: 0
+    upgradePower: 0
+  - materialName: Stone
     levelSprites:
     - {fileID: -714654973, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
     - {fileID: -485860572, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}

@@ -25,7 +25,8 @@ public class SaveSystem : MonoBehaviour
 
         if (MaterialsManager.Instance != null)
         {
-            // Save levels of all materials by material name
+            PlayerPrefs.SetInt("CurrentMaterialIndex", MaterialsManager.Instance.GetCurrentMaterialIndex());
+
             foreach (var mat in MaterialsManager.Instance.materials)
             {
                 string key = $"{mat.materialName}_Level";
@@ -49,9 +50,6 @@ public class SaveSystem : MonoBehaviour
             string savedShapesString = PlayerPrefs.GetString("ShapesBroken");
             ShapeManager.Instance.shapesBrokenCounter = double.TryParse(savedShapesString, out double broken) ? broken : 0;
 
-            int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
-            ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
-
             if (MaterialsManager.Instance != null)
             {
                 foreach (var mat in MaterialsManager.Instance.materials)
@@ -59,16 +57,38 @@ public class SaveSystem : MonoBehaviour
                     string key = $"{mat.materialName}_Level";
                     mat.currentLevel = PlayerPrefs.GetInt(key, 0);
                 }
+
+                // Try to load saved current material index
+                if (PlayerPrefs.HasKey("CurrentMaterialIndex"))
+                {
+                    int savedIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
+                    MaterialsManager.Instance.SetCurrentMaterial(savedIndex);
+                }
+                else
+                {
+                    // Fallback: auto-pick highest unlocked material
+                    MaterialsManager.Instance.AutoSelectHighestUnlockedMaterial();
+                }
             }
+
+            // 🟢 Load shape *after* material visuals are properly restored
+            int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
+            ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
 
             Debug.Log("✅ Game Loaded");
         }
         else
         {
             Debug.Log("📦 No saved data found, loading default.");
+            if (MaterialsManager.Instance != null)
+            {
+                MaterialsManager.Instance.AutoSelectHighestUnlockedMaterial();
+            }
+
             ShapeManager.Instance.LoadShapeFromSave(0);
         }
     }
+
 
     public void ResetSave()
     {

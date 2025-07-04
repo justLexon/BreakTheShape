@@ -115,6 +115,21 @@ public class MaterialsManager : MonoBehaviour
         currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length - 1);
     }
 
+    public void AutoSelectHighestUnlockedMaterial()
+    {
+        for (int i = materials.Length - 1; i >= 0; i--)
+        {
+            if (materials[i].currentLevel > 0)
+            {
+                SetCurrentMaterial(i);
+                return;
+            }
+        }
+
+        // fallback to Dirt if nothing is upgraded
+        SetCurrentMaterial(0);
+    }
+
     public int GetMaterialIndex(string key)
     {
         return System.Array.FindIndex(materials, m => m.materialName == key);
