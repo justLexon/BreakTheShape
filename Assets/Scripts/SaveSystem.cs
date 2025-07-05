@@ -59,22 +59,18 @@ public class SaveSystem : MonoBehaviour
                     mat.currentLevel = PlayerPrefs.GetInt(key, 0);
                 }
 
-                if (PlayerPrefs.HasKey("CurrentMaterialIndex"))
-                {
-                    int savedIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
-                    MaterialsManager.Instance.SetCurrentMaterial(savedIndex);
-                }
-                else
-                {
-                    MaterialsManager.Instance.AutoSelectHighestUnlockedMaterial();
-                }
+                int savedIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
+                Debug.Log($"LoadProgress: setting currentMaterialIndex = {savedIndex}");
+                MaterialsManager.Instance.SetCurrentMaterial(savedIndex);
 
                 int textureIndex = PlayerPrefs.GetInt("TextureCycleIndex", 0);
+                Debug.Log($"LoadProgress: setting textureCycleIndex = {textureIndex}");
                 MaterialsManager.Instance.SetTextureCycleIndex(textureIndex);
             }
 
-            // ✅ Load shape AFTER materials and textures are fully applied
             int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
+
+            // **Call LoadShapeFromSave only after MaterialsManager indices are set!**
             ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
 
             Debug.Log("✅ Game Loaded");
@@ -86,10 +82,10 @@ public class SaveSystem : MonoBehaviour
             {
                 MaterialsManager.Instance.AutoSelectHighestUnlockedMaterial();
             }
-
             ShapeManager.Instance.LoadShapeFromSave(0);
         }
     }
+
 
 
 

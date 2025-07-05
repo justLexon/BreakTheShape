@@ -22,19 +22,30 @@ public class MaterialsManager : MonoBehaviour
     private int textureCycleIndex = 0;
 
 
+    public bool IsInitialized { get; private set; } = false;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning("Duplicate MaterialsManager destroyed");
             Destroy(gameObject);
             return;
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Debug.Log("MaterialsManager Awake - instance set");
 
         LoadAllMaterialLevels();
+
         InitializeBaseCostsAndPowers();
+
+        currentMaterialIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
+
+        IsInitialized = true;  // signal ready
     }
+
+
 
     // Set baseCosts and upgradePower by switch-case based on materialName
     void InitializeBaseCostsAndPowers()
@@ -114,15 +125,17 @@ public class MaterialsManager : MonoBehaviour
 
     public Sprite GetDisplayMaterialSprite()
     {
-        var mat = materials[currentMaterialIndex];
+        var mat = materials[GetCurrentMaterialIndex()];
 
         if (mat.levelSprites != null && mat.levelSprites.Length > 0)
         {
             textureCycleIndex %= mat.levelSprites.Length;
             Sprite result = mat.levelSprites[textureCycleIndex];
+            Debug.Log($"GetDisplayMaterialSprite() returning sprite '{result.name}' from material '{mat.materialName}' at index {textureCycleIndex}");
             return result;
         }
 
+        Debug.LogWarning($"GetDisplayMaterialSprite() - No sprites found for material '{mat.materialName}'");
         return null;
     }
 
@@ -134,8 +147,9 @@ public class MaterialsManager : MonoBehaviour
     public void SetCurrentMaterial(int index)
     {
         currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length - 1);
-        Debug.Log("✅ SetCurrentMaterial to: " + materials[currentMaterialIndex].materialName);
+        Debug.Log($"✅ SetCurrentMaterial to: {materials[currentMaterialIndex].materialName} (index {currentMaterialIndex})");
     }
+
 
     public void AutoSelectHighestUnlockedMaterial()
     {

@@ -59,7 +59,6 @@ public class ShapeManager : MonoBehaviour
     {
         Debug.Log("🔁 ShapeManager Start — Loading Save");
         SaveSystem.Instance.LoadProgress();
-        ShapeManager.Instance.LoadShapeFromSave(currentShapeIndex); // Then applies texture
     }
 
     private void Update()
