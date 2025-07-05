@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 
-public class UpgradeButton : MonoBehaviour
+public class DPTUpgradeButton : MonoBehaviour
 {
     public TMP_Text CostText;
     public TMP_Text LevelCountText;

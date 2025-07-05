@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class upgradesOverlay : MonoBehaviour
 {
     [Header("Overlay Pages")]
     public GameObject upgrades;
