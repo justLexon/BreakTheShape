@@ -18,16 +18,19 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveProgress()
     {
-        PlayerPrefs.SetInt("TapDamage", ShapeManager.Instance.tapDamage);
         PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R"));
+        PlayerPrefs.SetString("CoinsPerBreak", ShapeManager.Instance.coinsPerBreak.ToString("R"));
         PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R"));
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
-        PlayerPrefs.SetInt("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth);
+
+        PlayerPrefs.SetString("TapDamage", ShapeManager.Instance.tapDamage.ToString("R"));         // ✅ save double
+        PlayerPrefs.SetString("IdleDamage", ShapeManager.Instance.idleDamagePerSecond.ToString("R"));         // ✅ save double
+        PlayerPrefs.SetString("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth.ToString("R")); 
 
         if (MaterialsManager.Instance != null)
         {
             PlayerPrefs.SetInt("CurrentMaterialIndex", MaterialsManager.Instance.GetCurrentMaterialIndex());
-            PlayerPrefs.SetInt("TextureCycleIndex", MaterialsManager.Instance.GetTextureCycleIndex()); // ✅ save texture index
+            PlayerPrefs.SetInt("TextureCycleIndex", MaterialsManager.Instance.GetTextureCycleIndex());
 
             foreach (var mat in MaterialsManager.Instance.materials)
             {
@@ -44,15 +47,24 @@ public class SaveSystem : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Coins"))
         {
-            ShapeManager.Instance.tapDamage = PlayerPrefs.GetInt("TapDamage", 1);
+            // Load doubles safely
+            string savedTapDamage = PlayerPrefs.GetString("TapDamage", "1");
+            ShapeManager.Instance.tapDamage = double.TryParse(savedTapDamage, out double td) ? td : 1;
+
+            string savedBaseMaxHealth = PlayerPrefs.GetString("BaseMaxHealth", "10");
+            ShapeManager.Instance.baseMaxHealth = double.TryParse(savedBaseMaxHealth, out double bmh) ? bmh : 10;
 
             string savedCoinString = PlayerPrefs.GetString("Coins");
             ShapeManager.Instance.coinCount = double.TryParse(savedCoinString, out double coins) ? coins : 0;
 
+            string savedCoinsPerBreakString = PlayerPrefs.GetString("CoinsPerBreak");
+            ShapeManager.Instance.coinsPerBreak = double.TryParse(savedCoinsPerBreakString, out double coinsBreak) ? coinsBreak : 1;
+
             string savedShapesString = PlayerPrefs.GetString("ShapesBroken");
             ShapeManager.Instance.shapesBrokenCounter = double.TryParse(savedShapesString, out double broken) ? broken : 0;
 
-            ShapeManager.Instance.baseMaxHealth = PlayerPrefs.GetInt("BaseMaxHealth", 10);
+            string savedIdleDamageString = PlayerPrefs.GetString("IdleDamage");
+            ShapeManager.Instance.idleDamagePerSecond = double.TryParse(savedIdleDamageString, out double idDam) ? idDam : 1;
 
             if (MaterialsManager.Instance != null)
             {
@@ -72,8 +84,6 @@ public class SaveSystem : MonoBehaviour
             }
 
             int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
-
-            // **Call LoadShapeFromSave only after MaterialsManager indices are set!**
             ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
 
             Debug.Log("✅ Game Loaded");
@@ -88,10 +98,6 @@ public class SaveSystem : MonoBehaviour
             ShapeManager.Instance.LoadShapeFromSave(0);
         }
     }
-
-
-
-
 
     public void ResetSave()
     {

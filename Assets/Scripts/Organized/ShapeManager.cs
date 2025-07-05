@@ -12,12 +12,12 @@ public class ShapeManager : MonoBehaviour
     public static ShapeManager Instance { get; private set; }
 
     [Header("Universal Stats")]
-    public int baseMaxHealth = 10;
-    private int currentMaxHealth;
-    public float currentHealth;
-    public int tapDamage = 1;
-    public float idleDamagePerSecond = 0.5f;
-    public int coinsPerBreak = 5;
+    public double baseMaxHealth = 10;
+    private double currentMaxHealth;
+    public double currentHealth;
+    public double tapDamage = 1;
+    public double idleDamagePerSecond = 0.5f;
+    public double coinsPerBreak = 5;
     public double shapesBrokenCounter = 0;
 
     [Header("Shape Setup")]
@@ -80,19 +80,19 @@ public class ShapeManager : MonoBehaviour
         SaveSystem.Instance.SaveProgress();
     }
 
-    private void ApplyDamage(float damageAmount)
+    private void ApplyDamage(double damageAmount)
     {
         if (currentHealth <= 0) return;
 
-        int damageInt = Mathf.RoundToInt(damageAmount);
+        double damageDouble = damageAmount;
 
-        if (currentHealth - damageInt <= 0)
+        if (currentHealth - damageDouble <= 0)
         {
-            currentHealth = currentHealth > 1 ? 0.1f : 0f;
+            currentHealth = currentHealth > 1 ? 1f : 0f;
         }
         else
         {
-            currentHealth -= damageInt;
+            currentHealth -= damageDouble;
         }
 
         UpdateCrackVisual();
@@ -176,9 +176,9 @@ public class ShapeManager : MonoBehaviour
 
     private void UpdateCrackVisual()
     {
-        float healthRatio = currentHealth / Mathf.Max(1f, currentMaxHealth);
-        float inverse = 1f - healthRatio;
-        float eased = Mathf.Pow(inverse, 0.6f);
+        double healthRatio = currentHealth / System.Math.Max(1.0, currentMaxHealth);
+        double inverse = 1.0 - healthRatio;
+        float eased = Mathf.Pow((float)inverse, 0.6f);
         float crackAmount = Mathf.Lerp(0.7f, 0f, eased);
 
         if (currentMaterialInstance != null)
@@ -186,6 +186,7 @@ public class ShapeManager : MonoBehaviour
             currentMaterialInstance.SetFloat("_CrackAmount", crackAmount);
         }
     }
+
 
     public double GetCoinCount()
     {

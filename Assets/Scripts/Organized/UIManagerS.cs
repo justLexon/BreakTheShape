@@ -17,7 +17,7 @@ public class UIManagerS : MonoBehaviour
 
     public void UpdateCoinText(double coins)
     {
-        coinText.text = FormatNumberWithSuffix(coins);
+        coinText.text = FormatNumberWithSuffix(coins) + "+";
     }
 
     public void UpdateShapesBrokenText(double shapesBroken)
