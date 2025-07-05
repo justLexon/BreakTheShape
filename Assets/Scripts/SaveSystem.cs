@@ -22,6 +22,7 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R"));
         PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R"));
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
+        PlayerPrefs.SetInt("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth);
 
         if (MaterialsManager.Instance != null)
         {
@@ -50,6 +51,8 @@ public class SaveSystem : MonoBehaviour
 
             string savedShapesString = PlayerPrefs.GetString("ShapesBroken");
             ShapeManager.Instance.shapesBrokenCounter = double.TryParse(savedShapesString, out double broken) ? broken : 0;
+
+            ShapeManager.Instance.baseMaxHealth = PlayerPrefs.GetInt("BaseMaxHealth", 10);
 
             if (MaterialsManager.Instance != null)
             {
