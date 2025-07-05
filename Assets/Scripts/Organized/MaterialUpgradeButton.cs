@@ -42,7 +42,9 @@ public class MaterialUpgradeButton : MonoBehaviour
 
             // Apply upgrade power to gameplay stat, e.g. tapDamage
             int health = MaterialsManager.Instance.GetUpgradePower(materialKey);
+            int coinUpgrade = MaterialsManager.Instance.GetCoinUpgrade(materialKey);
             ShapeManager.Instance.baseMaxHealth += health;
+            ShapeManager.Instance.coinsPerBreak += coinUpgrade;
 
             UpdateUI();
 

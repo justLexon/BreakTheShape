@@ -9,6 +9,7 @@ public class MaterialData
     public int currentLevel = 0;       // current upgrade level
     public double baseCost = 50;       // base cost for upgrades
     public int upgradePower = 1;       // power increment per level
+    public int coinUpgrade = 1;
 }
 
 public class MaterialsManager : MonoBehaviour
@@ -45,30 +46,37 @@ public class MaterialsManager : MonoBehaviour
                 case "Dirt":
                     mat.baseCost = 50;
                     mat.upgradePower = 1;
+                    mat.coinUpgrade = 1;
                     break;
                 case "Wood":
                     mat.baseCost = 250;
                     mat.upgradePower = 5;
+                    mat.coinUpgrade = 50;
                     break;
                 case "Stone":
                     mat.baseCost = 500;
                     mat.upgradePower = 15;
+                    mat.coinUpgrade = 100;
                     break;
                 case "Iron":
                     mat.baseCost = 1000;
                     mat.upgradePower = 50;
+                    mat.coinUpgrade = 300;
                     break;
                 case "Gold":
                     mat.baseCost = 5000;
                     mat.upgradePower = 150;
+                    mat.coinUpgrade = 1000;
                     break;
                 case "Diamond":
                     mat.baseCost = 50000;
                     mat.upgradePower = 250;
+                    mat.coinUpgrade = 5000;
                     break;
                 default:
                     mat.baseCost = 100;
                     mat.upgradePower = 1;
+                    mat.coinUpgrade = 1;
                     break;
             }
         }
@@ -163,6 +171,12 @@ public class MaterialsManager : MonoBehaviour
     {
         var mat = GetMaterial(key);
         return mat != null ? mat.upgradePower : 0;
+    }
+
+    public int GetCoinUpgrade(string key)
+    {
+        var mat = GetMaterial(key);
+        return mat != null ? mat.coinUpgrade : 0;
     }
 
     public bool CanUpgrade(string key, int maxLevel)
