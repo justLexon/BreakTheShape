@@ -134,6 +134,7 @@ public class MaterialsManager : MonoBehaviour
     public void SetCurrentMaterial(int index)
     {
         currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length - 1);
+        Debug.Log("✅ SetCurrentMaterial to: " + materials[currentMaterialIndex].materialName);
     }
 
     public void AutoSelectHighestUnlockedMaterial()
@@ -203,4 +204,5 @@ public class MaterialsManager : MonoBehaviour
             mat.currentLevel = PlayerPrefs.GetInt(mat.materialName + "_Level", 0);
         }
     }
+
 }

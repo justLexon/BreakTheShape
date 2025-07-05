@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [System.Serializable]
 public class ShapeSData
@@ -56,7 +57,9 @@ public class ShapeManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("🔁 ShapeManager Start — Loading Save");
         SaveSystem.Instance.LoadProgress();
+        ShapeManager.Instance.LoadShapeFromSave(currentShapeIndex); // Then applies texture
     }
 
     private void Update()

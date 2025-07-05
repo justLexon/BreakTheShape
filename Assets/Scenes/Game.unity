@@ -67259,6 +67259,7 @@ GameObject:
   - component: {fileID: 1658326834}
   - component: {fileID: 1658326835}
   - component: {fileID: 1658326836}
+  - component: {fileID: 1658326837}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -67364,6 +67365,18 @@ MonoBehaviour:
   materialsManager: {fileID: 1922212194}
   uiManager: {fileID: 676886771}
   coinCount: 0
+--- !u!114 &1658326837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658326832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43266f0dff5965543a7d188aae20f339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1659403467
 GameObject:
   m_ObjectHideFlags: 0
@@ -78240,6 +78253,7 @@ MonoBehaviour:
     currentLevel: 0
     baseCost: 0
     upgradePower: 0
+    coinUpgrade: 1
   - materialName: Wood
     levelSprites:
     - {fileID: -714654973, guid: 983dd88bb58afc749b87eb4702b39a36, type: 3}
@@ -78250,6 +78264,7 @@ MonoBehaviour:
     currentLevel: 0
     baseCost: 0
     upgradePower: 0
+    coinUpgrade: 1
   - materialName: Stone
     levelSprites:
     - {fileID: 1818035035, guid: a7bcca465ea7c5d4385b65bea7e784e4, type: 3}
@@ -78260,6 +78275,7 @@ MonoBehaviour:
     currentLevel: 0
     baseCost: 0
     upgradePower: 0
+    coinUpgrade: 1
 --- !u!4 &1922212195
 Transform:
   m_ObjectHideFlags: 0
