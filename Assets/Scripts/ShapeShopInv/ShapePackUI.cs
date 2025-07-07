@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class ShapePackUI : MonoBehaviour
 {
-    public Transform container; // Content of ScrollRect
-    public GameObject iconPrefab; // ShapeIconUI prefab
+    public Transform iconParent;
+    public GameObject shapeIconPrefab;
+    private InventoryManager inventoryManager;
 
-    public void PopulatePack(ShapePack pack)
+    public void Setup(ShapePack pack, InventoryManager manager)
     {
-        foreach (var shape in pack.shapes)
+        inventoryManager = manager;
+
+        foreach (ShapeItem item in pack.shapes)
         {
-            var iconGO = Instantiate(iconPrefab, container);
-            var icon = iconGO.GetComponent<ShapeIconUI>();
-            icon.Setup(shape.shapeID, shape.shapeSprite);
+            GameObject iconObj = Instantiate(shapeIconPrefab, iconParent);
+            ShapeIconUI iconUI = iconObj.GetComponent<ShapeIconUI>();
+            iconUI.Setup(item, inventoryManager);
         }
     }
 }

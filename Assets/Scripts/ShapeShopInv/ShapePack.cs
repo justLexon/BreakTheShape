@@ -1,10 +1,8 @@
-//Group of shapes.
+using UnityEngine;
 
-using System.Collections.Generic;
-
-[System.Serializable]
-public class ShapePack
+[CreateAssetMenu(menuName = "Inventory/Shape Pack")]
+public class ShapePack : ScriptableObject
 {
     public string packName;
-    public List<ShapeItem> shapes;
+    public ShapeItem[] shapes;
 }

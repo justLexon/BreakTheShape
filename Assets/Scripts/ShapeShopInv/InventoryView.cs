@@ -2,16 +2,23 @@ using UnityEngine;
 
 public class InventoryView : MonoBehaviour
 {
-    public Transform packRowContainer;
+    public ShapePack[] shapePacks;
     public GameObject packRowPrefab;
+    public Transform packContainer;
+    public InventoryManager inventoryManager;
 
     void Start()
     {
-        foreach (var pack in InventoryManager.Instance.shapePacks)
+        foreach (ShapePack pack in shapePacks)
         {
-            var row = Instantiate(packRowPrefab, packRowContainer);
-            var packUI = row.GetComponent<ShapePackUI>();
-            packUI.PopulatePack(pack);
+            GameObject rowObj = Instantiate(packRowPrefab, packContainer);
+            ShapePackUI rowUI = rowObj.GetComponent<ShapePackUI>();
+            rowUI.Setup(pack, inventoryManager);
+
+            foreach (var item in pack.shapes)
+            {
+                inventoryManager.allShapes.Add(item);
+            }
         }
     }
 }

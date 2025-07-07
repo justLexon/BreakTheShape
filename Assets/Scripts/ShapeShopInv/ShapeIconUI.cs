@@ -1,30 +1,40 @@
-//Show selection for current active shapes.
-
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShapeIconUI : MonoBehaviour
 {
     public Image iconImage;
-    public GameObject activeOutline;
-    private string shapeID;
+    public GameObject lockOverlay;
+    private ShapeItem shapeItem;
+    private InventoryManager inventoryManager;
 
-    public void Setup(string id, Sprite sprite)
+    public void Setup(ShapeItem item, InventoryManager manager)
     {
-        shapeID = id;
-        iconImage.sprite = sprite;
+        shapeItem = item;
+        inventoryManager = manager;
+        iconImage.sprite = shapeItem.icon;
         UpdateVisual();
     }
 
-    public void OnToggleClicked()
+    public void OnClick()
     {
-        bool nowActive = InventoryManager.Instance.ToggleShape(shapeID);
+        if (!shapeItem.isUnlocked) return;
+
+        if (shapeItem.isEnabled)
+        {
+            inventoryManager.DisableShape(shapeItem);
+        }
+        else
+        {
+            inventoryManager.EnableShape(shapeItem);
+        }
+
         UpdateVisual();
     }
 
-    private void UpdateVisual()
+    public void UpdateVisual()
     {
-        bool active = InventoryManager.Instance.IsShapeActive(shapeID);
-        activeOutline.SetActive(active);
+        lockOverlay.SetActive(!shapeItem.isUnlocked);
+        iconImage.color = shapeItem.isEnabled ? Color.green : Color.white;
     }
 }
