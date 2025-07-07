@@ -1,18 +1,10 @@
-using System.Collections;
+//Group of shapes.
+
 using System.Collections.Generic;
-using UnityEngine;
 
-public class ShapePack : MonoBehaviour
+[System.Serializable]
+public class ShapePack
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string packName;
+    public List<ShapeItem> shapes;
 }
