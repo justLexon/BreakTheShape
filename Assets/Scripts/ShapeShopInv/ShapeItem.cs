@@ -1,10 +1,11 @@
 using UnityEngine;
 
-[System.Serializable]
-public class ShapeItem
+[CreateAssetMenu(fileName = "NewShapeItem", menuName = "Shapes/Shape Item")]
+public class ShapeItem : ScriptableObject
 {
     public string id;
     public Sprite icon;
-    public bool isUnlocked = false;
-    public bool isEnabled = false;
+
+    [HideInInspector] public bool isUnlocked = false;
+    [HideInInspector] public bool isEnabled = false;
 }
