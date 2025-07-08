@@ -1,24 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryView : MonoBehaviour
 {
-    public ShapePack[] shapePacks;
-    public GameObject packRowPrefab;
-    public Transform packContainer;
-    public InventoryManager inventoryManager;
+    public Transform packContainer; // Content container under ScrollView
+    public GameObject packUIPrefab; // Prefab for a row (ShapePackUI)
 
-    void Start()
+    public void Populate(List<ShapePack> allPacks)
     {
-        foreach (ShapePack pack in shapePacks)
-        {
-            GameObject rowObj = Instantiate(packRowPrefab, packContainer);
-            ShapePackUI rowUI = rowObj.GetComponent<ShapePackUI>();
-            rowUI.Setup(pack, inventoryManager);
+        foreach (Transform child in packContainer)
+            Destroy(child.gameObject); // Clear old
 
-            foreach (var item in pack.shapes)
-            {
-                inventoryManager.allShapes.Add(item);
-            }
+        foreach (var pack in allPacks)
+        {
+            GameObject packGO = Instantiate(packUIPrefab, packContainer);
+            ShapePackUI packUI = packGO.GetComponent<ShapePackUI>();
+            packUI.Setup(pack);
         }
     }
 }
