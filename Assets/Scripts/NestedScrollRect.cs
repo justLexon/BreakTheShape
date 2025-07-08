@@ -10,22 +10,11 @@ public class NestedScrollRectHandler : MonoBehaviour, IBeginDragHandler, IDragHa
     private ScrollRect currentScrollRect;
     private bool routeToParent = false;
     private bool directionChosen = false;
-    private GameObject parentObj;
 
     void Awake()
     {
         currentScrollRect = GetComponent<ScrollRect>();
-        GameObject parentObj = GameObject.FindGameObjectWithTag("InventoryScroll");
-
-        if (parentScrollRect == null)
-        {
-            parentObj = GameObject.FindGameObjectWithTag("InventoryScroll");
-            if (parentObj != null)
-                parentScrollRect = parentObj.GetComponent<ScrollRect>();
-        }
-
     }
-
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
     {
@@ -38,7 +27,7 @@ public class NestedScrollRectHandler : MonoBehaviour, IBeginDragHandler, IDragHa
     {
         if (!directionChosen)
         {
-            routeToParent = ShouldRouteToParent(eventData);
+            routeToParent = Mathf.Abs(eventData.delta.y) > Mathf.Abs(eventData.delta.x);
             directionChosen = true;
         }
 
@@ -69,7 +58,6 @@ public class NestedScrollRectHandler : MonoBehaviour, IBeginDragHandler, IDragHa
 
     private bool ShouldRouteToParent(PointerEventData eventData)
     {
-        // Detect if the swipe is more vertical than horizontal
         return Mathf.Abs(eventData.delta.y) > Mathf.Abs(eventData.delta.x);
     }
 }
