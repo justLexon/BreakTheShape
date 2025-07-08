@@ -22,6 +22,8 @@ public class SaveManager : MonoBehaviour
 
     public bool AddShapeToOwned(string id)
     {
+        Debug.Log($"🧪 Trying to add shape: {id}");
+
         if (ownedShapeIds.Contains(id))
         {
             Debug.Log($"❌ Duplicate shape: {id}");
@@ -33,6 +35,7 @@ public class SaveManager : MonoBehaviour
         Debug.Log($"✅ New shape added: {id}");
         return true;
     }
+
 
     private void SaveOwnedShapes()
     {
@@ -53,5 +56,7 @@ public class SaveManager : MonoBehaviour
                 ownedShapeIds.Add(id);
             }
         }
+        Debug.Log($"📦 Loaded shapes: {saveString}");
+
     }
 }
