@@ -1,20 +1,25 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShapePackUI : MonoBehaviour
 {
-    public Transform iconParent;
+    public TMP_Text packNameText;
+    public Transform shapeGrid;
     public GameObject shapeIconPrefab;
-    private InventoryManager inventoryManager;
 
-    public void Setup(ShapePack pack, InventoryManager manager)
+    public void Setup(ShapePack pack)
     {
-        inventoryManager = manager;
+        packNameText.text = pack.packName;
 
-        foreach (ShapeItem item in pack.shapes)
+        foreach (Transform child in shapeGrid)
+            Destroy(child.gameObject); // Clear old
+
+        foreach (ShapeItem shape in pack.shapes)
         {
-            GameObject iconObj = Instantiate(shapeIconPrefab, iconParent);
-            ShapeIconUI iconUI = iconObj.GetComponent<ShapeIconUI>();
-            iconUI.Setup(item, inventoryManager);
+            GameObject iconGO = Instantiate(shapeIconPrefab, shapeGrid);
+            ShapeIconUI iconUI = iconGO.GetComponent<ShapeIconUI>();
+            iconUI.Setup(shape);
         }
     }
 }

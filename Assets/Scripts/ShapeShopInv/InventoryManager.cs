@@ -1,36 +1,35 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public int maxActiveShapes = 10;
-    public List<ShapeItem> allShapes = new List<ShapeItem>();
+    public static InventoryManager Instance { get; private set; }
 
-    public void EnableShape(ShapeItem item)
-    {
-        int activeCount = allShapes.FindAll(s => s.isEnabled).Count;
+    private HashSet<string> enabledShapes = new();
 
-        if (activeCount < maxActiveShapes)
-        {
-            item.isEnabled = true;
-        }
-        else
-        {
-            Debug.Log("Cannot enable more than 10 shapes.");
-        }
+    void Awake()
+    {  
+        Instance = this;
     }
 
-    public void DisableShape(ShapeItem item)
+    public void OnShapeToggled(ShapeItem shape)
     {
-        int activeCount = allShapes.FindAll(s => s.isEnabled).Count;
-
-        if (activeCount > 10)
+        if (shape.isEnabled)
         {
-            item.isEnabled = false;
+            enabledShapes.Add(shape.id);
         }
         else
         {
-            Debug.Log("You must have exactly 10 shapes enabled.");
+            enabledShapes.Remove(shape.id);
         }
+
+        if (enabledShapes.Count > 10)
+        {
+            shape.isEnabled = false;
+            enabledShapes.Remove(shape.id);
+            Debug.Log("❌ Can't enable more than 10 shapes.");
+        }
+
+        Debug.Log($"✅ Enabled Shapes: {enabledShapes.Count}");
     }
 }

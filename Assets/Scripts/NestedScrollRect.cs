@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,11 +10,22 @@ public class NestedScrollRectHandler : MonoBehaviour, IBeginDragHandler, IDragHa
     private ScrollRect currentScrollRect;
     private bool routeToParent = false;
     private bool directionChosen = false;
+    private GameObject parentObj;
 
     void Awake()
     {
         currentScrollRect = GetComponent<ScrollRect>();
+        GameObject parentObj = GameObject.FindGameObjectWithTag("InventoryScroll");
+
+        if (parentScrollRect == null)
+        {
+            parentObj = GameObject.FindGameObjectWithTag("InventoryScroll");
+            if (parentObj != null)
+                parentScrollRect = parentObj.GetComponent<ScrollRect>();
+        }
+
     }
+
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
     {

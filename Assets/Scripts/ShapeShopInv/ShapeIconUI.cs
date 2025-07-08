@@ -3,38 +3,32 @@ using UnityEngine.UI;
 
 public class ShapeIconUI : MonoBehaviour
 {
-    public Image iconImage;
-    public GameObject lockOverlay;
-    private ShapeItem shapeItem;
-    private InventoryManager inventoryManager;
+    public Image shapeImage;
+    public GameObject grayOverlay;
+    public GameObject greenEnabledOverlay;
 
-    public void Setup(ShapeItem item, InventoryManager manager)
+    private ShapeItem shapeData;
+
+    public void Setup(ShapeItem shape)
     {
-        shapeItem = item;
-        inventoryManager = manager;
-        iconImage.sprite = shapeItem.icon;
-        UpdateVisual();
+        shapeData = shape;
+        shapeImage.sprite = shape.icon;
+
+        // Gray out if locked
+        grayOverlay.SetActive(!SaveManager.Instance.IsShapeOwned(shape.id));
+
+        // Show green overlay if enabled
+        greenEnabledOverlay.SetActive(shape.isEnabled);
     }
 
-    public void OnClick()
+    public void ToggleEnable()
     {
-        if (!shapeItem.isUnlocked) return;
+        if (!SaveManager.Instance.IsShapeOwned(shapeData.id)) return;
 
-        if (shapeItem.isEnabled)
-        {
-            inventoryManager.DisableShape(shapeItem);
-        }
-        else
-        {
-            inventoryManager.EnableShape(shapeItem);
-        }
+        shapeData.isEnabled = !shapeData.isEnabled;
+        greenEnabledOverlay.SetActive(shapeData.isEnabled);
 
-        UpdateVisual();
-    }
-
-    public void UpdateVisual()
-    {
-        lockOverlay.SetActive(!shapeItem.isUnlocked);
-        iconImage.color = shapeItem.isEnabled ? Color.green : Color.white;
+        // Notify InventoryManager to enforce limit
+        InventoryManager.Instance.OnShapeToggled(shapeData);
     }
 }
