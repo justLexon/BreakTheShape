@@ -3,33 +3,67 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager Instance { get; private set; }
+    public static InventoryManager Instance;
 
-    private HashSet<string> enabledShapes = new();
+    private HashSet<string> enabledShapes = new HashSet<string>();
 
     void Awake()
-    {  
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void OnShapeToggled(ShapeItem shape)
+    public bool IsShapeEnabled(string id)
     {
-        if (shape.isEnabled)
+        return enabledShapes.Contains(id);
+    }
+
+    public void SetShapeEnabled(string id, bool enable)
+    {
+        if (enable)
         {
-            enabledShapes.Add(shape.id);
+            if (enabledShapes.Count >= 10)
+            {
+                Debug.Log("❌ You can only enable up to 10 shapes!");
+                return;
+            }
+            enabledShapes.Add(id);
         }
         else
         {
-            enabledShapes.Remove(shape.id);
+            enabledShapes.Remove(id);
         }
+    }
 
-        if (enabledShapes.Count > 10)
+    public void ToggleShape(string id)
+    {
+        if (enabledShapes.Contains(id))
         {
-            shape.isEnabled = false;
-            enabledShapes.Remove(shape.id);
-            Debug.Log("❌ Can't enable more than 10 shapes.");
+            enabledShapes.Remove(id);
         }
+        else
+        {
+            if (enabledShapes.Count >= 10)
+            {
+                Debug.Log("❌ Max 10 shapes can be enabled.");
+                return;
+            }
+            enabledShapes.Add(id);
+        }
+    }
 
-        Debug.Log($"✅ Enabled Shapes: {enabledShapes.Count}");
+    public HashSet<string> GetEnabledShapes()
+    {
+        return enabledShapes;
+    }
+
+    public void ResetEnabledShapes()
+    {
+        enabledShapes.Clear();
     }
 }

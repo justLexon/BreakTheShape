@@ -5,8 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ScrollRect))]
 public class NestedScrollRectHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IInitializePotentialDragHandler
 {
-    [SerializeField] private ScrollRect parentScrollRect;
-
+    private ScrollRect parentScrollRect;
     private ScrollRect currentScrollRect;
     private bool routeToParent = false;
     private bool directionChosen = false;
@@ -14,6 +13,21 @@ public class NestedScrollRectHandler : MonoBehaviour, IBeginDragHandler, IDragHa
     void Awake()
     {
         currentScrollRect = GetComponent<ScrollRect>();
+
+        if (parentScrollRect == null)
+        {
+            parentScrollRect = GetComponentInParent<ScrollRect>();
+            if (parentScrollRect == currentScrollRect)
+            {
+                parentScrollRect = transform.parent?.GetComponentInParent<ScrollRect>();
+            }
+        }
+    }
+
+
+    public void SetParentScrollRect(ScrollRect parent)
+    {
+        parentScrollRect = parent;
     }
 
     public void OnInitializePotentialDrag(PointerEventData eventData)

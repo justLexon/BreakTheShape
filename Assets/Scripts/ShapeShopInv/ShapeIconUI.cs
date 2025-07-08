@@ -1,34 +1,55 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ShapeIconUI : MonoBehaviour
 {
     public Image shapeImage;
-    public GameObject grayOverlay;
-    public GameObject greenEnabledOverlay;
+    public GameObject lockOverlay;      // Gray overlay if not owned
+    public GameObject enabledOverlay;   // Green overlay if enabled
 
-    private ShapeItem shapeData;
+    private string shapeId;
+    private bool isOwned;
+    private bool isEnabled;
 
-    public void Setup(ShapeItem shape)
+    public void Setup(string id, Sprite sprite, bool owned, bool enabled)
     {
-        shapeData = shape;
-        shapeImage.sprite = shape.icon;
+        shapeId = id;
+        isOwned = owned;
+        isEnabled = enabled;
 
-        // Gray out if locked
-        grayOverlay.SetActive(!SaveManager.Instance.IsShapeOwned(shape.id));
-
-        // Show green overlay if enabled
-        greenEnabledOverlay.SetActive(shape.isEnabled);
+        shapeImage.sprite = sprite;
+        UpdateVisuals();
     }
 
-    public void ToggleEnable()
+    public void OnClick()
     {
-        if (!SaveManager.Instance.IsShapeOwned(shapeData.id)) return;
+        if (!isOwned)
+        {
+            Debug.Log("⛔ Shape not owned!");
+            return;
+        }
 
-        shapeData.isEnabled = !shapeData.isEnabled;
-        greenEnabledOverlay.SetActive(shapeData.isEnabled);
+        // Attempt to toggle
+        if (!isEnabled && InventoryManager.Instance.GetEnabledShapes().Count >= 10)
+        {
+            Debug.Log("❌ Max 10 shapes can be enabled.");
+            return;
+        }
 
-        // Notify InventoryManager to enforce limit
-        InventoryManager.Instance.OnShapeToggled(shapeData);
+        isEnabled = !isEnabled;
+        InventoryManager.Instance.SetShapeEnabled(shapeId, isEnabled);
+        UpdateVisuals();
+    }
+
+    public void UpdateVisual(bool enabled)
+    {
+        isEnabled = enabled;
+        UpdateVisuals();
+    }
+
+    private void UpdateVisuals()
+    {
+        lockOverlay.SetActive(!isOwned);
+        enabledOverlay.SetActive(isOwned && isEnabled);
     }
 }
