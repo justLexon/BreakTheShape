@@ -17,13 +17,27 @@ public class ShapePopupUI : MonoBehaviour
     {
         Debug.Log("📦 Showing shape popup: " + shapeName);
         popupPanel.SetActive(true);
+        shapeImage.gameObject.SetActive(true); // 👈 make sure it's visible
         shapeImage.sprite = icon;
         shapeText.text = shapeName;
     }
-
+    public void ShowDuplicateRefund(float refundAmount)
+    {
+        popupPanel.SetActive(true);
+        shapeImage.gameObject.SetActive(false);
+        shapeText.text = $"Duplicate! Refunded {refundAmount} coins (¼ of price)";
+    }
 
     public void Hide()
     {
         popupPanel.SetActive(false);
+        shapeImage.gameObject.SetActive(true); // 👈 resets for next use
     }
+    public void ShowMessage(string message)
+    {
+        popupPanel.SetActive(true);
+        shapeImage.gameObject.SetActive(false);  // Hide image
+        shapeText.text = message;
+    }
+
 }

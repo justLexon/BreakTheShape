@@ -18,15 +18,16 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveProgress()
     {
+        // --- Game Stats ---
         PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R"));
         PlayerPrefs.SetString("CoinsPerBreak", ShapeManager.Instance.coinsPerBreak.ToString("R"));
         PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R"));
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
+        PlayerPrefs.SetString("TapDamage", ShapeManager.Instance.tapDamage.ToString("R"));
+        PlayerPrefs.SetString("IdleDamage", ShapeManager.Instance.idleDamagePerSecond.ToString("R"));
+        PlayerPrefs.SetString("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth.ToString("R"));
 
-        PlayerPrefs.SetString("TapDamage", ShapeManager.Instance.tapDamage.ToString("R"));         // ✅ save double
-        PlayerPrefs.SetString("IdleDamage", ShapeManager.Instance.idleDamagePerSecond.ToString("R"));         // ✅ save double
-        PlayerPrefs.SetString("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth.ToString("R")); 
-
+        // --- Materials ---
         if (MaterialsManager.Instance != null)
         {
             PlayerPrefs.SetInt("CurrentMaterialIndex", MaterialsManager.Instance.GetCurrentMaterialIndex());
@@ -39,6 +40,18 @@ public class SaveSystem : MonoBehaviour
             }
         }
 
+        // --- Owned Shapes ---
+        SaveManager.Instance.SaveOwnedShapes();
+
+        // --- Shape Pack Costs ---
+        if (ShopManager.Instance != null)
+        {
+            foreach (var pack in ShopManager.Instance.allShapePacks)
+            {
+                PlayerPrefs.SetString($"PackCost_{pack.packId}", pack.cost.ToString("R"));
+            }
+        }
+
         PlayerPrefs.Save();
         Debug.Log("✅ Game Saved");
     }
@@ -47,25 +60,15 @@ public class SaveSystem : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Coins"))
         {
-            // Load doubles safely
-            string savedTapDamage = PlayerPrefs.GetString("TapDamage", "1");
-            ShapeManager.Instance.tapDamage = double.TryParse(savedTapDamage, out double td) ? td : 1;
+            // --- Game Stats ---
+            ShapeManager.Instance.tapDamage = double.TryParse(PlayerPrefs.GetString("TapDamage", "1"), out double td) ? td : 1;
+            ShapeManager.Instance.baseMaxHealth = double.TryParse(PlayerPrefs.GetString("BaseMaxHealth", "10"), out double bmh) ? bmh : 10;
+            ShapeManager.Instance.coinCount = double.TryParse(PlayerPrefs.GetString("Coins"), out double coins) ? coins : 0;
+            ShapeManager.Instance.coinsPerBreak = double.TryParse(PlayerPrefs.GetString("CoinsPerBreak"), out double coinsBreak) ? coinsBreak : 1;
+            ShapeManager.Instance.shapesBrokenCounter = double.TryParse(PlayerPrefs.GetString("ShapesBroken"), out double broken) ? broken : 0;
+            ShapeManager.Instance.idleDamagePerSecond = double.TryParse(PlayerPrefs.GetString("IdleDamage"), out double idDam) ? idDam : 1;
 
-            string savedBaseMaxHealth = PlayerPrefs.GetString("BaseMaxHealth", "10");
-            ShapeManager.Instance.baseMaxHealth = double.TryParse(savedBaseMaxHealth, out double bmh) ? bmh : 10;
-
-            string savedCoinString = PlayerPrefs.GetString("Coins");
-            ShapeManager.Instance.coinCount = double.TryParse(savedCoinString, out double coins) ? coins : 0;
-
-            string savedCoinsPerBreakString = PlayerPrefs.GetString("CoinsPerBreak");
-            ShapeManager.Instance.coinsPerBreak = double.TryParse(savedCoinsPerBreakString, out double coinsBreak) ? coinsBreak : 1;
-
-            string savedShapesString = PlayerPrefs.GetString("ShapesBroken");
-            ShapeManager.Instance.shapesBrokenCounter = double.TryParse(savedShapesString, out double broken) ? broken : 0;
-
-            string savedIdleDamageString = PlayerPrefs.GetString("IdleDamage");
-            ShapeManager.Instance.idleDamagePerSecond = double.TryParse(savedIdleDamageString, out double idDam) ? idDam : 1;
-
+            // --- Materials ---
             if (MaterialsManager.Instance != null)
             {
                 foreach (var mat in MaterialsManager.Instance.materials)
@@ -75,26 +78,40 @@ public class SaveSystem : MonoBehaviour
                 }
 
                 int savedIndex = PlayerPrefs.GetInt("CurrentMaterialIndex", 0);
-                Debug.Log($"LoadProgress: setting currentMaterialIndex = {savedIndex}");
                 MaterialsManager.Instance.SetCurrentMaterial(savedIndex);
 
                 int textureIndex = PlayerPrefs.GetInt("TextureCycleIndex", 0);
-                Debug.Log($"LoadProgress: setting textureCycleIndex = {textureIndex}");
                 MaterialsManager.Instance.SetTextureCycleIndex(textureIndex);
             }
 
+            // --- Owned Shapes ---
+            SaveManager.Instance.LoadOwnedShapes();
+
+            // --- Shape Pack Costs ---
+            if (ShopManager.Instance != null)
+            {
+                foreach (var pack in ShopManager.Instance.allShapePacks)
+                {
+                    string key = $"PackCost_{pack.packId}";
+                    if (PlayerPrefs.HasKey(key))
+                    {
+                        string saved = PlayerPrefs.GetString(key);
+                        pack.cost = double.TryParse(saved, out double result) ? result : pack.cost;
+                    }
+                }
+            }
+
+            // --- Current Shape ---
             int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
             ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
+            SaveManager.Instance.DebugOwnedShapes();
 
             Debug.Log("✅ Game Loaded");
         }
         else
         {
             Debug.Log("📦 No saved data found, loading default.");
-            if (MaterialsManager.Instance != null)
-            {
-                MaterialsManager.Instance.AutoSelectHighestUnlockedMaterial();
-            }
+            MaterialsManager.Instance?.AutoSelectHighestUnlockedMaterial();
             ShapeManager.Instance.LoadShapeFromSave(0);
         }
     }
@@ -102,6 +119,16 @@ public class SaveSystem : MonoBehaviour
     public void ResetSave()
     {
         PlayerPrefs.DeleteAll();
+
+        // 🛠️ Reset shape pack costs to default manually
+        if (ShopManager.Instance != null)
+        {
+            foreach (var pack in ShopManager.Instance.allShapePacks)
+            {
+                pack.cost = 100; // Or any default starting value
+            }
+        }
+
         Debug.Log("🔄 Save data reset.");
     }
 }

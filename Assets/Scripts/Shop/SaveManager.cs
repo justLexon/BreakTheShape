@@ -17,7 +17,7 @@ public class SaveManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        LoadOwnedShapes();
+        //LoadOwnedShapes();
     }
 
     public bool AddShapeToOwned(string id)
@@ -33,18 +33,19 @@ public class SaveManager : MonoBehaviour
         ownedShapeIds.Add(id);
         SaveOwnedShapes();
         Debug.Log($"✅ New shape added: {id}");
+        DebugOwnedShapes();
         return true;
     }
 
 
-    private void SaveOwnedShapes()
+    public void SaveOwnedShapes()
     {
         string saveString = string.Join(",", ownedShapeIds);
         PlayerPrefs.SetString("OwnedShapes", saveString);
         PlayerPrefs.Save();
     }
 
-    private void LoadOwnedShapes()
+    public void LoadOwnedShapes()
     {
         ownedShapeIds.Clear();
         string saveString = PlayerPrefs.GetString("OwnedShapes", "");
@@ -59,4 +60,26 @@ public class SaveManager : MonoBehaviour
         Debug.Log($"📦 Loaded shapes: {saveString}");
 
     }
+
+    public void DebugOwnedShapes()
+    {
+        if (ownedShapeIds.Count == 0)
+        {
+            Debug.Log("📭 You don't own any shapes yet.");
+            return;
+        }
+
+        Debug.Log("🧾 Owned Shapes:");
+        foreach (string id in ownedShapeIds)
+        {
+            Debug.Log($"🔹 {id}");
+        }
+    }
+
+    public bool IsShapeOwned(string id)
+    {
+        return ownedShapeIds.Contains(id);
+    }
+
+
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 public class ShapePack : ScriptableObject
 {
     public string packName;
+    public string packId;
+    public double cost;
     public ShapeItem[] shapes;
 
     public ShapeItem GetRandomShape()
