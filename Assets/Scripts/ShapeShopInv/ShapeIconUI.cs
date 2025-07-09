@@ -23,8 +23,6 @@ public class ShapeIconUI : MonoBehaviour
 
     public void OnClick()
     {
-        
-
         if (!isOwned)
             return;
 
@@ -33,16 +31,19 @@ public class ShapeIconUI : MonoBehaviour
         if (currentlyEnabled)
         {
             InventoryManager.Instance.SetShapeEnabled(shapeId, false);
-            ShapeManager.Instance.RefreshEnabledShapes(); // ✅ Refresh when disabled
+            ShapeManager.Instance.RefreshEnabledShapes();
         }
         else if (InventoryManager.Instance.GetEnabledShapes().Count < 10)
         {
             InventoryManager.Instance.SetShapeEnabled(shapeId, true);
-            ShapeManager.Instance.RefreshEnabledShapes(); // ✅ Refresh when enabled
+            ShapeManager.Instance.RefreshEnabledShapes();
         }
 
+        // Update local isEnabled flag from InventoryManager after toggling
+        isEnabled = InventoryManager.Instance.IsShapeEnabled(shapeId);
         UpdateVisuals();
     }
+
 
 
 
