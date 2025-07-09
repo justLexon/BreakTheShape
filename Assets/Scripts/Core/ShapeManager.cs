@@ -61,11 +61,17 @@ public class ShapeManager : MonoBehaviour
         Debug.Log("🔁 ShapeManager Start — Loading Save");
         SaveSystem.Instance.LoadProgress();
 
-        // Initialize default shapes if not done yet
-        InitializeDefaultShapes();
+        // Find polygon pack (by ID or name)
+        ShapePack polygonPack = ShopManager.Instance.allShapePacks.Find(p => p.packId == "polygonPack"); // Replace with actual packId
 
-        RefreshEnabledShapes();
+        if (polygonPack != null)
+        {
+            InventoryManager.Instance.OwnAndEnableAllShapesInPack(polygonPack);
+        }
+
+        RefreshEnabledShapes(); // Populate shapes[] with enabled shapes including polygon pack
     }
+
 
     private void InitializeDefaultShapes()
     {

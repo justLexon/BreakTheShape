@@ -79,4 +79,37 @@ public class InventoryManager : MonoBehaviour
     {
         enabledShapes.Clear();
     }
+
+    public void EnableAllShapesInPack(ShapePack pack)
+    {
+        foreach (var shape in pack.shapes)
+        {
+            if (!enabledShapes.Contains(shape.id))
+            {
+                if (enabledShapes.Count < 10) // Respect max enabled shapes limit
+                    enabledShapes.Add(shape.id);
+                else
+                    break; // Stop if max reached
+            }
+        }
+    }
+
+    public void OwnAndEnableAllShapesInPack(ShapePack pack)
+    {
+        foreach (var shape in pack.shapes)
+        {
+            if (!SaveManager.Instance.IsShapeOwned(shape.id))
+            {
+                SaveManager.Instance.AddShapeToOwned(shape.id);
+            }
+            if (!enabledShapes.Contains(shape.id))
+            {
+                if (enabledShapes.Count < 10)
+                    enabledShapes.Add(shape.id);
+                else
+                    break;
+            }
+        }
+    }
+
 }
