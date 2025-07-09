@@ -15,7 +15,7 @@ MonoBehaviour:
   packName: DogPack
   packId: DogPack
   packSprite: {fileID: 21300000, guid: e0661158f9b65a145a1ea5bfeba3396e, type: 3}
-  cost: 250
+  cost: 201
   shapes:
   - {fileID: 11400000, guid: 35d043f4fce47e740b83b3e08167e7b2, type: 2}
   - {fileID: 11400000, guid: ce068caadfb47f543af10a0cd43133ee, type: 2}
