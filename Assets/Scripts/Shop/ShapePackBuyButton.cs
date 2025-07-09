@@ -6,6 +6,7 @@ public class ShapePackBuyButton : MonoBehaviour
     public ShapePack shapePack;
     public ShapePopupUI shapePopupUI;
     public TMP_Text costText; // Assign in Inspector
+    public double costMultiplier;
 
     void Start()
     {
@@ -34,8 +35,8 @@ public class ShapePackBuyButton : MonoBehaviour
         ShapeManager.Instance.uiManager.UpdateCoinText(ShapeManager.Instance.coinCount);
         SaveSystem.Instance.SaveProgress();
 
-        // Increase cost by 10%
-        shapePack.cost *= 1.1;
+        // ✅ Increase cost and round it to nearest whole number
+        shapePack.cost = System.Math.Round(shapePack.cost * costMultiplier);
         UpdateCostText();
 
         // Pick random shape
@@ -54,7 +55,8 @@ public class ShapePackBuyButton : MonoBehaviour
         }
         else
         {
-            double refund = cost * 0.25;
+            // ✅ Round refund up to nearest whole number
+            double refund = System.Math.Ceiling(cost * 0.25);
             ShapeManager.Instance.coinCount += refund;
             ShapeManager.Instance.uiManager.UpdateCoinText(ShapeManager.Instance.coinCount);
             SaveSystem.Instance.SaveProgress();
@@ -63,6 +65,7 @@ public class ShapePackBuyButton : MonoBehaviour
             shapePopupUI.ShowDuplicateRefund((float)refund);
         }
     }
+
 
     private void UpdateCostText()
     {

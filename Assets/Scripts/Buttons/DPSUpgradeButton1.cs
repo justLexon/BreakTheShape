@@ -41,11 +41,11 @@ public class DPSUpgradeButton : MonoBehaviour
                     baseCost = 1000;
                     upgradePower = 50;
                     break;
-                case "Jackhammer":
+                case "Saw":
                     baseCost = 5000;
                     upgradePower = 150;
                     break;
-                case "Crowbar":
+                case "Jackhammer":
                     baseCost = 50000;
                     upgradePower = 250;
                     break;

@@ -5,12 +5,19 @@ using System.Linq;
 public class MaterialData
 {
     public string materialName;
-    public Sprite[] levelSprites;      // optional for visuals
-    public int currentLevel = 0;       // current upgrade level
-    public double baseCost = 50;       // base cost for upgrades
-    public int upgradePower = 1;       // power increment per level
+    public Sprite[] levelSprites;
+
+    [Header("Upgrade Settings")]
+    public int currentLevel = 0;
+    public double baseCost = 50;
+
+    [Tooltip("Multiplier for each upgrade cost step")]
+    public double costMultiplier = 1.15;
+
+    public int upgradePower = 1;
     public int coinUpgrade = 1;
 }
+
 
 public class MaterialsManager : MonoBehaviour
 {
@@ -56,42 +63,50 @@ public class MaterialsManager : MonoBehaviour
             {
                 case "Dirt":
                     mat.baseCost = 50;
+                    mat.costMultiplier = 1.15;
                     mat.upgradePower = 1;
                     mat.coinUpgrade = 1;
                     break;
                 case "Wood":
                     mat.baseCost = 250;
+                    mat.costMultiplier = 1.2;
                     mat.upgradePower = 5;
                     mat.coinUpgrade = 50;
                     break;
                 case "Stone":
                     mat.baseCost = 500;
+                    mat.costMultiplier = 1.25;
                     mat.upgradePower = 15;
                     mat.coinUpgrade = 100;
                     break;
-                case "Iron":
+                case "Granite":
                     mat.baseCost = 1000;
+                    mat.costMultiplier = 1.3;
                     mat.upgradePower = 50;
                     mat.coinUpgrade = 300;
                     break;
-                case "Gold":
+                case "Marble":
                     mat.baseCost = 5000;
+                    mat.costMultiplier = 1.35;
                     mat.upgradePower = 150;
                     mat.coinUpgrade = 1000;
                     break;
-                case "Diamond":
+                case "Bronze":
                     mat.baseCost = 50000;
+                    mat.costMultiplier = 1.4;
                     mat.upgradePower = 250;
                     mat.coinUpgrade = 5000;
                     break;
                 default:
                     mat.baseCost = 100;
+                    mat.costMultiplier = 1.15;
                     mat.upgradePower = 1;
                     mat.coinUpgrade = 1;
                     break;
             }
         }
     }
+
 
     public MaterialData GetMaterial(string key)
     {
@@ -175,12 +190,14 @@ public class MaterialsManager : MonoBehaviour
 
     public double GetUpgradeCost(string key)
     {
-        var mat = GetMaterial(key);
+        MaterialData mat = GetMaterial(key);
         if (mat == null) return 0;
 
-        // exponential cost growth
-        return Mathf.Round((float)(mat.baseCost * System.Math.Pow(1.15f, mat.currentLevel)));
+        // Use material's baseCost and costMultiplier directly
+        double cost = mat.baseCost * System.Math.Pow(mat.costMultiplier, mat.currentLevel);
+        return System.Math.Round(cost);
     }
+
 
     public int GetUpgradePower(string key)
     {
