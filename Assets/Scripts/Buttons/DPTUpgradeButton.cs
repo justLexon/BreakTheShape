@@ -1,63 +1,35 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 
 public class DPTUpgradeButton : MonoBehaviour
 {
     public TMP_Text CostText;
     public TMP_Text LevelCountText;
 
-    public string upgradeKey = "Fist";      // Unique key to identify this upgrade (e.g. "Fist", "Bat")
-
-    public double baseCost = 50;               // Base cost of the upgrade
-    public float costMultiplier = 1.15f;    // Exponential cost growth
-    public int maxLevel = 999;              // Max upgrade level
-    public int upgradePower = 1;            // Tap damage increase per upgrade
+    public string upgradeKey = "Fist";
+    public double baseCost = 50;
+    public float costMultiplier = 1.15f;
+    public int maxLevel = 999;
+    public int upgradePower = 1;
 
     private int level = 0;
     private double currentCost;
 
-
-
+    public static int upgradeAmount = 1; // 👈 Controlled externally by buttons
 
     void Start()
     {
-        
-            switch (upgradeKey)
-            {
-                case "Fist":
-                    baseCost = 50;
-                    upgradePower = 1;
-                    break;
-                case "Rock":
-                    baseCost = 250;
-                    upgradePower = 5;
-                    break;
-                case "Bat":
-                    baseCost = 500;
-                    upgradePower = 15;
-                    break;
-                case "Pickaxe":
-                    baseCost = 1000;
-                    upgradePower = 50;
-                    break;
-                case "Hammer":
-                    baseCost = 5000;
-                    upgradePower = 150;
-                    break;
-                case "Crowbar":
-                    baseCost = 50000;
-                    upgradePower = 250;
-                    break;
-                // Add more cases as needed
-                default:
-                    baseCost = 100; // Default fallback cost
-                    break;
-            }
-        
+        switch (upgradeKey)
+        {
+            case "Fist": baseCost = 50; upgradePower = 1; break;
+            case "Rock": baseCost = 250; upgradePower = 5; break;
+            case "Bat": baseCost = 500; upgradePower = 15; break;
+            case "Pickaxe": baseCost = 1000; upgradePower = 50; break;
+            case "Hammer": baseCost = 5000; upgradePower = 150; break;
+            case "Crowbar": baseCost = 50000; upgradePower = 250; break;
+            default: baseCost = 100; break;
+        }
 
-
-        // Load saved level (default 0)
         level = PlayerPrefs.GetInt(upgradeKey + "_Level", 0);
         UpdateUI();
     }
@@ -66,17 +38,18 @@ public class DPTUpgradeButton : MonoBehaviour
     {
         if (level >= maxLevel) return;
 
-        currentCost = System.Math.Round(baseCost * System.Math.Pow(costMultiplier, level));
+        int targetAmount = upgradeAmount == -1 ? CalculateMaxAffordableUpgrades() : upgradeAmount;
+        targetAmount = Mathf.Min(targetAmount, maxLevel - level);
 
-        if (ShapeManager.Instance.GetCoinCount() >= currentCost)
+        double totalCost = GetTotalCost(level, targetAmount);
+
+        if (ShapeManager.Instance.GetCoinCount() >= totalCost)
         {
-            ShapeManager.Instance.SpendCoins(currentCost);
-            level++;
+            ShapeManager.Instance.SpendCoins(totalCost);
+            level += targetAmount;
 
-            // Increase tap damage or stat
-            ShapeManager.Instance.tapDamage += upgradePower;
+            ShapeManager.Instance.tapDamage += upgradePower * targetAmount;
 
-            // Save the level
             PlayerPrefs.SetInt(upgradeKey + "_Level", level);
             PlayerPrefs.Save();
 
@@ -88,16 +61,47 @@ public class DPTUpgradeButton : MonoBehaviour
         }
     }
 
+    int CalculateMaxAffordableUpgrades()
+    {
+        double coins = ShapeManager.Instance.GetCoinCount();
+        int upgrades = 0;
+        double totalCost = 0;
+
+        for (int i = level; i < maxLevel; i++)
+        {
+            totalCost += System.Math.Round(baseCost * System.Math.Pow(costMultiplier, i));
+            if (totalCost > coins) break;
+            upgrades++;
+        }
+
+        return upgrades;
+    }
+
+    double GetTotalCost(int startLevel, int quantity)
+    {
+        double total = 0;
+        for (int i = 0; i < quantity; i++)
+        {
+            total += System.Math.Round(baseCost * System.Math.Pow(costMultiplier, startLevel + i));
+        }
+        return total;
+    }
+
+    void UpdateUI()
+    {
+        currentCost = System.Math.Round(baseCost * System.Math.Pow(costMultiplier, level));
+        CostText.text = FormatNumberWithSuffix(currentCost);
+        LevelCountText.text = level.ToString();
+    }
+
     string FormatNumberWithSuffix(double number)
     {
         if (number < 1000)
-            return number.ToString("0");
+            return System.Math.Round(number).ToString();
 
-        string[] suffixes = {
-        "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
-    };
-
+        string[] suffixes = { "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc" };
         int suffixIndex = -1;
+
         while (number >= 1000 && suffixIndex < suffixes.Length - 1)
         {
             number /= 1000;
@@ -105,12 +109,5 @@ public class DPTUpgradeButton : MonoBehaviour
         }
 
         return number.ToString("0.#") + suffixes[suffixIndex];
-    }
-
-    void UpdateUI()
-    {
-        currentCost = System.Math.Round(baseCost * System.Math.Pow(costMultiplier, level));
-        CostText.text = FormatNumberWithSuffix((double)currentCost);
-        LevelCountText.text = level.ToString();
     }
 }

@@ -236,4 +236,13 @@ public class MaterialsManager : MonoBehaviour
         }
     }
 
+    public double GetUpgradeCostAtLevel(string key, int level)
+    {
+        var mat = GetMaterial(key);
+        if (mat == null) return 0;
+
+        return System.Math.Round(mat.baseCost * System.Math.Pow(mat.costMultiplier, level));
+    }
+
+
 }

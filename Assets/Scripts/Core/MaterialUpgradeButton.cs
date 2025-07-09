@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class MaterialUpgradeButton : MonoBehaviour
@@ -12,6 +12,8 @@ public class MaterialUpgradeButton : MonoBehaviour
     private int level = 0;
     private double currentCost = 0;
 
+    public static int upgradeAmount = 1; // 👈 Set externally by buttons
+
     void Start()
     {
         UpdateUI();
@@ -19,41 +21,74 @@ public class MaterialUpgradeButton : MonoBehaviour
 
     public void OnUpgradeClick()
     {
+        level = MaterialsManager.Instance.GetMaterialLevel(materialKey);
+
         if (!MaterialsManager.Instance.CanUpgrade(materialKey, maxLevel))
             return;
 
-        currentCost = MaterialsManager.Instance.GetUpgradeCost(materialKey);
-        level = MaterialsManager.Instance.GetMaterialLevel(materialKey);
+        int targetAmount = upgradeAmount == -1 ? CalculateMaxAffordableUpgrades() : upgradeAmount;
+        targetAmount = Mathf.Min(targetAmount, maxLevel - level);
 
-        if (ShapeManager.Instance.GetCoinCount() >= currentCost)
+        double totalCost = GetTotalUpgradeCost(level, targetAmount);
+
+        if (ShapeManager.Instance.GetCoinCount() >= totalCost)
         {
-            ShapeManager.Instance.SpendCoins(currentCost);
+            ShapeManager.Instance.SpendCoins(totalCost);
 
-            MaterialsManager.Instance.UpgradeMaterial(materialKey);
-            level++;
+            for (int i = 0; i < targetAmount; i++)
+            {
+                MaterialsManager.Instance.UpgradeMaterial(materialKey);
+            }
 
-            // Automatically set the newly unlocked material as active display
+            level += targetAmount;
+
             int unlockedIndex = MaterialsManager.Instance.GetMaterialIndex(materialKey);
             if (unlockedIndex > MaterialsManager.Instance.GetCurrentMaterialIndex())
             {
                 MaterialsManager.Instance.SetCurrentMaterial(unlockedIndex);
             }
 
-
-            // Apply upgrade power to gameplay stat, e.g. tapDamage
             int health = MaterialsManager.Instance.GetUpgradePower(materialKey);
             int coinUpgrade = MaterialsManager.Instance.GetCoinUpgrade(materialKey);
-            ShapeManager.Instance.baseMaxHealth += health;
-            ShapeManager.Instance.coinsPerBreak += coinUpgrade;
+
+            ShapeManager.Instance.baseMaxHealth += health * targetAmount;
+            ShapeManager.Instance.coinsPerBreak += coinUpgrade * targetAmount;
 
             UpdateUI();
-
             ShapeManager.Instance.LoadShapeFromSave(ShapeManager.Instance.GetCurrentShapeIndex());
         }
         else
         {
             Debug.Log("Not enough coins to upgrade material.");
         }
+    }
+
+    int CalculateMaxAffordableUpgrades()
+    {
+        double coins = ShapeManager.Instance.GetCoinCount();
+        int upgrades = 0;
+        double totalCost = 0;
+
+        for (int i = level; i < maxLevel; i++)
+        {
+            double cost = MaterialsManager.Instance.GetUpgradeCostAtLevel(materialKey, i);
+            totalCost += cost;
+            if (totalCost > coins)
+                break;
+            upgrades++;
+        }
+
+        return upgrades;
+    }
+
+    double GetTotalUpgradeCost(int startLevel, int quantity)
+    {
+        double total = 0;
+        for (int i = 0; i < quantity; i++)
+        {
+            total += MaterialsManager.Instance.GetUpgradeCostAtLevel(materialKey, startLevel + i);
+        }
+        return total;
     }
 
     void UpdateUI()
@@ -68,7 +103,7 @@ public class MaterialUpgradeButton : MonoBehaviour
     string FormatNumberWithSuffix(double number)
     {
         if (number < 1000)
-            return number.ToString("0");
+            return System.Math.Round(number).ToString();
 
         string[] suffixes = { "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc" };
         int suffixIndex = -1;
