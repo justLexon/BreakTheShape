@@ -25,23 +25,23 @@ public class DPSUpgradeButton : MonoBehaviour
         
             switch (upgradeKey)
             {
-                case "Fist":
+                case "Slingshot":
                     baseCost = 50;
                     upgradePower = 1;
                     break;
-                case "Rock":
+                case "BowArrow":
                     baseCost = 250;
                     upgradePower = 5;
                     break;
-                case "Bat":
+                case "Catapult":
                     baseCost = 500;
                     upgradePower = 15;
                     break;
-                case "Pickaxe":
+                case "Drill":
                     baseCost = 1000;
                     upgradePower = 50;
                     break;
-                case "Hammer":
+                case "Jackhammer":
                     baseCost = 5000;
                     upgradePower = 150;
                     break;
