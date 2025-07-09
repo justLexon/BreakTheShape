@@ -10,17 +10,20 @@ public class ShapePopupUI : MonoBehaviour
 
     void Start()
     {
-        popupPanel.SetActive(false);   // Hide it on start
+        popupPanel.SetActive(true);
+        popupPanel.SetActive(false);
     }
 
     public void Show(Sprite icon, string shapeName)
     {
         Debug.Log("📦 Showing shape popup: " + shapeName);
         popupPanel.SetActive(true);
-        shapeImage.gameObject.SetActive(true); // 👈 make sure it's visible
+        shapeImage.gameObject.SetActive(true);
         shapeImage.sprite = icon;
         shapeText.text = shapeName;
+        Debug.Log("Popup visible: " + popupPanel.activeSelf);
     }
+
     public void ShowDuplicateRefund(float refundAmount)
     {
         popupPanel.SetActive(true);
