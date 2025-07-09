@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 007070bd40717094e90fa866a20f527c, type: 3}
-  m_Name: PolygonPack
+  m_Name: polygonPack
   m_EditorClassIdentifier: 
-  packName: PolygonPack
-  packId: PolygonPack
+  packName: polygonPack
+  packId: polygonPack
   packSprite: {fileID: 21300000, guid: f0353b706fd73d44b982106572b7f636, type: 3}
   cost: 285.3116706110003
   shapes:

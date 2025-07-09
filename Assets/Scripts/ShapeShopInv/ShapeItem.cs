@@ -6,8 +6,8 @@ public class ShapeItem : ScriptableObject
     public string id;
     public Sprite icon;
 
-    [HideInInspector] public bool isUnlocked = false;
-    [HideInInspector] public bool isEnabled = false;
+    public bool isUnlocked = false;
+    public bool isEnabled = false;
 
 #if UNITY_EDITOR
     private void OnValidate()

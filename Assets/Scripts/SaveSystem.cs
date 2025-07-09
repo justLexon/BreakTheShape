@@ -18,6 +18,13 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveProgress()
     {
+
+        var enabledShapeIds = InventoryManager.Instance.GetEnabledShapes();
+        string enabledIdsSerialized = string.Join(",", enabledShapeIds);
+
+        PlayerPrefs.SetString("EnabledShapes", enabledIdsSerialized);
+        PlayerPrefs.Save();
+
         // --- Game Stats ---
         PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R"));
         PlayerPrefs.SetString("CoinsPerBreak", ShapeManager.Instance.coinsPerBreak.ToString("R"));
@@ -58,6 +65,19 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadProgress()
     {
+        if (PlayerPrefs.HasKey("EnabledShapes"))
+        {
+            string enabledIdsSerialized = PlayerPrefs.GetString("EnabledShapes");
+            var enabledIds = enabledIdsSerialized.Split(',');
+
+            InventoryManager.Instance.ResetEnabledShapes();
+            foreach (var id in enabledIds)
+            {
+                if (!string.IsNullOrEmpty(id))
+                    InventoryManager.Instance.SetShapeEnabled(id, true);
+            }
+        }
+
         if (PlayerPrefs.HasKey("Coins"))
         {
             // --- Game Stats ---
@@ -105,6 +125,7 @@ public class SaveSystem : MonoBehaviour
             int shapeIndex = PlayerPrefs.GetInt("CurrentShapeIndex", 0);
             ShapeManager.Instance.LoadShapeFromSave(shapeIndex);
             SaveManager.Instance.DebugOwnedShapes();
+            ShapeManager.Instance.RefreshEnabledShapes(); // ✅ Refresh after loading
 
             Debug.Log("✅ Game Loaded");
         }

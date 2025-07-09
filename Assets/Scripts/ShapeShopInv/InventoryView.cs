@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,14 +6,13 @@ public class InventoryView : MonoBehaviour
 {
     public Transform packContainer; // Content container under ScrollView
     public GameObject packUIPrefab; // Prefab for a row (ShapePackUI)
-
+    public ScrollRect verticalScrollRect; // assign in inspector
+    public GameObject inventoryOverlayPanel; // Assign the inventory root panel here
 
     public void PopulateFromShop()
     {
         Populate(ShopManager.Instance.allShapePacks);
     }
-
-    public ScrollRect verticalScrollRect; // assign this in inspector (your vertical scroll view)
 
     public void Populate(List<ShapePack> allPacks)
     {
@@ -25,7 +24,6 @@ public class InventoryView : MonoBehaviour
             GameObject packGO = Instantiate(packUIPrefab, packContainer);
             ShapePackUI packUI = packGO.GetComponent<ShapePackUI>();
 
-            // Set the parentScrollRect reference dynamically here
             NestedScrollRectHandler nestedHandler = packGO.GetComponent<NestedScrollRectHandler>();
             if (nestedHandler != null)
             {
@@ -36,4 +34,22 @@ public class InventoryView : MonoBehaviour
         }
     }
 
+    // Call this method from your close button OnClick event
+    public void TryCloseInventory()
+    {
+        int enabledCount = InventoryManager.Instance.GetEnabledShapes().Count;
+
+        if (enabledCount != 10)
+        {
+            Debug.LogWarning($"⚠️ You must enable exactly 10 shapes before closing the inventory. Currently enabled: {enabledCount}");
+            // Optional: Show UI warning message here instead of debug log
+            return;
+        }
+
+        // Close inventory
+        inventoryOverlayPanel.SetActive(false);
+
+        // Optional: refresh ShapeManager or game state if needed
+        ShapeManager.Instance.RefreshEnabledShapes();
+    }
 }

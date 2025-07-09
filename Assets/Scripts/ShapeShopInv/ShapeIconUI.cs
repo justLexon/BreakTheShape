@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ShapeIconUI : MonoBehaviour
 {
     public Image shapeImage;
-    public GameObject lockOverlay;      // Gray overlay if not owned
+    public GameObject lockOverlay;      // Shown if not owned
     public GameObject enabledOverlay;   // Green overlay if enabled
 
     private string shapeId;
@@ -23,23 +23,29 @@ public class ShapeIconUI : MonoBehaviour
 
     public void OnClick()
     {
+        
+
         if (!isOwned)
-        {
-            Debug.Log("⛔ Shape not owned!");
             return;
+
+        bool currentlyEnabled = InventoryManager.Instance.IsShapeEnabled(shapeId);
+
+        if (currentlyEnabled)
+        {
+            InventoryManager.Instance.SetShapeEnabled(shapeId, false);
+            ShapeManager.Instance.RefreshEnabledShapes(); // ✅ Refresh when disabled
+        }
+        else if (InventoryManager.Instance.GetEnabledShapes().Count < 10)
+        {
+            InventoryManager.Instance.SetShapeEnabled(shapeId, true);
+            ShapeManager.Instance.RefreshEnabledShapes(); // ✅ Refresh when enabled
         }
 
-        // Attempt to toggle
-        if (!isEnabled && InventoryManager.Instance.GetEnabledShapes().Count >= 10)
-        {
-            Debug.Log("❌ Max 10 shapes can be enabled.");
-            return;
-        }
-
-        isEnabled = !isEnabled;
-        InventoryManager.Instance.SetShapeEnabled(shapeId, isEnabled);
         UpdateVisuals();
     }
+
+
+
 
     public void UpdateVisual(bool enabled)
     {

@@ -23,6 +23,11 @@ public class InventoryManager : MonoBehaviour
         return enabledShapes.Contains(id);
     }
 
+    public int GetEnabledShapeCount()
+    {
+        return enabledShapes.Count;
+    }
+
     public void SetShapeEnabled(string id, bool enable)
     {
         if (enable)
@@ -40,8 +45,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void ToggleShape(string id)
+    // Use this from ShapeIconUI when toggling on click
+    public void ToggleShape(string id, bool? forceEnable = null)
     {
+        if (forceEnable.HasValue)
+        {
+            SetShapeEnabled(id, forceEnable.Value);
+            return;
+        }
+
+        // Toggle behavior
         if (enabledShapes.Contains(id))
         {
             enabledShapes.Remove(id);

@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class ShapeSData
@@ -59,7 +60,48 @@ public class ShapeManager : MonoBehaviour
     {
         Debug.Log("🔁 ShapeManager Start — Loading Save");
         SaveSystem.Instance.LoadProgress();
+
+        // Initialize default shapes if not done yet
+        InitializeDefaultShapes();
+
+        RefreshEnabledShapes();
     }
+
+    private void InitializeDefaultShapes()
+    {
+        if (!PlayerPrefs.HasKey("HasInitializedDefaultShapes"))
+        {
+            Debug.Log("⚙️ Initializing default enabled shapes (Basic Polygon Pack)");
+
+            // Find your basic polygon pack by ID or name
+            ShapePack basicPack = null;
+            foreach (var pack in ShopManager.Instance.allShapePacks)
+            {
+                if (pack.packId == "polygonPack") // Change to your actual packId or name
+                {
+                    basicPack = pack;
+                    break;
+                }
+            }
+
+            if (basicPack != null)
+            {
+                foreach (var shape in basicPack.shapes)
+                {
+                    InventoryManager.Instance.SetShapeEnabled(shape.id, true);
+                    Debug.Log($"Enabled shape: {shape.id}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ Basic Polygon Pack not found!");
+            }
+
+            PlayerPrefs.SetInt("HasInitializedDefaultShapes", 1);
+            PlayerPrefs.Save();
+        }
+    }
+
 
     private void Update()
     {
@@ -105,6 +147,12 @@ public class ShapeManager : MonoBehaviour
 
     private void BreakShape()
     {
+        if (shapes == null || shapes.Length == 0)
+        {
+            Debug.LogWarning("BreakShape called but shapes array is empty!");
+            return;
+        }
+
         coinCount += coinsPerBreak;
         shapesBrokenCounter++;
 
@@ -120,14 +168,20 @@ public class ShapeManager : MonoBehaviour
         SaveSystem.Instance.SaveProgress();
     }
 
-
     public void LoadShapeFromSave(int index)
     {
+        if (shapes == null || shapes.Length == 0)
+        {
+            Debug.LogWarning("LoadShapeFromSave called but shapes array is empty!");
+            return;
+        }
+
         currentShapeIndex = index % shapes.Length;
         LoadShape(currentShapeIndex);
         uiManager.UpdateCoinText(coinCount);
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
     }
+
 
     private void LoadShape(int index)
     {
@@ -209,4 +263,36 @@ public class ShapeManager : MonoBehaviour
     }
 
     public int GetCurrentShapeIndex() => currentShapeIndex;
+
+    public void RefreshEnabledShapes()
+    {
+        var enabledIds = InventoryManager.Instance.GetEnabledShapes();
+        Debug.Log($"Refreshing enabled shapes, count: {enabledIds.Count}");
+        var allShapeItems = new List<ShapeData>();
+
+        foreach (var id in enabledIds)
+        {
+            bool found = false;
+            foreach (ShapePack pack in ShopManager.Instance.allShapePacks)
+            {
+                foreach (ShapeItem shape in pack.shapes)
+                {
+                    if (shape.id == id)
+                    {
+                        Debug.Log($"Adding shape to array: {shape.id}");
+                        allShapeItems.Add(new ShapeData { sprite = shape.icon });
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+        }
+
+        shapes = allShapeItems.ToArray();
+        currentShapeIndex = 0;
+        LoadShapeFromSave(currentShapeIndex);
+    }
+
+
 }
