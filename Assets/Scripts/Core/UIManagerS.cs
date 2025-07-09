@@ -6,6 +6,10 @@ public class UIManagerS : MonoBehaviour
     public TMP_Text coinText;
     public TMP_Text shapesBrokenText;
     public TMP_Text ShopcoinText;
+    public TMP_Text coinTextMat;
+    public TMP_Text coinTextDPT;
+    public TMP_Text coinTextDPS;
+
 
     private ShapeManager shapeManager;
 
@@ -20,6 +24,9 @@ public class UIManagerS : MonoBehaviour
     {
         coinText.text = FormatNumberWithSuffix(coins) + "+";
         ShopcoinText.text = FormatNumberWithSuffix(coins);
+        coinTextMat.text = FormatNumberWithSuffix(coins);
+        coinTextDPT.text = FormatNumberWithSuffix(coins);
+        coinTextDPS.text = FormatNumberWithSuffix(coins);
     }
 
     public void UpdateShapesBrokenText(double shapesBroken)
