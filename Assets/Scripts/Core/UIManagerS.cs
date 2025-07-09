@@ -30,7 +30,7 @@ public class UIManagerS : MonoBehaviour
     string FormatNumberWithSuffix(double number)
     {
         if (number < 1000)
-            return number.ToString();
+            return System.Math.Round(number).ToString();
 
         string[] suffixes = { "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc" };
         int suffixIndex = -1;
