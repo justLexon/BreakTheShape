@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class ShapePackBuyButton : MonoBehaviour
@@ -15,56 +17,87 @@ public class ShapePackBuyButton : MonoBehaviour
 
     public void OnBuyPressed()
     {
-        if (AllShapesOwnedInPack())
+        int amountToBuy = ShapePackBuyAmountSetter.BuyAmount;
+        int shapesNeeded = shapePack.shapes.Count(s => !SaveManager.Instance.IsShapeOwned(s.id));
+
+        if (shapesNeeded == 0)
         {
-            Debug.Log("🙅 You already own all shapes in this pack!");
             shapePopupUI.ShowMessage("You already own all shapes in this pack!");
             return;
         }
 
-        double cost = shapePack.cost;
+        int purchasesMade = 0;
+        int uniqueShapesGained = 0;
+        double totalSpent = 0;
+        List<double> usedPackCosts = new();
 
-        if (ShapeManager.Instance.coinCount < cost)
+        for (int i = 0; i < amountToBuy; i++)
         {
-            Debug.Log("❌ Not enough coins to buy this pack.");
-            return;
+            if (ShapeManager.Instance.coinCount < shapePack.cost)
+            {
+                if (i == 0)
+                    shapePopupUI.ShowMessage("❌ Not enough coins to buy this pack.");
+                break;
+            }
+
+            if (uniqueShapesGained >= shapesNeeded)
+            {
+                // We’ve gotten all the shapes needed, stop buying
+                break;
+            }
+
+            double thisPackCost = shapePack.cost;
+            ShapeManager.Instance.coinCount -= thisPackCost;
+            totalSpent += thisPackCost;
+            usedPackCosts.Add(thisPackCost);
+            purchasesMade++;
+
+            // Increase cost and save/update
+            shapePack.cost = System.Math.Round(shapePack.cost * costMultiplier);
+            ShapeManager.Instance.uiManager.UpdateCoinText(ShapeManager.Instance.coinCount);
+            SaveSystem.Instance.SaveProgress();
+            UpdateCostText();
+
+            ShapeItem shape = shapePack.GetRandomShape();
+            if (shape == null) continue;
+
+            bool success = SaveManager.Instance.AddShapeToOwned(shape.id);
+            if (success)
+            {
+                uniqueShapesGained++;
+                shapePopupUI.EnqueueReward(shape.icon, shape.id);
+            }
+            else
+            {
+                // Show duplicate (not refunded yet)
+                shapePopupUI.EnqueueRefund((float)(System.Math.Ceiling(thisPackCost * 0.25)));
+            }
         }
 
-        // Deduct coins
-        ShapeManager.Instance.coinCount -= cost;
-        ShapeManager.Instance.uiManager.UpdateCoinText(ShapeManager.Instance.coinCount);
-        SaveSystem.Instance.SaveProgress();
+        // 🧠 Calculate unused pack refunds
+        int unusedPacks = amountToBuy - purchasesMade;
+        double unusedRefund = 0;
 
-        // ✅ Increase cost and round it to nearest whole number
-        shapePack.cost = System.Math.Round(shapePack.cost * costMultiplier);
-        UpdateCostText();
-
-        // Pick random shape
-        ShapeItem randomShape = shapePack.GetRandomShape();
-        if (randomShape == null)
+        for (int i = purchasesMade; i < amountToBuy; i++)
         {
-            Debug.LogWarning("No shapes in pack!");
-            return;
+            // Reverse calculate pack cost rollback
+            shapePack.cost = System.Math.Floor(shapePack.cost / costMultiplier);
+            unusedRefund += shapePack.cost;
         }
 
-        bool success = SaveManager.Instance.AddShapeToOwned(randomShape.id);
-        if (success)
+        if (unusedRefund > 0)
         {
-            Debug.Log($"🎉 You got: {randomShape.id}");
-            shapePopupUI.Show(randomShape.icon, randomShape.id);
-        }
-        else
-        {
-            // ✅ Round refund up to nearest whole number
-            double refund = System.Math.Ceiling(cost * 0.25);
-            ShapeManager.Instance.coinCount += refund;
+            ShapeManager.Instance.coinCount += unusedRefund;
             ShapeManager.Instance.uiManager.UpdateCoinText(ShapeManager.Instance.coinCount);
             SaveSystem.Instance.SaveProgress();
 
-            Debug.Log($"💰 Duplicate! Refunding 1/4 of cost for: {randomShape.id}");
-            shapePopupUI.ShowDuplicateRefund((float)refund);
+            shapePopupUI.EnqueueRefund((float)unusedRefund, $"Refunded {unusedRefund} coins for unused packs");
         }
+
+        shapePopupUI.ShowNextInQueue();
     }
+
+
 
 
     private void UpdateCostText()

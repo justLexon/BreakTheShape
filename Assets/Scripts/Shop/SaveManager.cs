@@ -57,23 +57,24 @@ public class SaveManager : MonoBehaviour
                 ownedShapeIds.Add(id);
             }
         }
-        Debug.Log($"📦 Loaded shapes: {saveString}");
+        //Debug.Log($"📦 Loaded shapes: {saveString}");
 
     }
 
     public void DebugOwnedShapes()
     {
-        if (ownedShapeIds.Count == 0)
-        {
-            Debug.Log("📭 You don't own any shapes yet.");
-            return;
-        }
+        //if (ownedShapeIds.Count == 0)
+        //{
+        //    Debug.Log("📭 You don't own any shapes yet.");
+        //    return;
+        //}
 
-        Debug.Log("🧾 Owned Shapes:");
-        foreach (string id in ownedShapeIds)
-        {
-            Debug.Log($"🔹 {id}");
-        }
+        //Debug.Log("🧾 Owned Shapes:");
+        //foreach (string id in ownedShapeIds)
+        //{
+        //    Debug.Log($"🔹 {id}");
+        //}
+        return;
     }
 
     public bool IsShapeOwned(string id)

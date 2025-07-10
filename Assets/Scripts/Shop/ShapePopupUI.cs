@@ -1,20 +1,87 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
 
 public class ShapePopupUI : MonoBehaviour
 {
-    public GameObject popupPanel;      // The root panel (likely "ShapePopupPanel" itself)
+    public GameObject popupPanel;
     public Image shapeImage;
     public TMP_Text shapeText;
 
+    private Queue<Action> rewardQueue = new Queue<Action>();
+    private bool isShowing = false;
+
     void Start()
     {
-        popupPanel.SetActive(true);
         popupPanel.SetActive(false);
     }
 
-    public void Show(Sprite icon, string shapeName)
+    // Public method to enqueue a reward
+    public void EnqueueReward(Sprite icon, string shapeName)
+    {
+        rewardQueue.Enqueue(() => ShowInternal(icon, shapeName));
+    }
+
+    // Public method to enqueue a duplicate refund
+    public void EnqueueRefund(float refundAmount)
+    {
+        rewardQueue.Enqueue(() => ShowDuplicateRefundInternal(refundAmount));
+    }
+
+    public void EnqueueRefund(float amount, string customMessage)
+    {
+        rewardQueue.Enqueue(() =>
+        {
+            gameObject.SetActive(true);
+            popupPanel.SetActive(true);
+            shapeImage.gameObject.SetActive(false);
+            shapeText.text = customMessage;
+        });
+    }
+
+
+    // Show a message (used if all shapes owned, etc)
+    public void ShowMessage(string message)
+    {
+        popupPanel.SetActive(true);
+        gameObject.SetActive(true);
+        shapeImage.gameObject.SetActive(false);
+        shapeText.text = message;
+        isShowing = true;
+    }
+
+    // Call this after purchases to show first item
+    public void ShowNextInQueue()
+    {
+        if (rewardQueue.Count > 0)
+        {
+            var action = rewardQueue.Dequeue();
+            action.Invoke();
+            isShowing = true;
+        }
+        else
+        {
+            Hide();
+        }
+    }
+
+    // Called from UI button click (e.g. popup background)
+    public void OnPopupClicked()
+    {
+        ShowNextInQueue();
+    }
+
+    public void Hide()
+    {
+        popupPanel.SetActive(false);
+        shapeImage.gameObject.SetActive(true);
+        isShowing = false;
+    }
+
+    // Internal method to show a shape reward
+    private void ShowInternal(Sprite icon, string shapeName)
     {
         Debug.Log("📦 Showing shape popup: " + shapeName);
         gameObject.SetActive(true);
@@ -22,29 +89,14 @@ public class ShapePopupUI : MonoBehaviour
         shapeImage.gameObject.SetActive(true);
         shapeImage.sprite = icon;
         shapeText.text = shapeName;
-        Debug.Log("Popup visible: " + popupPanel.activeSelf);
     }
 
-    public void ShowDuplicateRefund(float refundAmount)
+    // Internal method to show refund message
+    private void ShowDuplicateRefundInternal(float refundAmount)
     {
         gameObject.SetActive(true);
         popupPanel.SetActive(true);
         shapeImage.gameObject.SetActive(false);
         shapeText.text = $"Duplicate! Refunded {refundAmount} coins (¼ of price)";
     }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-        popupPanel.SetActive(false);
-        shapeImage.gameObject.SetActive(true); // 👈 resets for next use
-    }
-    public void ShowMessage(string message)
-    {
-        gameObject.SetActive(true);
-        popupPanel.SetActive(true);
-        shapeImage.gameObject.SetActive(false);  // Hide image
-        shapeText.text = message;
-    }
-
 }
