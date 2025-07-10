@@ -35,7 +35,7 @@ public class UIManagerS : MonoBehaviour
     public void UpdatePremiumCoinText(double amount)
     {
         premiumCoinText.text = FormatNumberWithSuffix(amount) + "+"; // reuse your Format method if needed
-        shopPremiumCoinText.text = FormatNumberWithSuffix(amount) + "+"; // reuse your Format method if needed
+        shopPremiumCoinText.text = FormatNumberWithSuffix(amount); // reuse your Format method if needed
     }
 
 

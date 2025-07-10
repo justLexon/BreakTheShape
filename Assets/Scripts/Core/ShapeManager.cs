@@ -165,6 +165,7 @@ public class ShapeManager : MonoBehaviour
         shapesBrokenCounter++;
 
         uiManager.UpdateCoinText(coinCount);
+        uiManager.UpdatePremiumCoinText(premiumCoinCount);
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
 
         // Advance to the next shape and next material texture
@@ -187,6 +188,7 @@ public class ShapeManager : MonoBehaviour
         currentShapeIndex = index % shapes.Length;
         LoadShape(currentShapeIndex);
         uiManager.UpdateCoinText(coinCount);
+        uiManager.UpdatePremiumCoinText(premiumCoinCount);
         uiManager.UpdateShapesBrokenText(shapesBrokenCounter);
     }
 
