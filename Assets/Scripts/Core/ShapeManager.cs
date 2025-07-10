@@ -37,7 +37,9 @@ public class ShapeManager : MonoBehaviour
     private float idleTimer = 0f;
     private Material currentMaterialInstance;
 
+    [Header("Monies")]
     public double coinCount = 0;
+    public double premiumCoinCount = 0;
 
     private void Awake()
     {
@@ -267,6 +269,35 @@ public class ShapeManager : MonoBehaviour
             Debug.LogWarning("❌ Not enough coins to spend!");
         }
     }
+
+    public double GetPremiumCoinCount()
+    {
+        return premiumCoinCount;
+    }
+
+    public void SpendPremiumCoins(double amount)
+    {
+        if (amount <= premiumCoinCount)
+        {
+            premiumCoinCount -= amount;
+            uiManager.UpdatePremiumCoinText(premiumCoinCount); // You'll need to create this method in UIManagerS
+            SaveSystem.Instance.SaveProgress();
+            Debug.Log($"💎 Spent {amount} premium coins. Remaining: {premiumCoinCount}");
+        }
+        else
+        {
+            Debug.LogWarning("❌ Not enough premium coins to spend!");
+        }
+    }
+
+    public void AddPremiumCoins(double amount)
+    {
+        premiumCoinCount += amount;
+        uiManager.UpdatePremiumCoinText(premiumCoinCount);
+        SaveSystem.Instance.SaveProgress();
+        Debug.Log($"💎 Added {amount} premium coins. Total: {premiumCoinCount}");
+    }
+
 
     public int GetCurrentShapeIndex() => currentShapeIndex;
 

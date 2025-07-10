@@ -4,6 +4,8 @@ using UnityEngine;
 public class UIManagerS : MonoBehaviour
 {
     public TMP_Text coinText;
+    public TMP_Text premiumCoinText;
+    public TMP_Text shopPremiumCoinText;
     public TMP_Text shapesBrokenText;
     public TMP_Text ShopcoinText;
     public TMP_Text coinTextMat;
@@ -17,6 +19,7 @@ public class UIManagerS : MonoBehaviour
     {
         shapeManager = ShapeManager.Instance;
         UpdateCoinText(shapeManager.GetCoinCount());
+        UpdatePremiumCoinText(shapeManager.GetPremiumCoinCount());
         UpdateShapesBrokenText(shapeManager.shapesBrokenCounter);
     }
 
@@ -28,6 +31,13 @@ public class UIManagerS : MonoBehaviour
         coinTextDPT.text = FormatNumberWithSuffix(coins);
         coinTextDPS.text = FormatNumberWithSuffix(coins);
     }
+
+    public void UpdatePremiumCoinText(double amount)
+    {
+        premiumCoinText.text = FormatNumberWithSuffix(amount) + "+"; // reuse your Format method if needed
+        shopPremiumCoinText.text = FormatNumberWithSuffix(amount) + "+"; // reuse your Format method if needed
+    }
+
 
     public void UpdateShapesBrokenText(double shapesBroken)
     {

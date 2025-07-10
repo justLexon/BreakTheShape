@@ -27,6 +27,7 @@ public class SaveSystem : MonoBehaviour
 
         // --- Game Stats ---
         PlayerPrefs.SetString("Coins", ShapeManager.Instance.coinCount.ToString("R"));
+        PlayerPrefs.SetString("premiumCoinCount", ShapeManager.Instance.premiumCoinCount.ToString());
         PlayerPrefs.SetString("CoinsPerBreak", ShapeManager.Instance.coinsPerBreak.ToString("R"));
         PlayerPrefs.SetString("ShapesBroken", ShapeManager.Instance.shapesBrokenCounter.ToString("R"));
         PlayerPrefs.SetInt("CurrentShapeIndex", ShapeManager.Instance.GetCurrentShapeIndex());
@@ -84,6 +85,7 @@ public class SaveSystem : MonoBehaviour
             ShapeManager.Instance.tapDamage = double.TryParse(PlayerPrefs.GetString("TapDamage", "1"), out double td) ? td : 1;
             ShapeManager.Instance.baseMaxHealth = double.TryParse(PlayerPrefs.GetString("BaseMaxHealth", "10"), out double bmh) ? bmh : 10;
             ShapeManager.Instance.coinCount = double.TryParse(PlayerPrefs.GetString("Coins"), out double coins) ? coins : 0;
+            ShapeManager.Instance.premiumCoinCount = double.TryParse(PlayerPrefs.GetString("PremiumCoins", "0"), out double pcoins) ? pcoins : 0; // 💎 Load premium coins
             ShapeManager.Instance.coinsPerBreak = double.TryParse(PlayerPrefs.GetString("CoinsPerBreak"), out double coinsBreak) ? coinsBreak : 1;
             ShapeManager.Instance.shapesBrokenCounter = double.TryParse(PlayerPrefs.GetString("ShapesBroken"), out double broken) ? broken : 0;
             ShapeManager.Instance.idleDamagePerSecond = double.TryParse(PlayerPrefs.GetString("IdleDamage"), out double idDam) ? idDam : 1;
@@ -136,6 +138,7 @@ public class SaveSystem : MonoBehaviour
             ShapeManager.Instance.LoadShapeFromSave(0);
         }
     }
+
 
     public void ResetSave()
     {
