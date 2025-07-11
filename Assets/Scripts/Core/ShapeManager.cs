@@ -39,7 +39,7 @@ public class ShapeManager : MonoBehaviour
 
     [Header("Monies")]
     public double coinCount = 0;
-    public double premiumCoinCount = 0;
+    public double premiumCoinCount = 5555;
 
     private void Awake()
     {
