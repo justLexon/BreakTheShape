@@ -62,7 +62,7 @@ public class ShapePackBuyButton : MonoBehaviour
             SaveSystem.Instance.SaveProgress();
             UpdateCostText();
 
-            ShapeItem shape = GetRandomShapeByRarity(shapePack.shapes.ToList()); // ✅
+            ShapeItem shape = GetRandomShapeWeighted(shapePack.shapes.ToList()); // ✅ NEW
             if (shape == null) continue; //or continue
 
             bool success = SaveManager.Instance.AddShapeToOwned(shape.id);
@@ -78,7 +78,7 @@ public class ShapePackBuyButton : MonoBehaviour
                 ShapeManager.Instance.coinCount += refund;
                 ShapeManager.Instance.uiManager.UpdateCoinText(ShapeManager.Instance.coinCount);
                 SaveSystem.Instance.SaveProgress();
-                shapePopupUI.EnqueueRefund((float)refund, $"Duplicate! Refunded {refund} coins.");
+                shapePopupUI.EnqueueRefund((float)refund, shape);
             }
         }
 
@@ -102,6 +102,33 @@ public class ShapePackBuyButton : MonoBehaviour
         }
 
         shapePopupUI.ShowNextInQueue();
+    }
+
+
+    private ShapeItem GetRandomShapeWeighted(List<ShapeItem> allShapes)
+    {
+        float totalWeight = 0f;
+        List<(ShapeItem shape, float weight)> weightedList = new();
+
+        foreach (var shape in allShapes)
+        {
+            float weight = shape.GetDropChance();
+            weightedList.Add((shape, weight));
+            totalWeight += weight;
+        }
+
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        foreach (var (shape, weight) in weightedList)
+        {
+            cumulative += weight;
+            if (roll <= cumulative)
+                return shape;
+        }
+
+        // Fallback in case of rounding error
+        return allShapes[Random.Range(0, allShapes.Count)];
     }
 
 

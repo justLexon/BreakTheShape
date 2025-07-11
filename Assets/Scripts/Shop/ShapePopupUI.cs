@@ -42,6 +42,23 @@ public class ShapePopupUI : MonoBehaviour
         });
     }
 
+    public void EnqueueRefund(float refundAmount, ShapeItem shape)
+    {
+        rewardQueue.Enqueue(() => ShowDuplicateRefundInternal(refundAmount, shape));
+    }
+
+    private void ShowDuplicateRefundInternal(float refundAmount, ShapeItem shape)
+    {
+        gameObject.SetActive(true);
+        popupPanel.SetActive(true);
+        shapeImage.gameObject.SetActive(true);
+
+        shapeImage.sprite = shape.icon;
+        shapeImage.color = shape.GetRarityColor();
+        shapeText.text = $"Duplicate {shape.id}! Refunded {refundAmount} coins (¼ of price)";
+    }
+
+
 
     // Show a message (used if all shapes owned, etc)
     public void ShowMessage(string message)
@@ -100,7 +117,7 @@ public class ShapePopupUI : MonoBehaviour
     {
         gameObject.SetActive(true);
         popupPanel.SetActive(true);
-        shapeImage.gameObject.SetActive(false);
+        shapeImage.gameObject.SetActive(true);
         shapeText.text = $"Duplicate! Refunded {refundAmount} coins (¼ of price)";
     }
 }

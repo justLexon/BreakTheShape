@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
-  m_Name: _2
+  m_Name: R_dog1
   m_EditorClassIdentifier: 
-  id: _2
-  icon: {fileID: 21300000, guid: 44c3061fa953ff24892af487f22b6566, type: 3}
+  id: R_dog1
+  icon: {fileID: 21300000, guid: 089f3a33213e0ab42990f5a054722b3b, type: 3}
   rarity: 1
   isUnlocked: 0
   isEnabled: 0
