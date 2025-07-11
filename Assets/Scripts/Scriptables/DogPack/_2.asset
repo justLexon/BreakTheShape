@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: _2
   icon: {fileID: 21300000, guid: 44c3061fa953ff24892af487f22b6566, type: 3}
+  rarity: 1
   isUnlocked: 0
   isEnabled: 0

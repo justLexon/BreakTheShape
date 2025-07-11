@@ -62,8 +62,8 @@ public class ShapePackBuyButton : MonoBehaviour
             SaveSystem.Instance.SaveProgress();
             UpdateCostText();
 
-            ShapeItem shape = shapePack.GetRandomShape();
-            if (shape == null) continue;
+            ShapeItem shape = GetRandomShapeByRarity(shapePack.shapes.ToList()); // ✅
+            if (shape == null) continue; //or continue
 
             bool success = SaveManager.Instance.AddShapeToOwned(shape.id);
             if (success)
@@ -134,6 +134,50 @@ public class ShapePackBuyButton : MonoBehaviour
 
         return number.ToString("0.#") + suffixes[suffixIndex];
     }
+
+
+    private ShapeItem GetRandomShapeByRarity(List<ShapeItem> allShapes)
+    {
+        Dictionary<Rarity, float> rarityWeights = new()
+    {
+        { Rarity.Common, 50f },
+        { Rarity.Rare, 30f },
+        { Rarity.Epic, 15f },
+        { Rarity.Legendary, 4f },
+        { Rarity.Mythic, 1f }
+    };
+
+        // Step 1: Roll for rarity
+        float totalWeight = rarityWeights.Values.Sum();
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+        Rarity chosenRarity = Rarity.Common;
+
+        foreach (var kvp in rarityWeights)
+        {
+            cumulative += kvp.Value;
+            if (roll <= cumulative)
+            {
+                chosenRarity = kvp.Key;
+                break;
+            }
+        }
+
+        // Step 2: Filter shapes of chosen rarity
+        var matchingShapes = allShapes.Where(s => s.rarity == chosenRarity).ToList();
+
+        if (matchingShapes.Count == 0)
+        {
+            // fallback: pick any shape at all
+            return allShapes[Random.Range(0, allShapes.Count)];
+        }
+
+        // Step 3: Random pick from matching
+        return matchingShapes[Random.Range(0, matchingShapes.Count)];
+    }
+
+
+
 
     private bool AllShapesOwnedInPack()
     {
