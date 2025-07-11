@@ -19,10 +19,11 @@ public class ShapePopupUI : MonoBehaviour
     }
 
     // Public method to enqueue a reward
-    public void EnqueueReward(Sprite icon, string shapeName)
+    public void EnqueueReward(ShapeItem shape)
     {
-        rewardQueue.Enqueue(() => ShowInternal(icon, shapeName));
+        rewardQueue.Enqueue(() => ShowInternal(shape));
     }
+
 
     // Public method to enqueue a duplicate refund
     public void EnqueueRefund(float refundAmount)
@@ -81,15 +82,18 @@ public class ShapePopupUI : MonoBehaviour
     }
 
     // Internal method to show a shape reward
-    private void ShowInternal(Sprite icon, string shapeName)
+    private void ShowInternal(ShapeItem shape)
     {
-        Debug.Log("📦 Showing shape popup: " + shapeName);
+        Debug.Log("📦 Showing shape popup: " + shape.id);
         gameObject.SetActive(true);
         popupPanel.SetActive(true);
         shapeImage.gameObject.SetActive(true);
-        shapeImage.sprite = icon;
-        shapeText.text = shapeName;
+
+        shapeImage.sprite = shape.icon;
+        shapeImage.color = shape.GetRarityColor(); // ✅ set image color based on rarity
+        shapeText.text = shape.id;
     }
+
 
     // Internal method to show refund message
     private void ShowDuplicateRefundInternal(float refundAmount)

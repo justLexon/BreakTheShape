@@ -69,7 +69,7 @@ public class ShapePackBuyButtonPremium : MonoBehaviour
             if (success)
             {
                 uniqueShapesGained++;
-                shapePopupUI.EnqueueReward(shape.icon, shape.id);
+                shapePopupUI.EnqueueReward(shape); // ✅ pass full shape
             }
             else
             {

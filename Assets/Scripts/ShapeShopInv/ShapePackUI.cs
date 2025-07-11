@@ -40,7 +40,7 @@ public class ShapePackUI : MonoBehaviour
             bool isOwned = SaveManager.Instance.IsShapeOwned(shape.id);
             bool isEnabled = InventoryManager.Instance.IsShapeEnabled(shape.id);
 
-            iconUI.Setup(shape.id, shape.icon, isOwned, isEnabled);
+            iconUI.Setup(shape, isOwned, isEnabled);
 
             iconGO.GetComponent<Button>().onClick.AddListener(() =>
             {

@@ -11,15 +11,17 @@ public class ShapeIconUI : MonoBehaviour
     private bool isOwned;
     private bool isEnabled;
 
-    public void Setup(string id, Sprite sprite, bool owned, bool enabled)
+    public void Setup(ShapeItem shape, bool owned, bool enabled)
     {
-        shapeId = id;
+        shapeId = shape.id;
         isOwned = owned;
         isEnabled = enabled;
 
-        shapeImage.sprite = sprite;
+        shapeImage.sprite = shape.icon;
+        shapeImage.color = shape.GetRarityColor(); // ✅ tint based on rarity
         UpdateVisuals();
     }
+
 
     public void OnClick()
     {
