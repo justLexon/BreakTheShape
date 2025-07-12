@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: M_dog1
   m_EditorClassIdentifier: 
-  id: M_dog1
+  id: Husky
   icon: {fileID: 21300000, guid: f83c6d0a442f8c045aeb5f1543e04792, type: 3}
   rarity: 4
   isUnlocked: 0

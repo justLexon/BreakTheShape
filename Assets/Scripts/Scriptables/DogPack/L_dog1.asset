@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: L_dog1
   m_EditorClassIdentifier: 
-  id: L_dog1
+  id: Wiener Dog
   icon: {fileID: 21300000, guid: 9051fc4117ca622478372f8eb4a0a328, type: 3}
   rarity: 3
   isUnlocked: 0

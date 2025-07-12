@@ -207,7 +207,7 @@ public class ShapeManager : MonoBehaviour
         {
             shadowRenderer.sprite = shape.sprite;
             shadowRenderer.color = new Color(0f, 0f, 0f, 1f);
-            shadowRenderer.transform.localPosition = new Vector3(0f, -0.1f, 0.1f);
+            shadowRenderer.transform.localPosition = new Vector3(0f, -0.06f, 0.1f);
         }
 
         currentMaterialInstance = new Material(sharedCrackMaterial);
