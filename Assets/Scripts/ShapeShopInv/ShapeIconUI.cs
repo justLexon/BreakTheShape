@@ -50,6 +50,10 @@ public class ShapeIconUI : MonoBehaviour
         // Update local isEnabled flag from InventoryManager after toggling
         isEnabled = InventoryManager.Instance.IsShapeEnabled(shapeId);
         UpdateVisuals();
+
+        InventoryView.Instance.UpdateCurrentShapeEnabledText();
+
+        SaveSystem.Instance.SaveProgress();
     }
 
 

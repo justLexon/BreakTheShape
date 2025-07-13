@@ -1,13 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryView : MonoBehaviour
 {
+    public static InventoryView Instance;
     public Transform packContainer; // Content container under ScrollView
     public GameObject packUIPrefab; // Prefab for a row (ShapePackUI)
     public ScrollRect verticalScrollRect; // assign in inspector
     public GameObject inventoryOverlayPanel; // Assign the inventory root panel here
+    public TMP_Text currentShapeEnabledText;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void PopulateFromShop()
     {
@@ -52,4 +61,11 @@ public class InventoryView : MonoBehaviour
         // Optional: refresh ShapeManager or game state if needed
         ShapeManager.Instance.RefreshEnabledShapes();
     }
+
+    public void UpdateCurrentShapeEnabledText()
+    {
+        int enabledCount = InventoryManager.Instance.GetEnabledShapes().Count;
+        currentShapeEnabledText.text = $"{enabledCount}/10";
+    }
+
 }
