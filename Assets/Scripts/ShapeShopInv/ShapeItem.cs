@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public enum Rarity
 {
     Common,
@@ -42,6 +41,19 @@ public class ShapeItem : ScriptableObject
             Rarity.Legendary => HexToColor("F4E733"),
             Rarity.Mythic => HexToColor("FF4444"),
             _ => Color.white
+        };
+    }
+
+    public Color GetRarityBackgroundColor()
+    {
+        return rarity switch
+        {
+            Rarity.Common => HexToColor("8882AA"),
+            Rarity.Rare => HexToColor("052E96"),
+            Rarity.Epic => HexToColor("7C0098"),
+            Rarity.Legendary => HexToColor("BFA00B"),
+            Rarity.Mythic => HexToColor("850404"),
+            _ => Color.black
         };
     }
 

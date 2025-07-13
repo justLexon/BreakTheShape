@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShapeIconUI : MonoBehaviour
 {
     public Image shapeImage;
+    public Image BG;
+    public TMP_Text shapeName;
     public GameObject lockOverlay;      // Shown if not owned
     public GameObject enabledOverlay;   // Green overlay if enabled
 
@@ -19,6 +22,9 @@ public class ShapeIconUI : MonoBehaviour
 
         shapeImage.sprite = shape.icon;
         shapeImage.color = shape.GetRarityColor(); // ✅ tint based on rarity
+        BG.color = shape.GetRarityBackgroundColor();
+        shapeName.color = shape.GetRarityBackgroundColor();
+        shapeName.text = shape.id;
         UpdateVisuals();
     }
 

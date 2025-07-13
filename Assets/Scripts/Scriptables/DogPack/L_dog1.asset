@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: L_dog1
   m_EditorClassIdentifier: 
   id: Wiener Dog
-  icon: {fileID: 21300000, guid: 9051fc4117ca622478372f8eb4a0a328, type: 3}
+  icon: {fileID: 21300000, guid: 944260ff3b221524c956eb19f1de04ec, type: 3}
   rarity: 3
   isUnlocked: 0
   isEnabled: 0
