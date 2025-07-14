@@ -49,7 +49,7 @@ public class ShapePackBuyButton : MonoBehaviour
         int purchasesMade = 0;
         int uniqueShapesGained = 0;
 
-        shapePopupUI.SetPackCounter(simulatedCosts.Count); 
+        shapePopupUI.SetPackCounter(simulatedCosts.Count);
 
         foreach (double packCost in simulatedCosts)
         {
