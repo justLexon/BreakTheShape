@@ -9,6 +9,12 @@ public class ShapePopupUI : MonoBehaviour
     public GameObject popupPanel;
     public Image shapeImage;
     public TMP_Text shapeText;
+    public TMP_Text packCounterText;
+
+    private int currentPackIndex = 0;
+    private int totalPacksToShow = 1; // default 1 to avoid division by 0
+
+
 
     private Queue<Action> rewardQueue = new Queue<Action>();
     private bool isShowing = false;
@@ -16,6 +22,12 @@ public class ShapePopupUI : MonoBehaviour
     void Start()
     {
         popupPanel.SetActive(false);
+    }
+
+    public void SetPackCounter(int totalPacks)
+    {
+        totalPacksToShow = Mathf.Max(totalPacks, 1); // Avoid 0
+        currentPackIndex = 0;
     }
 
     // Public method to enqueue a reward
@@ -75,6 +87,9 @@ public class ShapePopupUI : MonoBehaviour
     {
         if (rewardQueue.Count > 0)
         {
+            currentPackIndex++;
+            UpdatePackCounterText();
+
             var action = rewardQueue.Dequeue();
             action.Invoke();
             isShowing = true;
@@ -84,6 +99,16 @@ public class ShapePopupUI : MonoBehaviour
             Hide();
         }
     }
+
+    private void UpdatePackCounterText()
+    {
+        if (packCounterText != null)
+        {
+            packCounterText.gameObject.SetActive(true);
+            packCounterText.text = $"{currentPackIndex}/{totalPacksToShow}";
+        }
+    }
+
 
     // Called from UI button click (e.g. popup background)
     public void OnPopupClicked()

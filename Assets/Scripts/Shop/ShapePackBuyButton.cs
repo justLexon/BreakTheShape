@@ -49,6 +49,8 @@ public class ShapePackBuyButton : MonoBehaviour
         int purchasesMade = 0;
         int uniqueShapesGained = 0;
 
+        shapePopupUI.SetPackCounter(simulatedCosts.Count); 
+
         foreach (double packCost in simulatedCosts)
         {
             if (uniqueShapesGained >= shapesNeeded)
