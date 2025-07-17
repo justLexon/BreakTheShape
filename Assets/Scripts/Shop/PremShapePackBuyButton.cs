@@ -49,6 +49,8 @@ public class ShapePackBuyButtonPremium : MonoBehaviour
         int purchasesMade = 0;
         int uniqueShapesGained = 0;
 
+        shapePopupUI.SetPackCounter(simulatedCosts.Count);
+
         foreach (double packCost in simulatedCosts)
         {
             if (uniqueShapesGained >= shapesNeeded)
@@ -77,7 +79,7 @@ public class ShapePackBuyButtonPremium : MonoBehaviour
                 ShapeManager.Instance.premiumCoinCount += refund;
                 ShapeManager.Instance.uiManager.UpdatePremiumCoinText(ShapeManager.Instance.premiumCoinCount);
                 SaveSystem.Instance.SaveProgress();
-                shapePopupUI.EnqueueRefund((float)refund, $"Duplicate! Refunded {refund} premium coins.");
+                shapePopupUI.EnqueueRefund((float)refund, shape);
             }
         }
 

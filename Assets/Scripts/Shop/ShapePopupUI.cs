@@ -59,7 +59,7 @@ public class ShapePopupUI : MonoBehaviour
         rewardQueue.Enqueue(() => ShowDuplicateRefundInternal(refundAmount, shape));
     }
 
-    private void ShowDuplicateRefundInternal(float refundAmount, ShapeItem shape)
+    private void ShowDuplicateRefundInternal(double refundAmount, ShapeItem shape)
     {
         gameObject.SetActive(true);
         popupPanel.SetActive(true);
@@ -67,7 +67,7 @@ public class ShapePopupUI : MonoBehaviour
 
         shapeImage.sprite = shape.icon;
         shapeImage.color = shape.GetRarityColor();
-        shapeText.text = $"Duplicate {shape.id}! Refunded {refundAmount} coins (¼ of price)";
+        shapeText.text = $"Duplicate {shape.id}!\nRefunded {FormatNumberWithSuffix(refundAmount)} coins";
     }
 
 
@@ -144,5 +144,21 @@ public class ShapePopupUI : MonoBehaviour
         popupPanel.SetActive(true);
         shapeImage.gameObject.SetActive(true);
         shapeText.text = $"Duplicate! Refunded {refundAmount} coins (¼ of price)";
+    }
+
+    private string FormatNumberWithSuffix(double number)
+    {
+        if (number < 1000)
+            return number.ToString("0");
+
+        string[] suffixes = { "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc" };
+        int suffixIndex = -1;
+        while (number >= 1000 && suffixIndex < suffixes.Length - 1)
+        {
+            number /= 1000;
+            suffixIndex++;
+        }
+
+        return number.ToString("0.#") + suffixes[suffixIndex];
     }
 }
