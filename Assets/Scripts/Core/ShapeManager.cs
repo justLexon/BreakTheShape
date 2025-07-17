@@ -272,6 +272,14 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
+    public void AddCoins(double amount)
+    {
+        coinCount += amount;
+        uiManager.UpdateCoinText(coinCount);
+        SaveSystem.Instance.SaveProgress();
+        Debug.Log($"💎 Added {amount} coins. Total: {coinCount}");
+    }
+
     public double GetPremiumCoinCount()
     {
         return premiumCoinCount;
