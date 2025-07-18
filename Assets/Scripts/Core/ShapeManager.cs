@@ -14,10 +14,10 @@ public class ShapeManager : MonoBehaviour
 
     [Header("Universal Stats")]
     public double baseMaxHealth = 10;
-    private double currentMaxHealth;
-    public double currentHealth;
+    public double currentMaxHealth = 10;
+    public double currentHealth = 10;
     public double tapDamage = 1;
-    public double idleDamagePerSecond = 0.5f;
+    public double idleDamagePerSecond = 1f;
     public double coinsPerBreak = 5;
     public double shapesBrokenCounter = 0;
 
@@ -58,6 +58,8 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
+    public bool IsInitialized { get; private set; } = false;
+
     private void Start()
     {
         Debug.Log("🔁 ShapeManager Start — Loading Save");
@@ -72,6 +74,8 @@ public class ShapeManager : MonoBehaviour
         }
 
         RefreshEnabledShapes(); // Populate shapes[] with enabled shapes including polygon pack
+
+        IsInitialized = true;
     }
 
 
@@ -341,5 +345,9 @@ public class ShapeManager : MonoBehaviour
         LoadShapeFromSave(currentShapeIndex);
     }
 
+    public double GetIdleDPS()
+    {
+        return idleDamagePerSecond;
+    }
 
 }

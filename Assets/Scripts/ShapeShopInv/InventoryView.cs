@@ -60,7 +60,7 @@ public class InventoryView : MonoBehaviour
             if (fadeCoroutine != null)
                 StopCoroutine(fadeCoroutine);
 
-            fadeCoroutine = StartCoroutine(FadeWarning($"Enable 10 shapes before closing the inventory. Currently enabled: {enabledCount}", 2f));
+            fadeCoroutine = StartCoroutine(FadeWarning($"Enable 10 shapes to close the inventory. Currently enabled: {enabledCount}", 2f));
             return;
         }
 
