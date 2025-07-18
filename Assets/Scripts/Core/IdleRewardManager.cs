@@ -71,7 +71,7 @@ public class IdleRewardManager : MonoBehaviour
         //double reward = idleDPS * secondsOffline * idleRewardMultiplier;
         double coinsPerBreak = ShapeManager.Instance.coinsPerBreak;
         double totalOfflineDamage = idleDPS * secondsOffline;
-        int shapesBroken = Mathf.FloorToInt((float)(totalOfflineDamage * 0.7 / ShapeManager.Instance.baseMaxHealth * idleRewardMultiplier));
+        int shapesBroken = Mathf.FloorToInt((float)(totalOfflineDamage * 0.5 / ShapeManager.Instance.baseMaxHealth * idleRewardMultiplier));
         double reward = shapesBroken * coinsPerBreak;
         Debug.Log($"IdleReward Debug => secondsOffline: {secondsOffline}, idleDPS: {idleDPS}, totalDamage: {totalOfflineDamage}, shapeHP: {ShapeManager.Instance.baseMaxHealth}, shapesBroken: {shapesBroken}, coinsPerBreak: {coinsPerBreak}, reward: {reward}");
 
