@@ -109,6 +109,18 @@ public class MaterialsManager : MonoBehaviour
                     mat.upgradePower = 5550;
                     mat.coinUpgrade = 50000;
                     break;
+                case "Jade":
+                    mat.baseCost = 500000;
+                    mat.costMultiplier = 1.4;
+                    mat.upgradePower = 10550;
+                    mat.coinUpgrade = 100000;
+                    break;
+                case "Diamond":
+                    mat.baseCost = 1000000;
+                    mat.costMultiplier = 1.4;
+                    mat.upgradePower = 50550;
+                    mat.coinUpgrade = 1000000;
+                    break;
                 default:
                     mat.baseCost = 100;
                     mat.costMultiplier = 1.15;

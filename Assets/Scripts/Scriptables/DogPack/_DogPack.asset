@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 007070bd40717094e90fa866a20f527c, type: 3}
+  m_Name: _DogPack
+  m_EditorClassIdentifier: 
+  packName: DogPack
+  packId: DogPack
+  packSprite: {fileID: 21300000, guid: e0661158f9b65a145a1ea5bfeba3396e, type: 3}
+  cost: 100
+  shapes:
+  - {fileID: 11400000, guid: 35d043f4fce47e740b83b3e08167e7b2, type: 2}
+  - {fileID: 11400000, guid: 1faf2fad6ea10b64c831b15bdebe57aa, type: 2}
+  - {fileID: 11400000, guid: 4dff81564f23b8d42867ccb330ea10a5, type: 2}
+  - {fileID: 11400000, guid: a5a7e5c048a100f48893e84cc1fe2b26, type: 2}
+  - {fileID: 11400000, guid: d89e11695afcdb443a7021398b7f0e69, type: 2}
+  - {fileID: 11400000, guid: 52effe40df75a6549967cb9f0393035b, type: 2}
+  - {fileID: 11400000, guid: 4f7791c7b93f809469199a840a4a6044, type: 2}
+  - {fileID: 11400000, guid: b626b8bbcee318c4bb722ebb15c00324, type: 2}
+  - {fileID: 11400000, guid: 53339712733b40a43a16fcda3b40ad9a, type: 2}
+  - {fileID: 11400000, guid: 4b17e60232b4b2c46953b136c89316a0, type: 2}
+  - {fileID: 11400000, guid: 206b0806aee01554aa4a3be8e089cde5, type: 2}
+  - {fileID: 11400000, guid: 0cadb3737c3c25542b7543651bd4c10e, type: 2}
+  - {fileID: 11400000, guid: 121942903ef9c8549b7fe51255f8f079, type: 2}
+  - {fileID: 11400000, guid: e5a2db5e750817d4fae837b0c6c08815, type: 2}
+  - {fileID: 11400000, guid: 532480508ee64874986c850afd8a8965, type: 2}
+  - {fileID: 11400000, guid: 78602506b56a1304e81582bb63d62fb5, type: 2}
+  - {fileID: 11400000, guid: caac1d5e741b0cc42818af3790a44cf8, type: 2}
