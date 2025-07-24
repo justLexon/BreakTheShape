@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class WheelSpinner : MonoBehaviour
 {
+    public static WheelSpinner Instance { get; private set; }
+
     public SpinCooldownManager cooldownManager;
     public Transform wheelTransform;         // Assign your wheel GameObject
     public Button spinButton;                // Assign in Inspector
@@ -12,17 +14,28 @@ public class WheelSpinner : MonoBehaviour
     public int maxRotation = 6;              // Max full spins
     private bool isSpinning = false;
     public AudioSource audio;
-    public bool check = true;
+    public bool check;
 
-    void Start()
+    public void Awake()
     {
-        spinButton.onClick.AddListener(StartSpin);
+        Instance = this;
+
         audio = GetComponent<AudioSource>();
         if (audio == null)
         {
             audio = gameObject.AddComponent<AudioSource>();
-            Debug.Log("🎵 AudioSource component added to ShapeManager");
+            Debug.Log("🎵 AudioSource component added to WheelSpinner");
         }
+
+        // Configure audio source for single play
+        audio.loop = false;
+        audio.playOnAwake = false;
+        audio.spatialBlend = 0f; // 2D sound
+    }
+
+    void Start()
+    {
+        spinButton.onClick.AddListener(StartSpin);
     }
 
     void Update()
@@ -46,10 +59,31 @@ public class WheelSpinner : MonoBehaviour
         spinButton.interactable = cooldownManager.IsReadyToSpin() && !isSpinning;
     }
 
+    private void StartSpinAudio()
+    {
+        if (audio != null && check && audio.clip != null)
+        {
+            audio.Play();
+            Debug.Log("🎵 Wheel spin audio started (3 seconds)");
+        }
+    }
+
+    private void StopSpinAudio()
+    {
+        if (audio != null && audio.isPlaying)
+        {
+            audio.Stop();
+            Debug.Log("🎵 Wheel spin audio stopped");
+        }
+    }
+
     private IEnumerator SpinWheel()
     {
         isSpinning = true;
         spinButton.interactable = false;
+
+        // Start spinning audio
+        StartSpinAudio();
 
         float totalAngle = Random.Range(minRotation, maxRotation) * 360f + Random.Range(0f, 360f);
         float currentAngle = 0f;
@@ -66,6 +100,9 @@ public class WheelSpinner : MonoBehaviour
             wheelTransform.eulerAngles = new Vector3(0, 0, angle);
             yield return null;
         }
+
+        // Stop spinning audio
+        StopSpinAudio();
 
         // Snap to final angle
         float finalZ = wheelTransform.eulerAngles.z % 360f;
@@ -154,5 +191,16 @@ public class WheelSpinner : MonoBehaviour
     public bool IsSoundEnabled()
     {
         return check;
+    }
+
+    // Optional: Stop audio if the component is disabled/destroyed
+    private void OnDisable()
+    {
+        StopSpinAudio();
+    }
+
+    private void OnDestroy()
+    {
+        StopSpinAudio();
     }
 }

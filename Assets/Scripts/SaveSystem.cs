@@ -18,7 +18,6 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveProgress()
     {
-
         var enabledShapeIds = InventoryManager.Instance.GetEnabledShapes();
         string enabledIdsSerialized = string.Join(",", enabledShapeIds);
 
@@ -35,8 +34,12 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("IdleDamage", ShapeManager.Instance.idleDamagePerSecond.ToString("R"));
         PlayerPrefs.SetString("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth.ToString("R"));
 
-        // --- Sound ---
+        // --- Sound Settings ---
         PlayerPrefs.SetInt("SoundEnabled", ShapeManager.Instance.check ? 1 : 0);
+        if (WheelSpinner.Instance != null)
+        {
+            PlayerPrefs.SetInt("WheelSoundEnabled", WheelSpinner.Instance.check ? 1 : 0);
+        }
 
         // --- Materials ---
         if (MaterialsManager.Instance != null)
@@ -93,8 +96,12 @@ public class SaveSystem : MonoBehaviour
             ShapeManager.Instance.shapesBrokenCounter = double.TryParse(PlayerPrefs.GetString("ShapesBroken"), out double broken) ? broken : 0;
             ShapeManager.Instance.idleDamagePerSecond = double.TryParse(PlayerPrefs.GetString("IdleDamage"), out double idDam) ? idDam : 1;
 
-            // --- Sound ---
+            // --- Sound Settings ---
             ShapeManager.Instance.check = PlayerPrefs.GetInt("SoundEnabled", 1) == 1; // Default to true (1) if not found
+            if (WheelSpinner.Instance != null)
+            {
+                WheelSpinner.Instance.check = PlayerPrefs.GetInt("WheelSoundEnabled", 1) == 1; // Default to true (1) if not found
+            }
 
             // --- Materials ---
             if (MaterialsManager.Instance != null)
@@ -140,12 +147,17 @@ public class SaveSystem : MonoBehaviour
         else
         {
             Debug.Log("📦 No saved data found, loading default.");
+            // --- Default Settings for First Time Players ---
+            ShapeManager.Instance.check = true; // Default sound to ON for new players
+            if (WheelSpinner.Instance != null)
+            {
+                WheelSpinner.Instance.check = true; // Default wheel sound to ON for new players
+            }
+
             MaterialsManager.Instance?.AutoSelectHighestUnlockedMaterial();
             ShapeManager.Instance.LoadShapeFromSave(0);
-            ShapeManager.Instance.check = PlayerPrefs.GetInt("SoundEnabled", 1) == 1;
         }
     }
-
 
     public void ResetSave()
     {
@@ -158,6 +170,13 @@ public class SaveSystem : MonoBehaviour
             {
                 pack.cost = 100; // Or any default starting value
             }
+        }
+
+        // Reset sound settings to default (true)
+        ShapeManager.Instance.check = true;
+        if (WheelSpinner.Instance != null)
+        {
+            WheelSpinner.Instance.check = true;
         }
 
         Debug.Log("🔄 Save data reset.");
