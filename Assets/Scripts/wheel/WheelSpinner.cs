@@ -11,10 +11,18 @@ public class WheelSpinner : MonoBehaviour
     public int minRotation = 3;              // Min full spins
     public int maxRotation = 6;              // Max full spins
     private bool isSpinning = false;
+    public AudioSource audio;
+    public bool check = true;
 
     void Start()
     {
         spinButton.onClick.AddListener(StartSpin);
+        audio = GetComponent<AudioSource>();
+        if (audio == null)
+        {
+            audio = gameObject.AddComponent<AudioSource>();
+            Debug.Log("🎵 AudioSource component added to ShapeManager");
+        }
     }
 
     void Update()
@@ -113,5 +121,38 @@ public class WheelSpinner : MonoBehaviour
             Debug.Log("🎁 Prize 1: Double your coins!");
             ShapeManager.Instance.AddCoins(ShapeManager.Instance.coinCount);
         }
+    }
+
+    public void CheckPlayBreakSound(bool x)
+    {
+        if (x == true)
+        {
+            check = false;
+        }
+        if (x == false)
+        {
+            check = true;
+        }
+
+        SaveSystem.Instance.SaveProgress();
+        Debug.Log($"🔊 Sound setting changed to: {(check ? "ON" : "OFF")}");
+    }
+
+    public void SwitchOnOffSound()
+    {
+        CheckPlayBreakSound(check);
+    }
+
+    public void PlayBreakSound()
+    {
+        if (check == true && audio != null)
+        {
+            audio.Play();
+        }
+    }
+
+    public bool IsSoundEnabled()
+    {
+        return check;
     }
 }

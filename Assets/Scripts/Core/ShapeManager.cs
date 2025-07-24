@@ -32,6 +32,8 @@ public class ShapeManager : MonoBehaviour
     [Header("References")]
     public MaterialsManager materialsManager;
     public UIManagerS uiManager;
+    public AudioSource audio;
+    public bool check = true;
 
     private int currentShapeIndex = 0;
     private float idleTimer = 0f;
@@ -39,7 +41,7 @@ public class ShapeManager : MonoBehaviour
 
     [Header("Monies")]
     public double coinCount = 0;
-    public double premiumCoinCount = 5555;
+    public double premiumCoinCount = 0;
 
     private void Awake()
     {
@@ -49,6 +51,13 @@ public class ShapeManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        audio = GetComponent<AudioSource>();
+        if (audio == null)
+        {
+            audio = gameObject.AddComponent<AudioSource>();
+            Debug.Log("🎵 AudioSource component added to ShapeManager");
+        }
 
         if (!PlayerPrefs.HasKey("HasLaunchedBefore"))
         {
@@ -77,43 +86,6 @@ public class ShapeManager : MonoBehaviour
 
         IsInitialized = true;
     }
-
-
-    private void InitializeDefaultShapes()
-    {
-        if (!PlayerPrefs.HasKey("HasInitializedDefaultShapes"))
-        {
-            Debug.Log("⚙️ Initializing default enabled shapes (Basic Polygon Pack)");
-
-            // Find your basic polygon pack by ID or name
-            ShapePack basicPack = null;
-            foreach (var pack in ShopManager.Instance.allShapePacks)
-            {
-                if (pack.packId == "polygonPack") // Change to your actual packId or name
-                {
-                    basicPack = pack;
-                    break;
-                }
-            }
-
-            if (basicPack != null)
-            {
-                foreach (var shape in basicPack.shapes)
-                {
-                    InventoryManager.Instance.SetShapeEnabled(shape.id, true);
-                    Debug.Log($"Enabled shape: {shape.id}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("⚠️ Basic Polygon Pack not found!");
-            }
-
-            PlayerPrefs.SetInt("HasInitializedDefaultShapes", 1);
-            PlayerPrefs.Save();
-        }
-    }
-
 
     private void Update()
     {
@@ -157,6 +129,39 @@ public class ShapeManager : MonoBehaviour
         }
     }
 
+    public void CheckPlayBreakSound(bool x)
+    {
+        if (x == true)
+        {
+            check = false;
+        }
+        if (x == false)
+        {
+            check = true;
+        }
+
+        SaveSystem.Instance.SaveProgress();
+        Debug.Log($"🔊 Sound setting changed to: {(check ? "ON" : "OFF")}");
+    }
+
+    public void SwitchOnOffSound()
+    {
+        CheckPlayBreakSound(check);
+    }
+
+    public void PlayBreakSound()
+    {
+        if (check == true && audio != null)
+        {
+            audio.Play();
+        }
+    }
+
+    public bool IsSoundEnabled()
+    {
+        return check;
+    }
+
     private void BreakShape()
     {
         if (shapes == null || shapes.Length == 0)
@@ -164,6 +169,8 @@ public class ShapeManager : MonoBehaviour
             Debug.LogWarning("BreakShape called but shapes array is empty!");
             return;
         }
+
+        PlayBreakSound();
 
         coinCount += coinsPerBreak;
         shapesBrokenCounter++;

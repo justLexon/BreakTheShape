@@ -35,6 +35,9 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("IdleDamage", ShapeManager.Instance.idleDamagePerSecond.ToString("R"));
         PlayerPrefs.SetString("BaseMaxHealth", ShapeManager.Instance.baseMaxHealth.ToString("R"));
 
+        // --- Sound ---
+        PlayerPrefs.SetInt("SoundEnabled", ShapeManager.Instance.check ? 1 : 0);
+
         // --- Materials ---
         if (MaterialsManager.Instance != null)
         {
@@ -90,6 +93,9 @@ public class SaveSystem : MonoBehaviour
             ShapeManager.Instance.shapesBrokenCounter = double.TryParse(PlayerPrefs.GetString("ShapesBroken"), out double broken) ? broken : 0;
             ShapeManager.Instance.idleDamagePerSecond = double.TryParse(PlayerPrefs.GetString("IdleDamage"), out double idDam) ? idDam : 1;
 
+            // --- Sound ---
+            ShapeManager.Instance.check = PlayerPrefs.GetInt("SoundEnabled", 1) == 1; // Default to true (1) if not found
+
             // --- Materials ---
             if (MaterialsManager.Instance != null)
             {
@@ -136,6 +142,7 @@ public class SaveSystem : MonoBehaviour
             Debug.Log("📦 No saved data found, loading default.");
             MaterialsManager.Instance?.AutoSelectHighestUnlockedMaterial();
             ShapeManager.Instance.LoadShapeFromSave(0);
+            ShapeManager.Instance.check = PlayerPrefs.GetInt("SoundEnabled", 1) == 1;
         }
     }
 
