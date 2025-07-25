@@ -53,6 +53,7 @@ public class DPSUpgradeButton : MonoBehaviour
             PlayerPrefs.SetInt(upgradeKey + "_Level", level);
             PlayerPrefs.Save();
 
+            BuySound.Instance.PlayBuySound();
             UpdateUI();
         }
         else

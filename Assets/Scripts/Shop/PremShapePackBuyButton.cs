@@ -60,6 +60,8 @@ public class ShapePackBuyButtonPremium : MonoBehaviour
             ShapeManager.Instance.uiManager.UpdatePremiumCoinText(ShapeManager.Instance.premiumCoinCount);
             purchasesMade++;
 
+            BuySound.Instance.PlayBuySound();
+
             shapePack.cost = System.Math.Round(shapePack.cost * costMultiplier);
             SaveSystem.Instance.SaveProgress();
             UpdateCostText();

@@ -54,6 +54,7 @@ public class MaterialUpgradeButton : MonoBehaviour
             ShapeManager.Instance.baseMaxHealth += health * targetAmount;
             ShapeManager.Instance.coinsPerBreak += coinUpgrade * targetAmount;
 
+            BuySound.Instance.PlayBuySound();
             UpdateUI();
             ShapeManager.Instance.LoadShapeFromSave(ShapeManager.Instance.GetCurrentShapeIndex());
         }
