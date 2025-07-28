@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: M_dog2
   m_EditorClassIdentifier: 
   id: m2
-  icon: {fileID: 21300000, guid: 49a6498b3e37baf469907a13d69b14cd, type: 3}
+  icon: {fileID: 21300000, guid: 8b4152401b7824444afbec570c9e2e8a, type: 3}
   rarity: 4
   isUnlocked: 0
   isEnabled: 0

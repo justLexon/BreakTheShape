@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: R_dog3
   m_EditorClassIdentifier: 
   id: r3
-  icon: {fileID: 21300000, guid: b93012fda0a4e134f9b243d692925081, type: 3}
+  icon: {fileID: 21300000, guid: 6152aaa23746efd49ba5c31717624882, type: 3}
   rarity: 1
   isUnlocked: 0
   isEnabled: 0

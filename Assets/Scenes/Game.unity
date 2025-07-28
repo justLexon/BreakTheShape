@@ -67579,7 +67579,7 @@ GameObject:
   - component: {fileID: 1019380135}
   - component: {fileID: 1019380138}
   m_Layer: 5
-  m_Name: RandomBuyButton
+  m_Name: HalloweenBuyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67712,10 +67712,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c91e97cb045bd44f917adf367f64db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapePack: {fileID: 11400000, guid: 285f02f871c0cb64c9653966ae8672c3, type: 2}
+  shapePack: {fileID: 11400000, guid: bc8f7b29c3fa3b0498ef43b7d25ea433, type: 2}
   shapePopupUI: {fileID: 1474295540}
   costText: {fileID: 985097894}
-  costMultiplier: 1.15
+  costMultiplier: 1.18
 --- !u!1 &1023146274
 GameObject:
   m_ObjectHideFlags: 0
@@ -82421,10 +82421,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c91e97cb045bd44f917adf367f64db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapePack: {fileID: 11400000, guid: 6076054a5785b5c4abf721fac89b93e2, type: 2}
+  shapePack: {fileID: 11400000, guid: 285f02f871c0cb64c9653966ae8672c3, type: 2}
   shapePopupUI: {fileID: 1474295540}
   costText: {fileID: 1531204300}
-  costMultiplier: 1.25
+  costMultiplier: 1.15
 --- !u!1 &1250640411
 GameObject:
   m_ObjectHideFlags: 0
@@ -138305,6 +138305,7 @@ MonoBehaviour:
   allShapePacks:
   - {fileID: 11400000, guid: 6076054a5785b5c4abf721fac89b93e2, type: 2}
   - {fileID: 11400000, guid: 285f02f871c0cb64c9653966ae8672c3, type: 2}
+  - {fileID: 11400000, guid: bc8f7b29c3fa3b0498ef43b7d25ea433, type: 2}
 --- !u!4 &2064756069
 Transform:
   m_ObjectHideFlags: 0
