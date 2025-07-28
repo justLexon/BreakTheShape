@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
-  m_Name: fallLeaf
+  m_Name: Lcrow
   m_EditorClassIdentifier: 
-  id: fallLeaf
-  icon: {fileID: 21300000, guid: 93a01bd402c2bfc409b76fa0409f0cd6, type: 3}
-  rarity: 0
+  id: crow
+  icon: {fileID: 21300000, guid: 713dee79f36e60f4ea3ec9aa093cb50c, type: 3}
+  rarity: 3
   isUnlocked: 0
   isEnabled: 0

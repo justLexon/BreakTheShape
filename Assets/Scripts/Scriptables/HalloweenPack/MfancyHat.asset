@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
-  m_Name: pointyLeaf
+  m_Name: MfancyHat
   m_EditorClassIdentifier: 
-  id: pointyLeaf
-  icon: {fileID: 21300000, guid: b23b8cac573321947a1d2ee7e225ca7c, type: 3}
+  id: fancyHat
+  icon: {fileID: 21300000, guid: a2a23d516a8d1c84aaa1ea8f01bfa92a, type: 3}
   rarity: 4
   isUnlocked: 0
   isEnabled: 0

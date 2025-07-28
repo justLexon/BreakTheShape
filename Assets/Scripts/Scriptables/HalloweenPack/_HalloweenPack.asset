@@ -14,8 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packName: Halloween
   packId: Halloween
-  packSprite: {fileID: 0}
-  cost: 100
+  packSprite: {fileID: 21300000, guid: 93a01bd402c2bfc409b76fa0409f0cd6, type: 3}
+  cost: 6062261131367
   shapes:
+  - {fileID: 11400000, guid: 20552fe1fde1efd45b1bbec4c49339ab, type: 2}
+  - {fileID: 11400000, guid: a74b3b9229c66a3418d97a7515c42d37, type: 2}
   - {fileID: 11400000, guid: ab5c10239a9bbdc48991d48c91822990, type: 2}
+  - {fileID: 11400000, guid: 7c535dd619a647d498d369d7d03fe379, type: 2}
+  - {fileID: 11400000, guid: e6b24d2e2eb6f9147a668db8cff02716, type: 2}
+  - {fileID: 11400000, guid: 9c0bfe762654cc84b9ed6b982dfe316f, type: 2}
   - {fileID: 11400000, guid: 81da20aec7cb1514e8246fe5b1bb3920, type: 2}
+  - {fileID: 11400000, guid: 175bb4edbed17444db41cc9cd94529c9, type: 2}
+  - {fileID: 11400000, guid: 42fb551c3996b0d40800ea9a875b96e5, type: 2}
+  - {fileID: 11400000, guid: 7c410e3621beb9443aa60ace8fc4c4d9, type: 2}
+  - {fileID: 11400000, guid: 349a9f3ed7e3cd943a109f6edfdbab6e, type: 2}
+  - {fileID: 11400000, guid: bc8f41d84df22ce4faa243a8c599564a, type: 2}
