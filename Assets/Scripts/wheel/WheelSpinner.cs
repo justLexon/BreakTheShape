@@ -61,12 +61,24 @@ public class WheelSpinner : MonoBehaviour
 
     private void StartSpinAudio()
     {
-        if (audio != null && check && audio.clip != null)
+
+        // Check if sound is enabled and audio exists
+        if (ShapeManager.Instance.IsSoundEnabled() && audio != null && audio.clip != null)
         {
             audio.Play();
-            Debug.Log("🎵 Wheel spin audio started (3 seconds)");
+            Debug.Log("Wheel sound played");
         }
-    }
+        else
+        {
+            if (!ShapeManager.Instance.IsSoundEnabled())
+                Debug.Log("🔇 Wheel sound disabled by user");
+            if (audio == null)
+                Debug.LogWarning("⚠️ AudioSource is null!");
+            if (audio != null && audio.clip == null)
+                Debug.LogWarning("⚠️ No AudioClip assigned to WheelSound!");
+        }
+    
+}
 
     private void StopSpinAudio()
     {
