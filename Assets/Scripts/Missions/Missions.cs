@@ -23,6 +23,10 @@ public class Missions : MonoBehaviour
     [Header("Mission Configuration")]
     public List<Mission> missions = new List<Mission>();
 
+    [Header("Mission Completion Popup")]
+    public GameObject missionCompletedPopup;
+    public float fadeSpeed = 2f;
+
     void Start()
     {
         LoadMissionStates();
@@ -56,7 +60,51 @@ public class Missions : MonoBehaviour
         ShapeManager.Instance.AddPremiumCoins(mission.coinReward);
         SaveMissionState(mission);
 
+        // Show popup for 2 seconds
+        StartCoroutine(ShowCompletionPopup());
+
         Debug.Log($"Mission '{mission.missionName}' completed! Rewarded {mission.coinReward} coins.");
+    }
+
+    private IEnumerator ShowCompletionPopup()
+    {
+        if (missionCompletedPopup != null)
+        {
+            CanvasGroup canvasGroup = missionCompletedPopup.GetComponent<CanvasGroup>();
+
+            // If no CanvasGroup exists, add one
+            if (canvasGroup == null)
+                canvasGroup = missionCompletedPopup.AddComponent<CanvasGroup>();
+
+            // Start with popup invisible
+            canvasGroup.alpha = 0f;
+            missionCompletedPopup.SetActive(true);
+
+            // Fade in
+            float elapsedTime = 0f;
+            while (elapsedTime < (1f / fadeSpeed))
+            {
+                elapsedTime += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Clamp01(elapsedTime * fadeSpeed);
+                yield return null;
+            }
+            canvasGroup.alpha = 1f;
+
+            // Wait for 2 seconds at full opacity
+            yield return new WaitForSeconds(2f);
+
+            // Fade out
+            elapsedTime = 0f;
+            while (elapsedTime < (1f / fadeSpeed))
+            {
+                elapsedTime += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Clamp01(1f - (elapsedTime * fadeSpeed));
+                yield return null;
+            }
+            canvasGroup.alpha = 0f;
+
+            missionCompletedPopup.SetActive(false);
+        }
     }
 
     private void UpdateMissionUI(Mission mission)

@@ -45,7 +45,7 @@ public class IdleRewardManager : MonoBehaviour
 
     public void ShowIdleRewardPopup(string reward, TimeSpan duration)
     {
-        idleRewardText.text = $"While you were away for\n{duration.Hours}h {duration.Minutes}m\nYou earned {reward} coins!";
+        idleRewardText.text = $"{duration.Hours}h {duration.Minutes}m\n\n\n{reward} coins";
         idleRewardPanel.SetActive(true);
     }
     
