@@ -65,61 +65,61 @@ public class MaterialsManager : MonoBehaviour
                     mat.baseCost = 50;
                     mat.costMultiplier = 1.15;
                     mat.upgradePower = 3;
-                    mat.coinUpgrade = 1;
+                    mat.coinUpgrade = 1; //C 15 ; Max 202 ; Avg 13
                     break;
                 case "Wood":
-                    mat.baseCost = 250;
-                    mat.costMultiplier = 1.2;
-                    mat.upgradePower = 10;
-                    mat.coinUpgrade = 50;
-                    break;
-                case "Stone":
                     mat.baseCost = 500;
                     mat.costMultiplier = 1.25;
+                    mat.upgradePower = 40;
+                    mat.coinUpgrade = 5; //C 65 ; Max 4.7k ; Avg 72
+                    break;
+                case "Stone":
+                    mat.baseCost = 10000;
+                    mat.costMultiplier = 1.2;
                     mat.upgradePower = 45;
-                    mat.coinUpgrade = 100;
+                    mat.coinUpgrade = 45; //C 515 ; Max 61.9k ; Avg 120  **Mission1 Completed***
                     break;
                 case "Granite":
-                    mat.baseCost = 1000;
-                    mat.costMultiplier = 1.3;
+                    mat.baseCost = 125000;
+                    mat.costMultiplier = 1.15;
                     mat.upgradePower = 80;
-                    mat.coinUpgrade = 300;
+                    mat.coinUpgrade = 150; //C 2015 ; Max 505.7k ; Avg 250
                     break;
                 case "Marble":
-                    mat.baseCost = 5000;
-                    mat.costMultiplier = 1.35;
+                    mat.baseCost = 1000000;
+                    mat.costMultiplier = 1.15;
                     mat.upgradePower = 220;
-                    mat.coinUpgrade = 1000;
+                    mat.coinUpgrade = 600; //C 8015 ; Max 4M ; Avg 500
                     break;
                 case "Bronze":
-                    mat.baseCost = 50000;
-                    mat.costMultiplier = 1.4;
+                    mat.baseCost = 8000000;
+                    mat.costMultiplier = 1.1;
                     mat.upgradePower = 550;
-                    mat.coinUpgrade = 5000;
+                    mat.coinUpgrade = 1300; //C 21015 ; Max 20.7M ; Avg 985
                     break;
                 case "Silver":
-                    mat.baseCost = 100000;
-                    mat.costMultiplier = 1.4;
+                    mat.baseCost = 50000000;
+                    mat.costMultiplier = 1.1;
                     mat.upgradePower = 1550;
-                    mat.coinUpgrade = 15000;
+                    mat.coinUpgrade = 3100; //C 52015 ; Max 129.7M ; Avg 2500
                     break;
                 case "Gold":
-                    mat.baseCost = 250000;
-                    mat.costMultiplier = 1.4;
+                    mat.baseCost = 250000000;
+                    mat.costMultiplier = 1.09;
                     mat.upgradePower = 5550;
-                    mat.coinUpgrade = 50000;
+                    mat.coinUpgrade = 6600; //C 118015 ; Max 591.8M ; Avg 5000
                     break;
                 case "Jade":
-                    mat.baseCost = 500000;
-                    mat.costMultiplier = 1.4;
+                    mat.baseCost = 1200000000;
+                    mat.costMultiplier = 1.15;
                     mat.upgradePower = 10550;
-                    mat.coinUpgrade = 100000;
+                    mat.coinUpgrade = 37200; //C 490015 ; Max 4.9B ; Avg 10000
                     break;
                 case "Diamond":
-                    mat.baseCost = 1000000;
-                    mat.costMultiplier = 1.4;
+                    mat.baseCost = 30000000000;
+                    mat.costMultiplier = 1.15;
                     mat.upgradePower = 50550;
-                    mat.coinUpgrade = 1000000;
+                    mat.coinUpgrade = 600000; //C 6.07M; Max 121.4B ; Avg 20000
                     break;
                 default:
                     mat.baseCost = 100;

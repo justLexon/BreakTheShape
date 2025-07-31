@@ -8,7 +8,7 @@ public class DPTUpgradeButton : MonoBehaviour
 
     public string upgradeKey = "Fist";
     public double baseCost = 50;
-    public float costMultiplier = 1.15f;
+    public float costMultiplier = 1.10f;
     public int maxLevel = 999;
     public int upgradePower = 1;
 
@@ -21,12 +21,12 @@ public class DPTUpgradeButton : MonoBehaviour
     {
         switch (upgradeKey)
         {
-            case "Fist": baseCost = 50; upgradePower = 1; break;
-            case "Rock": baseCost = 250; upgradePower = 5; break;
-            case "Bat": baseCost = 500; upgradePower = 15; break;
-            case "Pickaxe": baseCost = 1000; upgradePower = 50; break;
-            case "Hammer": baseCost = 5000; upgradePower = 150; break;
-            case "Crowbar": baseCost = 50000; upgradePower = 250; break;
+            //case "Fist": baseCost = 50; upgradePower = 1; costMultiplier = 1.1f; break;
+            case "Rock": baseCost = 25; upgradePower = 1; costMultiplier = 1.2f; break;
+            case "Bat": baseCost = 150; upgradePower = 5; costMultiplier = 1.2f; break;
+            case "Pickaxe": baseCost = 1000; upgradePower = 15; costMultiplier = 1.2f; break;
+            case "Hammer": baseCost = 5000; upgradePower = 150; costMultiplier = 1.1f; break;
+            case "Crowbar": baseCost = 50000; upgradePower = 250; costMultiplier = 1.1f; break;
             default: baseCost = 100; break;
         }
 
