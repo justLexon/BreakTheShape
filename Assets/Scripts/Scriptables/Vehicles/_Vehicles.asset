@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 007070bd40717094e90fa866a20f527c, type: 3}
+  m_Name: _Vehicles
+  m_EditorClassIdentifier: 
+  packName: Vehicles
+  packId: Vehicles
+  packSprite: {fileID: 0}
+  cost: 132
+  shapes:
+  - {fileID: 11400000, guid: 079dda12dc42ce84fb65763d9530dc5b, type: 2}
+  - {fileID: 11400000, guid: 2acd31a1e101c494cb5d041a7008aa1b, type: 2}
+  - {fileID: 11400000, guid: 8523f2ba30b80ed4da16a19349f084a4, type: 2}
+  - {fileID: 11400000, guid: 265ac191849a72449b3ffc2f4bbd6a88, type: 2}
+  - {fileID: 11400000, guid: ac3763790af3efb408538020325d1065, type: 2}
+  - {fileID: 11400000, guid: fc7e40ce82688e7438153d8c358d55ce, type: 2}
+  - {fileID: 11400000, guid: b8635f198484cec44a538be9af2ae8bd, type: 2}
+  - {fileID: 11400000, guid: 3930bf7601714e342894407d29fc7cbf, type: 2}
+  - {fileID: 11400000, guid: 1719b0cb80878a54e8a115e36e4a43a2, type: 2}
+  - {fileID: 11400000, guid: d8258a6eea311f041a896d67c6710434, type: 2}
+  - {fileID: 11400000, guid: 9d273bf91e510a447a24711cc3f8c225, type: 2}
+  - {fileID: 11400000, guid: 903f339d893230348a434d194d6d7f88, type: 2}
+  - {fileID: 11400000, guid: 76c1f0e9a3d7d824999da989cb2ecf88, type: 2}
+  - {fileID: 11400000, guid: 30ef3736aa4814c45a80aed1d4c61d77, type: 2}
+  - {fileID: 11400000, guid: 9dba89a788b2fe847ad0b71c0183fb4f, type: 2}
+  - {fileID: 11400000, guid: 7a40a2f081e1ec24bba0c36643abe3a0, type: 2}
+  - {fileID: 11400000, guid: 18a641f002a7c1848a76f997a557e4f8, type: 2}
+  - {fileID: 11400000, guid: d6ec007c6e402654184b357e4f36a6c8, type: 2}
