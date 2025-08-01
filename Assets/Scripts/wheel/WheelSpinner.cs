@@ -24,7 +24,7 @@ public class WheelSpinner : MonoBehaviour
         if (audio == null)
         {
             audio = gameObject.AddComponent<AudioSource>();
-            Debug.Log("🎵 AudioSource component added to WheelSpinner");
+            //Debug.Log("🎵 AudioSource component added to WheelSpinner");
         }
 
         // Configure audio source for single play
@@ -66,16 +66,16 @@ public class WheelSpinner : MonoBehaviour
         if (ShapeManager.Instance.IsSoundEnabled() && audio != null && audio.clip != null)
         {
             audio.Play();
-            Debug.Log("Wheel sound played");
+            //Debug.Log("Wheel sound played");
         }
         else
         {
-            if (!ShapeManager.Instance.IsSoundEnabled())
-                Debug.Log("🔇 Wheel sound disabled by user");
-            if (audio == null)
-                Debug.LogWarning("⚠️ AudioSource is null!");
-            if (audio != null && audio.clip == null)
-                Debug.LogWarning("⚠️ No AudioClip assigned to WheelSound!");
+            //if (!ShapeManager.Instance.IsSoundEnabled())
+            //    //Debug.Log("🔇 Wheel sound disabled by user");
+            //if (audio == null)
+            //    //Debug.LogWarning("⚠️ AudioSource is null!");
+            //if (audio != null && audio.clip == null)
+            //    //Debug.LogWarning("⚠️ No AudioClip assigned to WheelSound!");
         }
     
 }
@@ -85,7 +85,7 @@ public class WheelSpinner : MonoBehaviour
         if (audio != null && audio.isPlaying)
         {
             audio.Stop();
-            Debug.Log("🎵 Wheel spin audio stopped");
+            //Debug.Log("🎵 Wheel spin audio stopped");
         }
     }
 
@@ -131,43 +131,43 @@ public class WheelSpinner : MonoBehaviour
 
     private void DeterminePrize(float angle)
     {
-        Debug.Log("Wheel stopped at angle: " + angle);
+        //Debug.Log("Wheel stopped at angle: " + angle);
         // Define prize sectors (counter-clockwise, starting from 0° at top)
         if (angle >= 0f && angle < 45f)
         {
-            Debug.Log("🎁 Prize 8: 100 Premium coins!");
+            //Debug.Log("🎁 Prize 8: 100 Premium coins!");
             ShapeManager.Instance.AddPremiumCoins(100);
         }
         else if (angle >= 45f && angle < 90f)
         {
-            Debug.Log("🎁 Prize 7: Nothing");
+            //Debug.Log("🎁 Prize 7: Nothing");
         }
         else if (angle >= 90f && angle < 135f)
         {
-            Debug.Log("🎁 Prize 6: 100k Coins!");
-            ShapeManager.Instance.AddCoins(100000);
+            //Debug.Log("🎁 Prize 6: 5x Coins!");
+            ShapeManager.Instance.AddCoins(ShapeManager.Instance.coinCount * 5);
         }
         else if (angle >= 135f && angle < 180f)
         {
-            Debug.Log("🎁 Prize 5: Triple your coins!");
+            //Debug.Log("🎁 Prize 5: Triple your coins!");
             ShapeManager.Instance.AddCoins(ShapeManager.Instance.coinCount + ShapeManager.Instance.coinCount);
         }
         else if (angle >= 180f && angle < 225f)
         {
-            Debug.Log("🎁 Prize 4: +200 Premium Coins!");
+            //Debug.Log("🎁 Prize 4: +200 Premium Coins!");
             ShapeManager.Instance.AddPremiumCoins(200);
         }
         else if (angle >= 225f && angle < 270f)
         {
-            Debug.Log("🎁 Prize 3: Nothing");
+            //Debug.Log("🎁 Prize 3: Nothing");
         }
         else if (angle >= 270f && angle < 315f)
         {
-            Debug.Log("🎁 Prize 2: Nothing");
+            //Debug.Log("🎁 Prize 2: Nothing");
         }
         else if (angle >= 315f && angle < 360f)
         {
-            Debug.Log("🎁 Prize 1: Double your coins!");
+            //Debug.Log("🎁 Prize 1: Double your coins!");
             ShapeManager.Instance.AddCoins(ShapeManager.Instance.coinCount);
         }
     }
@@ -184,7 +184,7 @@ public class WheelSpinner : MonoBehaviour
         }
 
         SaveSystem.Instance.SaveProgress();
-        Debug.Log($"🔊 Sound setting changed to: {(check ? "ON" : "OFF")}");
+        //Debug.Log($"🔊 Sound setting changed to: {(check ? "ON" : "OFF")}");
     }
 
     public void SwitchOnOffSound()

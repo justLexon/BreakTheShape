@@ -64,25 +64,25 @@ public class MaterialsManager : MonoBehaviour
                 case "Dirt":
                     mat.baseCost = 50;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 3;
+                    mat.upgradePower = 5;
                     mat.coinUpgrade = 1; //C 15 ; Max 202 ; Avg 13
                     break;
                 case "Wood":
                     mat.baseCost = 500;
                     mat.costMultiplier = 1.25;
-                    mat.upgradePower = 40;
+                    mat.upgradePower = 50;
                     mat.coinUpgrade = 5; //C 65 ; Max 4.7k ; Avg 72
                     break;
                 case "Stone":
                     mat.baseCost = 10000;
                     mat.costMultiplier = 1.2;
-                    mat.upgradePower = 45;
+                    mat.upgradePower = 500;
                     mat.coinUpgrade = 45; //C 515 ; Max 61.9k ; Avg 120  **Mission1 Completed***
                     break;
                 case "Granite":
                     mat.baseCost = 125000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 80;
+                    mat.upgradePower = 1000;
                     mat.coinUpgrade = 150; //C 2015 ; Max 505.7k ; Avg 250
                     break;
                 case "Marble":
