@@ -22,11 +22,11 @@ public class DPTUpgradeButton : MonoBehaviour
         switch (upgradeKey)
         {
             //case "Fist": baseCost = 50; upgradePower = 1; costMultiplier = 1.1f; break;
-            case "Rock": baseCost = 25; upgradePower = 1; costMultiplier = 1.2f; break;
-            case "Bat": baseCost = 150; upgradePower = 5; costMultiplier = 1.2f; break;
-            case "Pickaxe": baseCost = 1000; upgradePower = 15; costMultiplier = 1.2f; break;
-            case "Hammer": baseCost = 5000; upgradePower = 150; costMultiplier = 1.1f; break;
-            case "Crowbar": baseCost = 50000; upgradePower = 250; costMultiplier = 1.1f; break;
+            case "Rock": baseCost = 25; upgradePower = 1; costMultiplier = 1.05f; break;
+            case "Bat": baseCost = 250; upgradePower = 10; costMultiplier = 1.05f; break;
+            case "Pickaxe": baseCost = 1000; upgradePower = 50; costMultiplier = 1.05f; break;
+            case "Hammer": baseCost = 5000; upgradePower = 200; costMultiplier = 1.04f; break;
+            case "Crowbar": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
             default: baseCost = 100; break;
         }
 

@@ -64,7 +64,7 @@ public class MaterialsManager : MonoBehaviour
                 case "Dirt":
                     mat.baseCost = 50;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 5;
+                    mat.upgradePower = 8;
                     mat.coinUpgrade = 1; //C 15 ; Max 202 ; Avg 13
                     break;
                 case "Wood":
@@ -76,50 +76,50 @@ public class MaterialsManager : MonoBehaviour
                 case "Stone":
                     mat.baseCost = 10000;
                     mat.costMultiplier = 1.2;
-                    mat.upgradePower = 500;
+                    mat.upgradePower = 750;
                     mat.coinUpgrade = 45; //C 515 ; Max 61.9k ; Avg 120  **Mission1 Completed***
                     break;
                 case "Granite":
                     mat.baseCost = 125000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 1000;
+                    mat.upgradePower = 1500;
                     mat.coinUpgrade = 150; //C 2015 ; Max 505.7k ; Avg 250
                     break;
                 case "Marble":
                     mat.baseCost = 1000000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 220;
+                    mat.upgradePower = 20000;
                     mat.coinUpgrade = 600; //C 8015 ; Max 4M ; Avg 500
                     break;
                 case "Bronze":
                     mat.baseCost = 8000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 550;
-                    mat.coinUpgrade = 1300; //C 21015 ; Max 20.7M ; Avg 985
+                    mat.upgradePower = 50000;
+                    mat.coinUpgrade = 10000; //C 21015 ; Max 20.7M ; Avg 985; coinsO 1300
                     break;
                 case "Silver":
                     mat.baseCost = 50000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 1550;
-                    mat.coinUpgrade = 3100; //C 52015 ; Max 129.7M ; Avg 2500
+                    mat.upgradePower = 75000;
+                    mat.coinUpgrade = 3100; //C 52015 ; Max 129.7M ; Avg 2500; 3100
                     break;
                 case "Gold":
                     mat.baseCost = 250000000;
                     mat.costMultiplier = 1.09;
-                    mat.upgradePower = 5550;
-                    mat.coinUpgrade = 6600; //C 118015 ; Max 591.8M ; Avg 5000
+                    mat.upgradePower = 150000;
+                    mat.coinUpgrade = 6600; //C 118015 ; Max 591.8M ; Avg 5000; 6600
                     break;
                 case "Jade":
                     mat.baseCost = 1200000000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 10550;
-                    mat.coinUpgrade = 37200; //C 490015 ; Max 4.9B ; Avg 10000
+                    mat.upgradePower = 250000;
+                    mat.coinUpgrade = 37200; //C 490015 ; Max 4.9B ; Avg 10000; 37200
                     break;
                 case "Diamond":
                     mat.baseCost = 30000000000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 50550;
-                    mat.coinUpgrade = 600000; //C 6.07M; Max 121.4B ; Avg 20000
+                    mat.upgradePower = 750000;
+                    mat.coinUpgrade = 600000; //C 6.07M; Max 121.4B ; Avg 20000; 600000
                     break;
                 default:
                     mat.baseCost = 100;
