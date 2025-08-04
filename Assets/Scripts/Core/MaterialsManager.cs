@@ -118,7 +118,7 @@ public class MaterialsManager : MonoBehaviour
                 case "Diamond":
                     mat.baseCost = 5000000000000;
                     mat.costMultiplier = 1.35;
-                    mat.upgradePower = 750000000;
+                    mat.upgradePower = 20000000;
                     mat.coinUpgrade = 200000000; //C 6.07M; Max 121.4B ; Avg 20000; 600000
                     break;
                 default:
