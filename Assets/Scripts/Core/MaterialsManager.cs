@@ -95,7 +95,7 @@ public class MaterialsManager : MonoBehaviour
                     mat.baseCost = 8000000;
                     mat.costMultiplier = 1.1;
                     mat.upgradePower = 50000;
-                    mat.coinUpgrade = 10000; //C 21015 ; Max 20.7M ; Avg 985; coinsOriginal 1300
+                    mat.coinUpgrade = 1300; //C 21015 ; Max 20.7M ; Avg 985; coinsOriginal 1300
                     break;
                 case "Silver":
                     mat.baseCost = 50000000;

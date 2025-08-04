@@ -27,6 +27,13 @@ public class DPTUpgradeButton : MonoBehaviour
             case "Pickaxe": baseCost = 1000; upgradePower = 50; costMultiplier = 1.05f; break;
             case "Hammer": baseCost = 5000; upgradePower = 200; costMultiplier = 1.04f; break;
             case "Crowbar": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
+            case "PipeWrench": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
+            case "Katana": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
+            case "Mace": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
+            case "BattleAxe": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
+            case "Bayonet": baseCost = 50000; upgradePower = 500; costMultiplier = 1.03f; break;
+
+
             default: baseCost = 100; break;
         }
 
