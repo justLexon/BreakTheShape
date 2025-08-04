@@ -30,7 +30,7 @@ public class DPTUpgradeButton : MonoBehaviour
             case "PipeWrench": baseCost = 500000; upgradePower = 1500; costMultiplier = 1.05f; break; //Bronze
             case "Katana": baseCost = 5000000; upgradePower = 7500; costMultiplier = 1.05f; break;    //Silver
             case "Mace": baseCost = 50000000; upgradePower = 17500; costMultiplier = 1.07f; break;
-            case "BattleAxe": baseCost = 500000000; upgradePower = 50000; costMultiplier = 1.2f; break;
+            case "BattleAxe": baseCost = 500000000; upgradePower = 50000; costMultiplier = 1.2f; break; //Jade
             case "Bayonet": baseCost = 500000000000; upgradePower = 750000; costMultiplier = 1.07f; break;
 
             default: baseCost = 100; break;
