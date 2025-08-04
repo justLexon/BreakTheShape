@@ -95,31 +95,31 @@ public class MaterialsManager : MonoBehaviour
                     mat.baseCost = 8000000;
                     mat.costMultiplier = 1.1;
                     mat.upgradePower = 50000;
-                    mat.coinUpgrade = 1300; //C 21015 ; Max 20.7M ; Avg 985; coinsOriginal 1300
+                    mat.coinUpgrade = 10000; //C 108015 ; Max 20.7M ; Avg 985; coinsOriginal 1300
                     break;
                 case "Silver":
-                    mat.baseCost = 50000000;
+                    mat.baseCost = 250000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 75000;
-                    mat.coinUpgrade = 3100; //C 52015 ; Max 129.7M ; Avg 2500; 3100
+                    mat.upgradePower = 150000;
+                    mat.coinUpgrade = 35000; //C 52015 ; Max 129.7M ; Avg 2500; 3100
                     break;
                 case "Gold":
-                    mat.baseCost = 250000000;
+                    mat.baseCost = 3000000000;
                     mat.costMultiplier = 1.09;
-                    mat.upgradePower = 150000;
-                    mat.coinUpgrade = 6600; //C 118015 ; Max 591.8M ; Avg 5000; 6600
+                    mat.upgradePower = 500000;
+                    mat.coinUpgrade = 200000; //C 118015 ; Max 591.8M ; Avg 5000; 6600
                     break;
                 case "Jade":
-                    mat.baseCost = 1200000000;
-                    mat.costMultiplier = 1.15;
-                    mat.upgradePower = 250000;
-                    mat.coinUpgrade = 37200; //C 490015 ; Max 4.9B ; Avg 10000; 37200
+                    mat.baseCost = 50000000000;
+                    mat.costMultiplier = 1.4;
+                    mat.upgradePower = 5000000;
+                    mat.coinUpgrade = 10000000; //C 490015 ; Max 4.9B ; Avg 10000; 37200
                     break;
                 case "Diamond":
-                    mat.baseCost = 30000000000;
-                    mat.costMultiplier = 1.15;
-                    mat.upgradePower = 750000;
-                    mat.coinUpgrade = 600000; //C 6.07M; Max 121.4B ; Avg 20000; 600000
+                    mat.baseCost = 5000000000000;
+                    mat.costMultiplier = 1.35;
+                    mat.upgradePower = 750000000;
+                    mat.coinUpgrade = 200000000; //C 6.07M; Max 121.4B ; Avg 20000; 600000
                     break;
                 default:
                     mat.baseCost = 100;
@@ -185,7 +185,7 @@ public class MaterialsManager : MonoBehaviour
 
     public void SetCurrentMaterial(int index)
     {
-        currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length - 1);
+        currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length);
         Debug.Log($"✅ SetCurrentMaterial to: {materials[currentMaterialIndex].materialName} (index {currentMaterialIndex})");
     }
 

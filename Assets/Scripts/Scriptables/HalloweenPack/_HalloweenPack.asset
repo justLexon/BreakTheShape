@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packName: Halloween
   packId: Halloween
-  packSprite: {fileID: 21300000, guid: 93a01bd402c2bfc409b76fa0409f0cd6, type: 3}
-  cost: 6062261131367
+  packSprite: {fileID: 21300000, guid: f4a6085ccc6c0c049aad8010a50227ea, type: 3}
+  cost: 100
   shapes:
   - {fileID: 11400000, guid: 20552fe1fde1efd45b1bbec4c49339ab, type: 2}
   - {fileID: 11400000, guid: a74b3b9229c66a3418d97a7515c42d37, type: 2}

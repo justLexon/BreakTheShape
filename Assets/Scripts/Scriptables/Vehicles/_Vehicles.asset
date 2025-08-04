@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packName: Vehicles
   packId: Vehicles
-  packSprite: {fileID: 0}
-  cost: 132
+  packSprite: {fileID: 21300000, guid: ebf828d0cc877984c9cf306a56007a4c, type: 3}
+  cost: 100
   shapes:
   - {fileID: 11400000, guid: 079dda12dc42ce84fb65763d9530dc5b, type: 2}
   - {fileID: 11400000, guid: 2acd31a1e101c494cb5d041a7008aa1b, type: 2}
