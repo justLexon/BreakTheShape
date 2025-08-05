@@ -29,7 +29,7 @@ public class ShapePackBuyButtonPremium : MonoBehaviour
         // 🔐 Step 1: Simulate possible pack purchases BEFORE spending
         double availableCoins = ShapeManager.Instance.premiumCoinCount;
         List<double> simulatedCosts = new();
-        double tempCost = 25;
+        double tempCost = 10;
 
         for (int i = 0; i < amountToBuy; i++)
         {
@@ -142,7 +142,7 @@ public class ShapePackBuyButtonPremium : MonoBehaviour
     private void UpdateCostText()
     {
         if (costText != null)
-            costText.text = FormatNumberWithSuffix(25);
+            costText.text = FormatNumberWithSuffix(10); // This changes price in premium shop
     }
 
     private string FormatNumberWithSuffix(double number)
