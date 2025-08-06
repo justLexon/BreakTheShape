@@ -23,7 +23,7 @@ public class DPSUpgradeButton : MonoBehaviour
         {
             case "Slingshot": baseCost = 50; upgradePower = 3; costMultiplier = 1.25f; break; // Dirt and Wood
             case "BowArrow": baseCost = 5000; upgradePower = 50; costMultiplier = 1.25f; break; // Stone and Granite
-            case "Catapult": baseCost = 50000; upgradePower = 1250; costMultiplier = 1.25f; break; // Marble and Bronze
+            case "Catapult": baseCost = 50000; upgradePower = 750; costMultiplier = 1.26f; break; // Marble and Bronze
             case "Drill": baseCost = 1000000; upgradePower = 5000; costMultiplier = 1.25f; break; // Silver
             case "Saw": baseCost = 500000000; upgradePower = 15000; costMultiplier = 1.25f; break; // Gold
             case "Jackhammer": baseCost = 10000000000; upgradePower = 115000; costMultiplier = 1.1f; break; // Jade

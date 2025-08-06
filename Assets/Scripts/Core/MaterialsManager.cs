@@ -82,31 +82,31 @@ public class MaterialsManager : MonoBehaviour
                 case "Granite":
                     mat.baseCost = 125000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 1500;
+                    mat.upgradePower = 2000; //Change in game
                     mat.coinUpgrade = 150; //C 2015 ; Max 505.7k ; Avg 250
                     break;
                 case "Marble":
                     mat.baseCost = 1000000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 20000;
+                    mat.upgradePower = 40000; //*
                     mat.coinUpgrade = 600; //C 8015 ; Max 4M ; Avg 500
                     break;
                 case "Bronze":
                     mat.baseCost = 8000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 50000;
+                    mat.upgradePower = 100000; //*
                     mat.coinUpgrade = 10000; //C 108015 ; Max 20.7M ; Avg 985; coinsOriginal 1300
                     break;
                 case "Silver":
                     mat.baseCost = 250000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 150000;
+                    mat.upgradePower = 250000; //*
                     mat.coinUpgrade = 35000; //C 52015 ; Max 129.7M ; Avg 2500; 3100
                     break;
                 case "Gold":
                     mat.baseCost = 3000000000;
                     mat.costMultiplier = 1.09;
-                    mat.upgradePower = 500000;
+                    mat.upgradePower = 750000; //*
                     mat.coinUpgrade = 200000; //C 118015 ; Max 591.8M ; Avg 5000; 6600
                     break;
                 case "Jade":
