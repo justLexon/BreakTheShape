@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: 12
   m_EditorClassIdentifier: 
-  id: 12
+  id: Dodecagon
   icon: {fileID: 21300000, guid: 7979c4bee870c7c4cb0a209b2a2e48e9, type: 3}
+  rarity: 0
   isUnlocked: 1
   isEnabled: 1

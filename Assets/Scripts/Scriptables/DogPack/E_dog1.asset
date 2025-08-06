@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: E_dog1
   m_EditorClassIdentifier: 
-  id: E_dog1
+  id: Cocker Spaniel
   icon: {fileID: 21300000, guid: e37695bcb06aaf64d80d6b2d5e582f6a, type: 3}
   rarity: 2
   isUnlocked: 0

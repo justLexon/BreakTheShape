@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: E_dog2
   m_EditorClassIdentifier: 
-  id: e2
+  id: Golden Retriever
   icon: {fileID: 21300000, guid: 6270c34593cd2ba4b85753abf65c7285, type: 3}
   rarity: 2
   isUnlocked: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: M_dog2
   m_EditorClassIdentifier: 
-  id: m2
+  id: Beagle
   icon: {fileID: 21300000, guid: 8b4152401b7824444afbec570c9e2e8a, type: 3}
   rarity: 4
   isUnlocked: 0

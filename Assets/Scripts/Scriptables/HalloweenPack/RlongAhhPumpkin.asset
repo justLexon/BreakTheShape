@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: RlongAhhPumpkin
   m_EditorClassIdentifier: 
-  id: longAhhPumpkin
+  id: Pumpkin (Screaming)
   icon: {fileID: 21300000, guid: 2fd51de2284eb5e44a6b8d6737098830, type: 3}
   rarity: 1
   isUnlocked: 0

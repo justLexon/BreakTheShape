@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: 9
   m_EditorClassIdentifier: 
-  id: 9
+  id: Nonagon
   icon: {fileID: 21300000, guid: cb6998e5da05b324986c9e322d3f758e, type: 3}
+  rarity: 0
   isUnlocked: 1
   isEnabled: 1

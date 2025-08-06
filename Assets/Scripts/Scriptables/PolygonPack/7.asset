@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: 7
   m_EditorClassIdentifier: 
-  id: 7
+  id: Heptagon
   icon: {fileID: 21300000, guid: a5ba8a213adae9a43a0a17cb037a13e8, type: 3}
+  rarity: 0
   isUnlocked: 1
   isEnabled: 1

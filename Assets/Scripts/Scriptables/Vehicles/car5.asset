@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: car5
   m_EditorClassIdentifier: 
-  id: car5
+  id: Sports Car
   icon: {fileID: 21300000, guid: 452a3ece11ce7c74cae2fef1fd27807e, type: 3}
   rarity: 0
   isUnlocked: 0

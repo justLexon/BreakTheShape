@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: CscaryPumpkin
   m_EditorClassIdentifier: 
-  id: scaryPumpkin
+  id: Pumpkin (Scary)
   icon: {fileID: 21300000, guid: 4b5e3ea8e16d54c4b87f3746d9e6bd40, type: 3}
   rarity: 0
   isUnlocked: 0

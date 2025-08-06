@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab8bcd72e48d0443bf195b09271e474, type: 3}
   m_Name: C_dog7
   m_EditorClassIdentifier: 
-  id: c7
+  id: Havanese
   icon: {fileID: 21300000, guid: c9882c5b0cff44644a77fba1c8684e0f, type: 3}
   rarity: 0
   isUnlocked: 0
