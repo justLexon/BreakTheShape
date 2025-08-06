@@ -35,13 +35,13 @@ public class MaterialsManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Debug.LogWarning("Duplicate MaterialsManager destroyed");
+            //Debug.LogWarning("Duplicate MaterialsManager destroyed");
             Destroy(gameObject);
             return;
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log("MaterialsManager Awake - instance set");
+        //Debug.Log("MaterialsManager Awake - instance set");
 
         LoadAllMaterialLevels();
 
@@ -82,31 +82,31 @@ public class MaterialsManager : MonoBehaviour
                 case "Granite":
                     mat.baseCost = 125000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 2000; //Change in game
+                    mat.upgradePower = 2000; 
                     mat.coinUpgrade = 150; //C 2015 ; Max 505.7k ; Avg 250
                     break;
                 case "Marble":
                     mat.baseCost = 1000000;
                     mat.costMultiplier = 1.15;
-                    mat.upgradePower = 40000; //*
+                    mat.upgradePower = 40000;
                     mat.coinUpgrade = 600; //C 8015 ; Max 4M ; Avg 500
                     break;
                 case "Bronze":
                     mat.baseCost = 8000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 100000; //*
+                    mat.upgradePower = 100000; 
                     mat.coinUpgrade = 10000; //C 108015 ; Max 20.7M ; Avg 985; coinsOriginal 1300
                     break;
                 case "Silver":
                     mat.baseCost = 250000000;
                     mat.costMultiplier = 1.1;
-                    mat.upgradePower = 250000; //*
+                    mat.upgradePower = 250000; 
                     mat.coinUpgrade = 35000; //C 52015 ; Max 129.7M ; Avg 2500; 3100
                     break;
                 case "Gold":
                     mat.baseCost = 3000000000;
                     mat.costMultiplier = 1.09;
-                    mat.upgradePower = 750000; //*
+                    mat.upgradePower = 750000; 
                     mat.coinUpgrade = 200000; //C 118015 ; Max 591.8M ; Avg 5000; 6600
                     break;
                 case "Jade":
@@ -170,11 +170,11 @@ public class MaterialsManager : MonoBehaviour
         {
             textureCycleIndex %= mat.levelSprites.Length;
             Sprite result = mat.levelSprites[textureCycleIndex];
-            Debug.Log($"GetDisplayMaterialSprite() returning sprite '{result.name}' from material '{mat.materialName}' at index {textureCycleIndex}");
+            //Debug.Log($"GetDisplayMaterialSprite() returning sprite '{result.name}' from material '{mat.materialName}' at index {textureCycleIndex}");
             return result;
         }
 
-        Debug.LogWarning($"GetDisplayMaterialSprite() - No sprites found for material '{mat.materialName}'");
+        //Debug.LogWarning($"GetDisplayMaterialSprite() - No sprites found for material '{mat.materialName}'");
         return null;
     }
 
@@ -186,7 +186,7 @@ public class MaterialsManager : MonoBehaviour
     public void SetCurrentMaterial(int index)
     {
         currentMaterialIndex = Mathf.Clamp(index, 0, materials.Length);
-        Debug.Log($"✅ SetCurrentMaterial to: {materials[currentMaterialIndex].materialName} (index {currentMaterialIndex})");
+        //Debug.Log($"✅ SetCurrentMaterial to: {materials[currentMaterialIndex].materialName} (index {currentMaterialIndex})");
     }
 
 
