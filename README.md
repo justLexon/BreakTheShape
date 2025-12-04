@@ -1,4 +1,5 @@
 **Break The Shape**
+
 *Working on the official release on Google Play Store*
 
 Break The Shape is a mobile tap and idle game built in Unity. The player taps a central shape to deal damage, break it, earn coins, and purchase upgrades. Shapes increase in health as you progress. Materials
